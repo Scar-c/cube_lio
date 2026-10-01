@@ -1,0 +1,19 @@
+{
+  "status": "PARTIAL_SHADOW_ONLY",
+  "feature_shadow": {
+    "runs": 2,
+    "frames_each": 1185,
+    "sha256_a": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c",
+    "sha256_b": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c",
+    "byte_identical": true
+  },
+  "frozen_photo_off_controls": {
+    "source": "artifacts/p2a/determinism.json",
+    "tunnel_c0_repeats_byte_identical": true,
+    "tunnel_d_eee01_shield1_photo_off_p0_parity_byte_identical": true
+  },
+  "production_c2_three_run_check": {
+    "status": "NOT_RUN_P2_3_GATE",
+    "reason": "P2.3 gate failed, so no production fusion run was authorized by the stage plan."
+  }
+}

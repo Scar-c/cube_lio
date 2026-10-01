@@ -1,0 +1,32 @@
+{
+  "dataset": "ENWIDE TunnelD",
+  "bag_path": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+  "bag_sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e",
+  "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+  "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+  "evaluation": "frozen SE3 no-scale alignment and frozen evaluator association; no GT/evaluator tuning",
+  "runs": {
+    "official_coin_oracle": {
+      "status": "SUCCESS_UNMODIFIED_OFFICIAL",
+      "commit": "76729cc4feb3649cbd79d28f82d9f62a2c82889b",
+      "ate_rmse_m": 0.5001613629532796,
+      "frames": 1185,
+      "matched": 1184,
+      "trajectory_sha256": "c3fbc96f5f6abd42824229be78a9a324bf5a43b444f775d446db18da14dd3dcc"
+    },
+    "super_geometry_frozen_baseline": {
+      "status": "PASS_FROZEN_P0_P2A_CONTROL",
+      "ate_rmse_m": 113.91929554770142,
+      "frames": 1179,
+      "trajectory_sha256": "a07250898a5bd75fe247554edaaad786f5e6aa8ccf77d24767ae5068bc6d5b24"
+    },
+    "super_coin_c2": {
+      "status": "NOT_RUN_P2_3_GATE",
+      "ate_rmse_m": null,
+      "frames": null,
+      "trajectory_sha256": null,
+      "reason": "P2.3 actual residual finite-difference Jacobian gate failed; P2.4 fusion and C2 are gated off."
+    }
+  },
+  "oracle_to_geometry_frame_difference": 6
+}

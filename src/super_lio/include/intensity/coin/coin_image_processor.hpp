@@ -31,6 +31,9 @@ struct CoinFrame {
   cv::Mat image_index,mask,photo_u8,dx,dy;
   // For each rounded geometric projection cell: count followed by <=9 point indices.
   std::vector<int> projected_index;
+  // End-of-scan LiDAR point to acquisition-time LiDAR transform lookup.
+  std::vector<Eigen::Matrix4d> T_Li_Lk_vec;
+  std::vector<int> vec_idx;
 };
 
 class CoinImageProcessor {

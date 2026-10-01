@@ -1,0 +1,58 @@
+{
+  "dataset": "ENWIDE TunnelD",
+  "diagnosis": [
+    "The source-faithful correction row agrees with the pinned COIN formula to roundoff, so the mismatch is not a local sign or tangent-order implementation error.",
+    "The official projector Jacobian uses one global vertical scale derived from the first/last beam elevations, while project() interpolates each calibrated beam interval; horizontal projection FD passes and vertical projection FD does not.",
+    "The official image derivative samples bilinear intensity at u\u00b11/v\u00b11 and uses a one-pixel central difference. The residual itself is bilinear, whose local derivative differs on real TunnelD images.",
+    "These are upstream COIN linearization approximations away from pixel/clamp boundaries. Changing them to exact derivatives would change the pinned official H and must not be presented as official formula parity."
+  ],
+  "fixed_correspondence_pose_jacobian_fd": {
+    "relative_p50": 0.29533596811444723,
+    "relative_p95": 1.1922045930114016,
+    "samples": 1494,
+    "sign_agreement_fraction": 0.9136546184738956,
+    "sign_disagreements": 129,
+    "six_dof_rows": 1494,
+    "status": "FAIL"
+  },
+  "fusion_gate": "NOT_RUN: P2.3 numerical Jacobian gate failed; P2.4 is gated on this result.",
+  "image_gradient_fd": {
+    "combined_relative_p95": 1.2230676357207384,
+    "horizontal_relative_p95": 1.1607329422165074,
+    "status": "FAIL",
+    "vertical_relative_p95": 1.2230676357207384
+  },
+  "input_csv_sha256": "d8e068e451166efe73a7edce2faee7be20ddcdf4fe8de1a0aa72c2d2bd1e3e3c",
+  "official_formula_parity": {
+    "maximum_abs_H_difference": 1.8189894035458565e-12,
+    "note": "The local source-formula row matches the pinned COIN central-difference image gradient and analytic projection formula. The FD gate below tests the derivative of the actual bilinear residual.",
+    "samples": 1494,
+    "status": "PASS"
+  },
+  "phase": "P2.3 COIN residual/Jacobian finite differences",
+  "phase_gate_status": "BLOCKED",
+  "projector_jacobian_fd": {
+    "combined_relative_p95": 0.22421892766728582,
+    "horizontal_relative_p95": 4.697054834437805e-10,
+    "status": "FAIL",
+    "vertical_relative_p95": 0.22421892766728582
+  },
+  "sample_policy": {
+    "features_per_sampled_frame": [
+      "first",
+      "middle",
+      "last"
+    ],
+    "fixed_correspondence": true,
+    "patch_points": [
+      0,
+      12,
+      24
+    ],
+    "pixel_boundary_exclusion_fraction": 0.04,
+    "pose_stride": 23,
+    "position_epsilon_m": 0.001,
+    "right_rotation_epsilon_rad": 0.0001
+  },
+  "trajectory_pairing": "Exact COIN lidar_end_time; all selected scan rows have zero timestamp delta."
+}

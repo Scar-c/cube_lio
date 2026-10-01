@@ -1,0 +1,63 @@
+{
+  "phase": "P2 build identity",
+  "captured_utc": "2026-10-01T11:47:25.868365+00:00",
+  "repository": {
+    "branch": "p2-faithful-coin-on-super",
+    "head_before_closure_commit": "f94f4a2a5c83586b4899654416305f12ed41b49c",
+    "worktree_dirty_at_capture": true
+  },
+  "oracle": {
+    "coin_sha": "76729cc4feb3649cbd79d28f82d9f62a2c82889b",
+    "coin_worktree_clean": true
+  },
+  "system": {
+    "os": "Linux-5.15.0-139-generic-x86_64-with-glibc2.29",
+    "ros": "noetic",
+    "compiler": "g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0",
+    "cpu": "AMD Ryzen 9 7945HX with Radeon Graphics",
+    "logical_threads": 32
+  },
+  "build": {
+    "type": "Release",
+    "cmake_version": "3.18",
+    "cxx_standard": "gnu++17",
+    "flags_line": "CXX_FLAGS = -O3 -pthread -fexceptions -flto=auto -fPIC -std=gnu++17",
+    "packages": [
+      "libeigen3-dev 3.3.7-2",
+      "libopencv-dev 4.2.0+dfsg-5",
+      "libpcl-dev 1.10.0+dfsg-5ubuntu1",
+      "libtbb-dev:amd64 2020.1-2"
+    ]
+  },
+  "source_snapshot": {
+    "files": {
+      "src/super_lio/CMakeLists.txt": "6d5c628eac1a7ff0344355136679bf598cd7b4c14d4d9937412bb20982c3aa10",
+      "src/super_lio/include/intensity/coin/coin_ouster_projector.hpp": "9f015c05afa4351f5bc079bc11eb5228225afc3c7ef5393a232fb43e88ab8c47",
+      "src/super_lio/src/intensity/coin/coin_ouster_projector.cpp": "fbf9b6cffe853158bb0e913c2a3b570d519983e983e9c40e16ace25f1122d385",
+      "src/super_lio/include/intensity/coin/coin_image_processor.hpp": "8c4dee6513e876ada3fd8f6a40c9de2c2647672cb6135b96c37b7ed59354743d",
+      "src/super_lio/src/intensity/coin/coin_image_processor.cpp": "ee9ed63d9964a0e2156f226fc26593e5840616d5e2fec271f85164d824150607",
+      "src/super_lio/include/intensity/coin/coin_feature_manager.hpp": "60d828f4e57be18d827c3dc09231ffe71f6a36a8f2670e46a0612815a89b49e4",
+      "src/super_lio/include/intensity/coin/coin_photometric_model.hpp": "3b6db9dd38329f8ac99b324094629585f7447f17096774fb7e394b5cbcfba67a",
+      "src/super_lio/src/intensity/coin/coin_feature_manager.cpp": "605b918f25a88e15efcbbaceb7b3ba91e8dbfaa4276dd97c11d512a23b751650",
+      "src/super_lio/src/intensity/coin/coin_photometric_model.cpp": "f18fb5aef69ae97d8f3dc6223ca27984456dc5d1e863e815b3166270dad00642",
+      "src/super_lio/test/test_coin_frontend_parity.cpp": "33ecd40cece51b0f8357213d3f6f68a5ef8df9f0b9b6741f2c1f5cfd471110a6",
+      "src/super_lio/test/test_coin_feature_math.cpp": "7f39840bf2b6556895cda913e8541c7b6cd4a0bc5b05595c8a9d00b9da6ab75d",
+      "src/super_lio/test/test_coin_feature_parity.cpp": "bac1a4dab526876d2da0f8174d80e03d4d4366784f8295f70697cc5a6f230899"
+    },
+    "sorted_path_sha256": "c7ffe09e2b4f8f92916afe03cec02e0f6feb31f001207ee99788e7f618403886"
+  },
+  "binary_sha256": {
+    "devel/lib/liblio.so": "86cd5ec4e0cedc761500234a13977d9545cf175bdb3f5f4642ddf6092f75b025",
+    "devel/lib/super_lio/test_coin_frontend_parity": "04f44ac6e1988796e970234bb7490cacc93804b9e86e7a9a3f7db0aa5365b5bb",
+    "devel/lib/super_lio/test_coin_feature_math": "885a9b90d7da07dc07cdf0beb8b35512a5b990682fdf407a1f9e5da458dd6b47",
+    "devel/lib/super_lio/test_coin_feature_parity": "5a3f1782e64504a0980ba7eeb315271ec9cfe6e809fdccdba6ae18ec34332a66",
+    "devel/lib/super_lio/test_cube_photo": "0161af5f7cb493453013ca7b5d66c52ec8f559809a05ebff2ae8fb58d16bf7d7",
+    "devel/lib/super_lio/test_information_budget": "6949040951f586bf078a94c7f4b6ee780e7e3cdbcfdd1998d1a94de60c2c493e"
+  },
+  "diagnostic_input_sha256": {
+    "feature_shadow_run_a": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c",
+    "feature_shadow_run_b": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c",
+    "jacobian_fd_csv": "d8e068e451166efe73a7edce2faee7be20ddcdf4fe8de1a0aa72c2d2bd1e3e3c"
+  },
+  "notes": "Binary/source snapshot identifies the P2 diagnostic and parity build, not a production COIN-fused estimator; no C2 binary or trajectory was built."
+}

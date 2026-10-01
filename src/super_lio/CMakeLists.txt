@@ -59,7 +59,7 @@ catkin_package(
 )
 
 # LIO library source files
-file(GLOB_RECURSE LIO_LIB_SRC "src/lio/*.cpp" "src/ros/*.cpp" "src/intensity/*.cpp")
+file(GLOB_RECURSE LIO_LIB_SRC CONFIGURE_DEPENDS "src/lio/*.cpp" "src/ros/*.cpp" "src/intensity/*.cpp")
 
 file(GLOB_RECURSE LIO_LIB_HEADERS "include/lio/*.hpp" "include/lio/*.h")
 
@@ -130,4 +130,11 @@ if(EXISTS "${COIN_LIO_REF_ROOT}/include/projector.h" AND EXISTS "${COIN_LIO_ORAC
     src/intensity/coin/coin_ouster_projector.cpp src/intensity/coin/coin_image_processor.cpp)
   target_include_directories(test_coin_frontend_parity PRIVATE "${COIN_LIO_REF_ROOT}/include" "${COIN_LIO_ORACLE_DEVEL}/include")
   target_link_libraries(test_coin_frontend_parity lio "${COIN_LIO_ORACLE_DEVEL}/lib/libcoin_lio.so" ${COIN_LIO_CV_BRIDGE_LIBRARY} ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+
+  add_executable(test_coin_feature_parity test/test_coin_feature_parity.cpp)
+  target_include_directories(test_coin_feature_parity PRIVATE "${COIN_LIO_REF_ROOT}/include" "${COIN_LIO_ORACLE_DEVEL}/include")
+  target_link_libraries(test_coin_feature_parity lio "${COIN_LIO_ORACLE_DEVEL}/lib/libcoin_lio.so" ${COIN_LIO_CV_BRIDGE_LIBRARY} ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 endif()
+
+add_executable(test_coin_feature_math test/test_coin_feature_math.cpp)
+target_link_libraries(test_coin_feature_math lio ${catkin_LIBRARIES} ${OpenCV_LIBS})

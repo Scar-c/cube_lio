@@ -1,0 +1,65 @@
+--- a/src/laserMapping.cpp
++++ b/src/laserMapping.cpp
+@@ -55,0 +56,2 @@
++#include <fstream>
++#include <cstdint>
+@@ -79,0 +82,3 @@
++string p2_motion_trace_path, p2_weak_trace_path, p2_geometry_trace_path;
++std::ofstream p2_motion_trace, p2_weak_trace, p2_geometry_trace;
++std::uint32_t p2_motion_trace_frame = 0, p2_weak_trace_frame = 0, p2_geometry_trace_frame = 0;
+@@ -970,0 +976,9 @@
++    nh.param<string>("p2/motion_trace_path", p2_motion_trace_path, string());
++    nh.param<string>("p2/weak_trace_path", p2_weak_trace_path, string());
++    nh.param<string>("p2/geometry_trace_path", p2_geometry_trace_path, string());
++    if (!p2_motion_trace_path.empty()) p2_motion_trace.open(p2_motion_trace_path, std::ios::binary | std::ios::trunc);
++    if (!p2_weak_trace_path.empty()) p2_weak_trace.open(p2_weak_trace_path, std::ios::binary | std::ios::trunc);
++    if (!p2_geometry_trace_path.empty()) p2_geometry_trace.open(p2_geometry_trace_path, std::ios::binary | std::ios::trunc);
++    if ((!p2_motion_trace_path.empty() && !p2_motion_trace) || (!p2_weak_trace_path.empty() && !p2_weak_trace) ||
++        (!p2_geometry_trace_path.empty() && !p2_geometry_trace))
++        throw std::runtime_error("cannot open temporary P2 oracle diagnostic trace");
+@@ -1088,0 +1103,14 @@
++
++            // P2 diagnostic-only export in a temporary source copy: exact official
++            // per-point transform indices and the transform lookup table.
++            if (p2_motion_trace) {
++                const std::uint32_t frame_id = p2_motion_trace_frame++;
++                const std::uint32_t point_count = static_cast<std::uint32_t>(vec_idx.size());
++                const std::uint32_t transform_count = static_cast<std::uint32_t>(vec_T_Li_Lk.size());
++                p2_motion_trace.write(reinterpret_cast<const char*>(&frame_id), sizeof(frame_id));
++                p2_motion_trace.write(reinterpret_cast<const char*>(&point_count), sizeof(point_count));
++                p2_motion_trace.write(reinterpret_cast<const char*>(&transform_count), sizeof(transform_count));
++                for (const auto& T : vec_T_Li_Lk)
++                    p2_motion_trace.write(reinterpret_cast<const char*>(T.data()), 16 * sizeof(double));
++                p2_motion_trace.write(reinterpret_cast<const char*>(vec_idx.data()), vec_idx.size() * sizeof(int));
++            }
+@@ -1228,0 +1257,30 @@
++            }
++
++            // Dump the exact post-geometry COIN selector directions for the shadow harness.
++            if (p2_weak_trace) {
++                const std::uint32_t frame_id = p2_weak_trace_frame++;
++                const std::uint32_t global_count = static_cast<std::uint32_t>(weak_directions_g.size());
++                const std::uint32_t lidar_count = static_cast<std::uint32_t>(weak_directions_l.size());
++                p2_weak_trace.write(reinterpret_cast<const char*>(&frame_id), sizeof(frame_id));
++                p2_weak_trace.write(reinterpret_cast<const char*>(&global_count), sizeof(global_count));
++                p2_weak_trace.write(reinterpret_cast<const char*>(&lidar_count), sizeof(lidar_count));
++                for (const auto& v : weak_directions_g)
++                    p2_weak_trace.write(reinterpret_cast<const char*>(v.data()), 3 * sizeof(double));
++                for (const auto& v : weak_directions_l)
++                    p2_weak_trace.write(reinterpret_cast<const char*>(v.data()), 3 * sizeof(double));
++            }
++
++            // Export only the geometric translation block consumed by the official
++            // weak-direction routine; this remains diagnostic-only in the /tmp copy.
++            if (p2_geometry_trace) {
++                const std::uint32_t frame_id = p2_geometry_trace_frame++;
++                const std::uint32_t row_count = static_cast<std::uint32_t>(h_geo_last.rows());
++                const std::uint32_t col_count = static_cast<std::uint32_t>(h_geo_last.cols());
++                p2_geometry_trace.write(reinterpret_cast<const char*>(&frame_id), sizeof(frame_id));
++                p2_geometry_trace.write(reinterpret_cast<const char*>(&row_count), sizeof(row_count));
++                p2_geometry_trace.write(reinterpret_cast<const char*>(&col_count), sizeof(col_count));
++                for (Eigen::Index row = 0; row < h_geo_last.rows(); ++row)
++                    for (Eigen::Index col = 0; col < h_geo_last.cols(); ++col) {
++                        const double value = h_geo_last(row, col);
++                        p2_geometry_trace.write(reinterpret_cast<const char*>(&value), sizeof(value));
++                    }

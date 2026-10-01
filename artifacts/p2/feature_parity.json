@@ -1,0 +1,113 @@
+{
+  "comparison": {
+    "acquisition_time_transforms": "Real per-point T_Li_Lk lookup tables and vec_idx arrays were traced from official IMU undistortion. Raw points were reconstructed into scan-end coordinates with the inverse transform; complete projected-index maps and feature states then matched across all 1185 scans.",
+    "active_count_total_official_and_local": 71044,
+    "all_frames_exact_feature_state_order": true,
+    "frame_table": {
+      "columns": [
+        "bag_frame",
+        "pose_index",
+        "motion_frame",
+        "timestamp",
+        "header_delta_s",
+        "lidar_end_delta_s",
+        "point_count",
+        "weak_global_count",
+        "weak_lidar_count",
+        "weak_direction_transform_max_abs",
+        "weak_geometry_global_max_abs",
+        "weak_geometry_lidar_max_abs",
+        "official_active",
+        "local_active",
+        "official_added",
+        "local_added",
+        "official_removed",
+        "local_removed",
+        "candidates_after_nms",
+        "selected_centers",
+        "projection_rejects",
+        "border_rejects",
+        "mask_rejects",
+        "range_rejects",
+        "ncc_rejects",
+        "lifetime_rejects",
+        "ncc_count",
+        "ncc_min",
+        "ncc_median",
+        "ncc_p95",
+        "ncc_max",
+        "life_histogram",
+        "state_mismatches",
+        "center_max_abs",
+        "uv_max_abs",
+        "world_patch_max_abs",
+        "reference_max_abs",
+        "pass"
+      ],
+      "rows_compared": 1185,
+      "rows_sha256_canonical_json": "8a3fe3f91e0dedb2fd4b37daf57366a81431eec14b97e72a844591f98e54d2d5",
+      "details_csv": "runtime/p2/feature_frames_real.csv (ignored runtime output)",
+      "details_csv_sha256": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c"
+    },
+    "frames_compared": 1185,
+    "lifecycle_totals": {
+      "border_rejects": 4020,
+      "candidates_after_nms": 127741,
+      "lifetime_rejects": 245,
+      "local_added": 27004,
+      "local_removed": 26944,
+      "mask_rejects": 6733,
+      "ncc_count": 70984,
+      "ncc_rejects": 8007,
+      "official_added": 27004,
+      "official_removed": 26944,
+      "projection_rejects": 452,
+      "range_rejects": 7494,
+      "selected_centers": 27004
+    },
+    "maximum_state_differences": {
+      "center_max_abs": 1.4210854715202004e-14,
+      "reference_max_abs": 0.0,
+      "uv_max_abs": 1.4210854715202004e-14,
+      "world_patch_max_abs": 0.0
+    },
+    "weak_directions": {
+      "frames_with_geometry_weak_directions": 1014,
+      "local_rule": "CoinFeatureManager::weakDirectionsFromGeometry",
+      "maximum_global_to_lidar_rotation_error": 1.0325074129013956e-13,
+      "maximum_sign_invariant_global_direction_error": 0.0,
+      "maximum_sign_invariant_lidar_direction_error": 1.0695274692452701e-13,
+      "note": "The exact official post-geometry translation Jacobian rows and output directions were traced from a temporary oracle copy. The local rule independently reproduces per-frame direction counts and orientations, including fallback.",
+      "official_geometry_rows_replayed": true
+    }
+  },
+  "dataset": {
+    "path": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+    "sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e"
+  },
+  "oracle": {
+    "commit": "76729cc4feb3649cbd79d28f82d9f62a2c82889b",
+    "repository": "https://github.com/ethz-asl/COIN-LIO",
+    "trajectory_sha256": "c3fbc96f5f6abd42824229be78a9a324bf5a43b444f775d446db18da14dd3dcc"
+  },
+  "pairing": {
+    "bag_frame_first": 3,
+    "bag_frame_last": 1188,
+    "bag_pointcloud_messages": 1189,
+    "mapping": "Pair by COIN lidar_end_time = PointCloud2 header stamp + maximum Ouster point timestamp; all 1185 oracle rows match exactly.",
+    "maximum_abs_header_to_oracle_timestamp_delta_s": 0.1526346206665039,
+    "maximum_abs_lidar_end_to_oracle_timestamp_delta_s": 0.0,
+    "note": "Four sparse/unpaired messages are interleaved with valid scans; cloud ordinal pairing is not used. Motion trace frame 0 is the geometry-map initialization scan, so motion frame = trajectory row + 1.",
+    "oracle_trajectory_rows": 1185,
+    "unpaired_cloud_messages": 4
+  },
+  "phase": "P2.2 COIN feature manager shadow parity",
+  "phase_gate_status": "PASS",
+  "remaining_p2_2_gates": [],
+  "repeatability": {
+    "byte_identical_to_first_run": true,
+    "path": "runtime/p2/feature_frames_real_repeat.csv",
+    "sha256": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c"
+  },
+  "shadow_component_status": "PASS"
+}

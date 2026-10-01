@@ -1,0 +1,16 @@
+{
+  "phase": "P2.4 COIN fusion equivalence",
+  "status": "NOT_RUN_P2_3_GATE",
+  "gate": "P2.3 actual residual finite-difference Jacobian failed",
+  "official_source_algebra": {
+    "photo_scale": 0.00095,
+    "shared_measurement_variance": 0.001,
+    "expected_photo_information_factor": 9.025e-4,
+    "expected_form": "A_photo=(lambda^2/R) sum(H_correction^T H_correction); b_photo=(lambda^2/R) sum(H_correction^T r)",
+    "formula_parity_status": "SOURCE_FORMULA_PASS_BUT_ACTUAL_RESIDUAL_FD_FAIL"
+  },
+  "super_accumulation_equivalence": "NOT_TESTED",
+  "production_scale_parity": "NOT_TESTED",
+  "eskf_fusion": "NOT_RUN",
+  "reason": "The hard P2.3 gate failed; no photo rows were connected to Super-LIO and no C2 result exists."
+}
