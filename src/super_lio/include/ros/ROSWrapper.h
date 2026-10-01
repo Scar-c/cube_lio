@@ -101,6 +101,7 @@ private:
   void stdMsgHandler(const sensor_msgs::PointCloud2::ConstPtr&);
 
 
+  bool photo_enabled_ = false;
   ros::NodeHandle nh_;
   ros::CallbackQueue self_queue_;
   ros::Subscriber subLidar_;

@@ -185,6 +185,7 @@ std::string lidarTypeToString(int type) {
 }
 
 ROSWrapper::ROSWrapper(){
+  nh_.param("/photo/enable", photo_enabled_, false);
   ros::SubscribeOptions ops;
   ops.transport_hints = ros::TransportHints().tcpNoDelay();
   
@@ -234,6 +235,16 @@ void ROSWrapper::livoxHandler(const livox_ros_driver::CustomMsg::ConstPtr& msg){
         offset_time = pt.offset_time * 1e-9;
         lidar_data.pc->emplace_back(pt.x, pt.y, pt.z, pt.reflectivity, offset_time);
       }
+    }
+  }
+  if(photo_enabled_){
+    lidar_data.pc_intensity.reset(new pcl::PointCloud<LI2Sup::PointXTZIT>());
+    lidar_data.pc_intensity->reserve(ptsize);
+    for(const auto& pt:msg->points){
+      const auto tag=pt.tag & 0x30;
+      const double d2=pt.x*pt.x+pt.y*pt.y+pt.z*pt.z;
+      if((tag==0x10||tag==0x00)&&std::isfinite(d2)&&d2>g_blind2&&d2<g_maxrange2)
+        lidar_data.pc_intensity->emplace_back(pt.x,pt.y,pt.z,pt.reflectivity,pt.offset_time*1e-9);
     }
   }
   lidar_data.start_time = msg->header.stamp.toSec();
@@ -318,6 +329,13 @@ void ROSWrapper::stdMsgHandler(const sensor_msgs::PointCloud2::ConstPtr& msg){
   {
     pcl::PointCloud<ouster_ros::Point> pl_orig;
     pcl::fromROSMsg(*msg, pl_orig);
+    if(photo_enabled_){
+      lidar_data.pc_intensity.reset(new pcl::PointCloud<LI2Sup::PointXTZIT>());
+      lidar_data.pc_intensity->reserve(pl_orig.size());
+      for(const auto& pt:pl_orig.points)
+        if(validPoint(pt.x,pt.y,pt.z))
+          lidar_data.pc_intensity->emplace_back(pt.x,pt.y,pt.z,pt.intensity,pt.t*1e-9);
+    }
     lidar_data.pc->reserve(pl_orig.size() / g_filter_rate + 1);
     lidar_data.start_time = msg->header.stamp.toSec();
 

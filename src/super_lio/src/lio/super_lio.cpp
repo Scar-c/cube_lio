@@ -63,6 +63,8 @@ inline bool compute_error(
 
 
 void SuperLIO::init(){
+  ros::NodeHandle photo_nh;
+  photo_ = std::make_unique<cube::PhotoObservation>(photo_nh);
   ivox_.reset(new OctVoxMapType(OctVoxMapType::Options{g_ivox_resolution, g_ivox_capacity}));
   kf_.reset(new ESKF());
   data_wrapper_->setESKF(kf_);
@@ -430,6 +432,7 @@ struct ThreadACC{
 
 
 void SuperLIO::Observe(){
+  if(photo_->enabled()) photo_->prepare(measures_, propagate_states_, kf_->GetSE3());
   size_t ptsize = ds_undistort_->size();
   
   static std::vector<float> _lengths;
@@ -506,6 +509,7 @@ void SuperLIO::Observe(){
     }
     HTVH = sum_HTVH.cast<scalar>();
     HTVr = sum_HTVr.cast<scalar>();
+    if(photo_->enabled()) photo_->add(pose, HTVH, HTVr);
 
     if(need_converge) return;
 
@@ -523,6 +527,7 @@ void SuperLIO::Observe(){
     iter_num++;
   });
 
+  if(photo_->enabled()) photo_->finish(kf_->GetSE3(), kf_->GetNavState().timestamp);
   frame_num_++;
 }
 

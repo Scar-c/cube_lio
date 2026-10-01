@@ -28,6 +28,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 find_package(PythonLibs REQUIRED)
+find_package(OpenCV REQUIRED)
 
 add_message_files(
   FILES
@@ -58,7 +59,7 @@ catkin_package(
 )
 
 # LIO library source files
-file(GLOB_RECURSE LIO_LIB_SRC "src/lio/*.cpp" "src/ros/*.cpp")
+file(GLOB_RECURSE LIO_LIB_SRC "src/lio/*.cpp" "src/ros/*.cpp" "src/intensity/*.cpp")
 
 file(GLOB_RECURSE LIO_LIB_HEADERS "include/lio/*.hpp" "include/lio/*.h")
 
@@ -71,6 +72,7 @@ target_include_directories(lio PUBLIC
   3rdparty
   ${EIGEN3_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
 )
 
@@ -80,6 +82,7 @@ target_link_libraries(lio
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
   ${PYTHON_LIBRARIES}
+  ${OpenCV_LIBS}
   tbb 
   gflags 
   glog
@@ -102,3 +105,9 @@ target_link_libraries(relocation_node
 add_dependencies(lio ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_executable(cube_offline_node src/apps/cube_offline_node.cpp)
 target_link_libraries(cube_offline_node lio ${catkin_LIBRARIES})
+
+add_executable(test_cube_photo test/test_cube_photo.cpp src/intensity/cube_image.cpp)
+target_include_directories(test_cube_photo PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(test_cube_photo ${OpenCV_LIBS} tbb)
+enable_testing()
+add_test(NAME cube_photo_jacobians COMMAND test_cube_photo)

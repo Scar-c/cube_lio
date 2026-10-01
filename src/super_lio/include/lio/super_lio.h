@@ -20,6 +20,7 @@
 #include "ESKF.h"
 #include "OctVoxMap/OctVoxMap.hpp"
 #include "OctVoxMap/VoxelGridFilter.h"
+#include "intensity/photo_observation.hpp"
 #include "ros/ROSWrapper.h"
 
 namespace LI2Sup{
@@ -55,6 +56,7 @@ protected:
   using OctVoxMapType = OctVoxMap<BASIC::V3, BASIC::scalar>;
   using KNNHeapType = KNNHeap<5, BASIC::V3>;
   StateFn state_fn_;
+  std::unique_ptr<cube::PhotoObservation> photo_;
   ESKF::Ptr kf_;
   OctVoxMapType::Ptr ivox_;
   VoxelGridClosest<BASIC::PointType> voxel_grid_fliter_;
