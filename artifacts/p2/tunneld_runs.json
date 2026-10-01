@@ -21,11 +21,14 @@
       "trajectory_sha256": "a07250898a5bd75fe247554edaaad786f5e6aa8ccf77d24767ae5068bc6d5b24"
     },
     "super_coin_c2": {
-      "status": "NOT_RUN_P2_3_GATE",
+      "status": "PARTIAL_ABORTED_ONE_SHOT_EXPLORATORY",
       "ate_rmse_m": null,
       "frames": null,
-      "trajectory_sha256": null,
-      "reason": "P2.3 actual residual finite-difference Jacobian gate failed; P2.4 fusion and C2 are gated off."
+      "trajectory_records_emitted": 193,
+      "trajectory_sha256": "cab4c1c7a9fc4b67bdd09f1df932880693dc32b4d9c5b9ab4748ca9afd27d124",
+      "complete_coin_observation_frames": 183,
+      "partial_coin_observation_frame": 183,
+      "reason": "A single user-authorized exploratory run overrode the P2.3 gate; it aborted with SIGABRT when COIN preparation found fewer than two propagated IMU states. The trajectory is incomplete and was not evaluated; no ATE is available."
     }
   },
   "oracle_to_geometry_frame_difference": 6

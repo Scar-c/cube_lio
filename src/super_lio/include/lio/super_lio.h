@@ -21,6 +21,7 @@
 #include "OctVoxMap/OctVoxMap.hpp"
 #include "OctVoxMap/VoxelGridFilter.h"
 #include "intensity/photo_observation.hpp"
+#include "intensity/coin/coin_observation.hpp"
 #include "ros/ROSWrapper.h"
 
 namespace LI2Sup{
@@ -57,6 +58,7 @@ protected:
   using KNNHeapType = KNNHeap<5, BASIC::V3>;
   StateFn state_fn_;
   std::unique_ptr<cube::PhotoObservation> photo_;
+  std::unique_ptr<cube::coin::CoinObservation> coin_;
   ESKF::Ptr kf_;
   OctVoxMapType::Ptr ivox_;
   VoxelGridClosest<BASIC::PointType> voxel_grid_fliter_;
@@ -88,5 +90,4 @@ protected:
 } // namespace END.
 
 #endif
-
 

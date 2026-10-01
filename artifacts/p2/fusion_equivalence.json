@@ -1,6 +1,6 @@
 {
   "phase": "P2.4 COIN fusion equivalence",
-  "status": "NOT_RUN_P2_3_GATE",
+  "status": "FORMAL_NOT_RUN; EXPLORATORY_PARTIAL_ABORTED",
   "gate": "P2.3 actual residual finite-difference Jacobian failed",
   "official_source_algebra": {
     "photo_scale": 0.00095,
@@ -9,8 +9,15 @@
     "expected_form": "A_photo=(lambda^2/R) sum(H_correction^T H_correction); b_photo=(lambda^2/R) sum(H_correction^T r)",
     "formula_parity_status": "SOURCE_FORMULA_PASS_BUT_ACTUAL_RESIDUAL_FD_FAIL"
   },
-  "super_accumulation_equivalence": "NOT_TESTED",
+  "super_accumulation_equivalence": "NOT_TESTED_AS_AN_EQUIVALENCE_GATE",
   "production_scale_parity": "NOT_TESTED",
-  "eskf_fusion": "NOT_RUN",
-  "reason": "The hard P2.3 gate failed; no photo rows were connected to Super-LIO and no C2 result exists."
+  "eskf_fusion": "PARTIAL_EXPLORATORY_ONE_SHOT",
+  "exploratory_run": {
+    "artifact": "artifacts/p2/c2_single_run.json",
+    "photo_rows_were_added_to_super_normal_equations": true,
+    "complete_coin_observation_frames": 183,
+    "full_c2_trajectory": false,
+    "ate_rmse_m": null
+  },
+  "reason": "The hard P2.3 gate failed, so formal P2.4 acceptance remains blocked. The user authorized one diagnostic override; it connected and accumulated COIN rows for 183 complete scans before aborting on insufficient propagated IMU history. No full C2 result or independent accumulation-equivalence check exists."
 }

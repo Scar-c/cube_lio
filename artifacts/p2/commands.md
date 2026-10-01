@@ -103,12 +103,23 @@ The existing P1/P2A regression tests and local COIN math test were rerun:
 ./devel/lib/super_lio/test_information_budget
 ```
 
-All three return success. The COIN frontend parity and complete TunnelD feature-shadow runs are recorded in `frontend_parity.json` and `feature_parity.json`; their large CSV/debug outputs stay under ignored `runtime/p2/`. No P2.4 fusion or C2 TunnelD run was performed because the P2.3 finite-difference gate failed.
+All three return success. The COIN frontend parity and complete TunnelD feature-shadow runs are recorded in `frontend_parity.json` and `feature_parity.json`; their large CSV/debug outputs stay under ignored `runtime/p2/`. The formal P2.4/C2 gate remained blocked by the P2.3 finite-difference failure.
+
+## User-authorized one-shot exploratory C2 attempt
+
+The user authorized exactly one TunnelD diagnostic run despite the failed P2.3 gate. It was executed with:
+
+```bash
+python3 tools/p2/run_tunneld_coin_once.py
+```
+
+The run aborted with exit code `-6` after 183 complete COIN observation rows because propagated IMU history had fewer than two states. It emitted a 193-record partial trajectory; the evaluator did not run and no ATE is available. The final CSV row is truncated. Results and hashes are in `artifacts/p2/c2_single_run.json`; raw output is in ignored `runtime/p2_coin_c2_single/`. The runner refuses to start again when this output directory exists. Do not delete it or repeat the bag run under this one-shot authorization.
 
 Closure artifacts:
 
 - `spec/p2/P2_FAITHFUL_COIN_ON_SUPER_REPORT.md`
 - `artifacts/p2/fusion_equivalence.json`
+- `artifacts/p2/c2_single_run.json`
 - `artifacts/p2/tunneld_runs.json`
 - `artifacts/p2/determinism.json`
 - `artifacts/p2/metrics.json`

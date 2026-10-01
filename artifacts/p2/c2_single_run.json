@@ -1,0 +1,136 @@
+{
+  "phase": "User-authorized single exploratory Super+COIN TunnelD C2 attempt",
+  "status": "PARTIAL_ABORTED_NO_ATE",
+  "formal_p2_verdict": "P2 BLOCKED — PARITY OR DETERMINISM FAILURE",
+  "authorization": {
+    "run_count": 1,
+    "additional_dataset_runs_performed": 0,
+    "p2_3_gate_override": "explicitly authorized by user for one diagnostic run"
+  },
+  "dataset": {
+    "name": "ENWIDE TunnelD",
+    "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+    "sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e"
+  },
+  "execution": {
+    "source_head": "900a7b103704e4e75da072eaf8d4a163819ff5fa",
+    "binary_sha256": "293f4da734f72f4eb144755ef296836487244af78268b8f054bc746455e0589c",
+    "node_exit_code": -6,
+    "termination": "SIGABRT",
+    "failure": "std::runtime_error: COIN mode has insufficient propagated IMU history",
+    "evaluator_run": false,
+    "evaluator_exit_code": null,
+    "ate_rmse_m": null,
+    "trajectory_records_emitted": 193,
+    "last_trajectory_timestamp": 1691509852.2393353,
+    "complete_coin_observation_frames": 183,
+    "partial_coin_observation_records": 1,
+    "partial_record_frame": 183,
+    "complete_frame_range": [
+      0,
+      182
+    ]
+  },
+  "partial_diagnostics": {
+    "raw_points_per_complete_scan": {
+      "min": 122967.0,
+      "median": 126477.0,
+      "max": 127484.0
+    },
+    "motion_fallback_points_per_scan": {
+      "min": 4216.0,
+      "median": 9605.0,
+      "max": 16469.0
+    },
+    "coin_minus_super_scan_end_s": {
+      "min": 0.00272843,
+      "median": 0.00416479,
+      "max": 0.00538935
+    },
+    "valid_patches_per_scan": {
+      "min": 0.0,
+      "median": 50.0,
+      "max": 59.0
+    },
+    "photo_rows_per_scan": {
+      "min": 0.0,
+      "median": 1250.0,
+      "max": 1475.0
+    },
+    "residual_rms": {
+      "min": 0.0,
+      "median": 22.5434,
+      "max": 42.462
+    },
+    "note": "These describe only the 183 complete diagnostic rows before abort; the partial final CSV record is excluded from summary statistics."
+  },
+  "outputs": {
+    "coin_observation.csv": {
+      "bytes": 16385,
+      "sha256": "342021e35311f3c378f1ea3fe4a590434c4adb4d4003a512ccf271b955911985"
+    },
+    "trajectory.tum": {
+      "bytes": 32801,
+      "sha256": "cab4c1c7a9fc4b67bdd09f1df932880693dc32b4d9c5b9ab4748ca9afd27d124"
+    },
+    "node.log": {
+      "bytes": 644,
+      "sha256": "37464a8d01bd3d5a74800848e7e9d610fe877b5e014a1da8763069524c5605b4"
+    },
+    "master.log": {
+      "bytes": 905,
+      "sha256": "65233097971aab2a445d1b7e57c9a4b05682e10fde7570bbe9bbfc38018f6dcb"
+    },
+    "identity.json": {
+      "bytes": 2992,
+      "sha256": "9b9d2e8319d4c438179da6e8e3abdf17e3ded0a7e1bfccd721f2fcf39b1b565f"
+    },
+    "one_shot_result.json": {
+      "bytes": 90,
+      "sha256": "3814c4533a998fbdf94b38bad07e9267466d95af2eea260b193da89c7a35fcd6"
+    }
+  },
+  "run_identity": {
+    "phase": "one-shot P2 C2 diagnostic override",
+    "dataset": "ENWIDE TunnelD",
+    "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+    "bag_sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e",
+    "coin_sha": "76729cc4feb3649cbd79d28f82d9f62a2c82889b",
+    "source_head": "900a7b103704e4e75da072eaf8d4a163819ff5fa",
+    "configs": {
+      "super_tunneld": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+      "super_photo_defaults": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+      "coin_params": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+      "coin_line_removal": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+      "coin_ouster_metadata": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+    },
+    "run_source_sha256": {
+      "src/basic/include/basic/alias.h": "c903a56b36b1b1fd0eb6761491566394cb461d5c8a466a1e68bee9c7667e75c2",
+      "src/super_lio/include/common/ds.h": "c3faf5109d861fd802e8f8a9d2b1f3e83df87d9680a7d38b4139ab887aa1db10",
+      "src/super_lio/include/ros/ROSWrapper.h": "0a60834e07023107d58fc11b30e7386877548d058449ef5b86f2d1b94f077d1c",
+      "src/super_lio/src/ros/ROSWrapper.cpp": "0be98d86465abe533422079f6e5a6c1b7f74b2bf67bdce06f23d4643b2d4cd97",
+      "src/super_lio/include/intensity/coin/coin_observation.hpp": "be6a45091414b85faa09ef0da616504a97bab3b52bf0c8fb205ae014033e6f68",
+      "src/super_lio/src/intensity/coin/coin_observation.cpp": "2a2f16865ecc802a7903ebc86a3a53aa92fc4c1fa101f9fd130c7bb7f84b2994",
+      "src/super_lio/src/lio/super_lio.cpp": "fa3198863bf94188ed21f5671aba7d67b0abe22eaf784b1537368930e5a0b2c9",
+      "src/super_lio/include/intensity/coin/coin_feature_manager.hpp": "60d828f4e57be18d827c3dc09231ffe71f6a36a8f2670e46a0612815a89b49e4",
+      "src/super_lio/src/intensity/coin/coin_feature_manager.cpp": "605b918f25a88e15efcbbaceb7b3ba91e8dbfaa4276dd97c11d512a23b751650",
+      "src/super_lio/include/intensity/coin/coin_photometric_model.hpp": "3b6db9dd38329f8ac99b324094629585f7447f17096774fb7e394b5cbcfba67a",
+      "src/super_lio/src/intensity/coin/coin_photometric_model.cpp": "f18fb5aef69ae97d8f3dc6223ca27984456dc5d1e863e815b3166270dad00642"
+    },
+    "binary_sha256": "293f4da734f72f4eb144755ef296836487244af78268b8f054bc746455e0589c",
+    "photo_mode": "coin_faithful",
+    "coin_enable": true,
+    "cube_photo_enable": false,
+    "official_photo_scale": 0.00095,
+    "measurement_variance": 0.001,
+    "tbb_threads": 4,
+    "run_count_authorized": 1,
+    "p2_3_gate_override": "User explicitly authorized one C2 run despite the failed numerical residual-Jacobian gate; exploratory evidence only.",
+    "known_limits": [
+      "P2.3 actual residual finite-difference gate failed.",
+      "Per-point acquisition transforms use Super-LIO propagated IMU history and are not parity-checked against official transforms during this run.",
+      "Super scan synchronization and geometry/IMU/ESKF/evaluator settings remain frozen."
+    ]
+  },
+  "interpretation": "COIN photo rows were accumulated into the Super pose normal equations during the partial attempt, but the run did not produce a complete trajectory or evaluator result. This is not a successful P2.4/C2 result and provides no ATE or determinism conclusion."
+}

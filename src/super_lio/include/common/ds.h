@@ -119,6 +119,15 @@ struct IMUData{
 };
 
 
+// Raw Ouster intensity-side sample for the isolated COIN experiment. The
+// geometry point cloud and its filtering/downsampling remain untouched.
+struct CoinRawPoint {
+  float x=0, y=0, z=0, intensity=0;
+  double range=0, offset_time=0;
+  std::size_t raw_index=0;
+};
+
+
 struct LidarData
 {
   double start_time = 0.0;
@@ -126,6 +135,8 @@ struct LidarData
   pcl::PointCloud<LI2Sup::PointXTZIT>::Ptr pc{nullptr};
   // Dense intensity side channel; geometry pc remains unchanged.
   pcl::PointCloud<LI2Sup::PointXTZIT>::Ptr pc_intensity{nullptr};
+  // Optional calibrated Ouster photo stream, retaining the original pixel id.
+  std::vector<CoinRawPoint> coin_raw_points;
 };
 
 

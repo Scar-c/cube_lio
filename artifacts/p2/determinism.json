@@ -15,5 +15,12 @@
   "production_c2_three_run_check": {
     "status": "NOT_RUN_P2_3_GATE",
     "reason": "P2.3 gate failed, so no production fusion run was authorized by the stage plan."
+  },
+  "exploratory_c2_one_shot": {
+    "runs": 1,
+    "status": "PARTIAL_ABORTED",
+    "determinism_conclusion": "NONE",
+    "complete_coin_observation_frames": 183,
+    "artifact": "artifacts/p2/c2_single_run.json"
   }
 }

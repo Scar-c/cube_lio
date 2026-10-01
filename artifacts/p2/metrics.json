@@ -5,7 +5,7 @@
     "official_coin_oracle_ate_rmse_m": 0.5001613629532796,
     "super_geometry_baseline_ate_rmse_m": 113.91929554770142,
     "super_coin_ate_rmse_m": null,
-    "super_coin_status": "NOT_RUN_P2_3_GATE"
+    "super_coin_status": "PARTIAL_ABORTED_ONE_SHOT_EXPLORATORY; NO ATE"
   },
   "stages": {
     "p2_0_provenance": "PASS",
@@ -14,7 +14,7 @@
     "p2_3_source_formula_parity": "PASS",
     "p2_3_actual_residual_fd": "FAIL",
     "p2_4_fusion": "NOT_RUN_P2_3_GATE",
-    "c2_tunneld": "NOT_RUN_P2_3_GATE"
+    "c2_tunneld": "NOT_RUN_P2_3_GATE_FORMALLY"
   },
   "jacobian_fd": {
     "rows": 1494,
@@ -26,5 +26,13 @@
     "projector_y_relative_p95": 0.22421892766728582,
     "image_gradient_combined_relative_p95": 1.2230676357207384
   },
-  "shadow_feature_csv_sha256": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c"
+  "shadow_feature_csv_sha256": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c",
+  "exploratory_c2_one_shot": {
+    "status": "PARTIAL_ABORTED_NO_ATE",
+    "complete_coin_observation_frames": 183,
+    "trajectory_records_emitted": 193,
+    "evaluator_run": false,
+    "ate_rmse_m": null,
+    "artifact": "artifacts/p2/c2_single_run.json"
+  }
 }

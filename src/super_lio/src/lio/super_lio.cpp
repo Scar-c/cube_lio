@@ -65,6 +65,10 @@ inline bool compute_error(
 void SuperLIO::init(){
   ros::NodeHandle photo_nh;
   photo_ = std::make_unique<cube::PhotoObservation>(photo_nh);
+  Eigen::Matrix4d T_IL=Eigen::Matrix4d::Identity();
+  T_IL.topLeftCorner<3,3>()=g_lidar_imu.R_.cast<double>();
+  T_IL.topRightCorner<3,1>()=g_lidar_imu.t_.cast<double>();
+  coin_=std::make_unique<cube::coin::CoinObservation>(photo_nh,T_IL);
   ivox_.reset(new OctVoxMapType(OctVoxMapType::Options{g_ivox_resolution, g_ivox_capacity}));
   kf_.reset(new ESKF());
   data_wrapper_->setESKF(kf_);
@@ -433,6 +437,7 @@ struct ThreadACC{
 
 void SuperLIO::Observe(){
   if(photo_->enabled()) photo_->prepare(measures_, propagate_states_, kf_->GetSE3());
+  if(coin_->enabled()) coin_->prepare(measures_.lidar,propagate_states_,kf_->GetSE3());
   size_t ptsize = ds_undistort_->size();
   
   static std::vector<float> _lengths;
@@ -450,6 +455,7 @@ void SuperLIO::Observe(){
 
   ivox_->reset_max_group();
   int iter_num = 0;
+  Eigen::MatrixXd geometry_translation_rows_final(0,3);
 
   kf_->UpdateObserve([&, this](const ESKF::KFState &kf_state, M6 &HTVH, V6 &HTVr) {
     const SE3 pose = kf_state.pose;
@@ -457,6 +463,12 @@ void SuperLIO::Observe(){
     const M3d R_transpose = (pose.R_.transpose()).cast<double>();
 
     tbb::enumerable_thread_specific<ThreadACC> tls_acc;
+    std::vector<Eigen::Vector3d> geometry_translation_rows;
+    std::vector<std::uint8_t> geometry_translation_valid;
+    if(coin_->enabled()){
+      geometry_translation_rows.assign(points_body_v3_.size(),Eigen::Vector3d::Zero());
+      geometry_translation_valid.assign(points_body_v3_.size(),0);
+    }
 
     tbb::parallel_for(
       tbb::blocked_range<size_t>(0, effect_knn_num_),
@@ -494,6 +506,10 @@ void SuperLIO::Observe(){
             V6d J;
             J.head<3>() = point_body_d.cross(nb);
             J.tail<3>() = normvec;
+            if(coin_->enabled()){
+              geometry_translation_rows[idx]=normvec.cast<double>();
+              geometry_translation_valid[idx]=1;
+            }
       
             local_acc.HTVH += J * 1000 * J.transpose();
             local_acc.HTVr -= J * 1000 * error;
@@ -510,6 +526,20 @@ void SuperLIO::Observe(){
     HTVH = sum_HTVH.cast<scalar>();
     HTVr = sum_HTVr.cast<scalar>();
     if(photo_->enabled()) photo_->add(pose, HTVH, HTVr, kf_->GetCov().topLeftCorner<6,6>());
+    if(coin_->enabled()){
+      std::size_t row_count=0;
+      for(std::size_t r_s=0;r_s<effect_knn_num_;++r_s){
+        const int idx=effect_knn_idxs_[r_s];row_count+=geometry_translation_valid[idx]!=0;
+      }
+      geometry_translation_rows_final.resize(row_count,3);
+      std::size_t row=0;
+      for(std::size_t r_s=0;r_s<effect_knn_num_;++r_s){
+        const int idx=effect_knn_idxs_[r_s];
+        if(!geometry_translation_valid[idx])continue;
+        geometry_translation_rows_final.row(row++)=geometry_translation_rows[idx].transpose();
+      }
+      coin_->add(pose,HTVH,HTVr);
+    }
 
     if(need_converge) return;
 
@@ -528,6 +558,8 @@ void SuperLIO::Observe(){
   });
 
   if(photo_->enabled()) photo_->finish(kf_->GetSE3(), kf_->GetNavState().timestamp);
+  if(coin_->enabled()) coin_->finish(kf_->GetSE3(),kf_->GetNavState().timestamp,
+                                     geometry_translation_rows_final);
   frame_num_++;
 }
 

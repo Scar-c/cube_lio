@@ -102,6 +102,9 @@ private:
 
 
   bool photo_enabled_ = false;
+  bool coin_enabled_ = false;
+  double coin_preprocess_blind_ = 0.65;
+  double coin_sensor_z_offset_ = 0.03618;
   ros::NodeHandle nh_;
   ros::CallbackQueue self_queue_;
   ros::Subscriber subLidar_;

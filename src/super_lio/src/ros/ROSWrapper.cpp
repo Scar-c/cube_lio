@@ -4,6 +4,7 @@
 #include "super_lio/CloudPose2.h"
 
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
+#include <cmath>
 
 using namespace BASIC;
 
@@ -186,6 +187,14 @@ std::string lidarTypeToString(int type) {
 
 ROSWrapper::ROSWrapper(){
   nh_.param("/photo/enable", photo_enabled_, false);
+  nh_.param("/coin/enable", coin_enabled_, false);
+  nh_.param("/preprocess/blind", coin_preprocess_blind_, 0.65);
+  std::vector<double> lidar_to_sensor;
+  if ((nh_.getParam("/lidar_to_sensor_transform", lidar_to_sensor) ||
+       nh_.getParam("/lidar_intrinsics/lidar_to_sensor_transform", lidar_to_sensor)) &&
+      lidar_to_sensor.size() == 16) {
+    coin_sensor_z_offset_ = lidar_to_sensor[11] * 0.001;
+  }
   ros::SubscribeOptions ops;
   ops.transport_hints = ros::TransportHints().tcpNoDelay();
   
@@ -329,6 +338,20 @@ void ROSWrapper::stdMsgHandler(const sensor_msgs::PointCloud2::ConstPtr& msg){
   {
     pcl::PointCloud<ouster_ros::Point> pl_orig;
     pcl::fromROSMsg(*msg, pl_orig);
+    if(coin_enabled_){
+      lidar_data.coin_raw_points.reserve(pl_orig.size());
+      for(std::size_t raw_index=0;raw_index<pl_orig.size();++raw_index){
+        const auto& pt=pl_orig.points[raw_index];
+        if(std::isnan(pt.x)||std::isnan(pt.y)||std::isnan(pt.z))continue;
+        const double range=std::sqrt(double(pt.x)*pt.x+double(pt.y)*pt.y+double(pt.z)*pt.z);
+        if(range<coin_preprocess_blind_)continue;
+        CoinRawPoint sample;
+        sample.x=pt.x;sample.y=pt.y;sample.z=pt.z-static_cast<float>(coin_sensor_z_offset_);
+        sample.intensity=pt.intensity;sample.range=range;sample.offset_time=pt.t*1e-9;
+        sample.raw_index=raw_index;
+        lidar_data.coin_raw_points.push_back(sample);
+      }
+    }
     if(photo_enabled_){
       lidar_data.pc_intensity.reset(new pcl::PointCloud<LI2Sup::PointXTZIT>());
       lidar_data.pc_intensity->reserve(pl_orig.size());
