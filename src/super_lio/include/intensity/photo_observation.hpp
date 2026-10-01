@@ -38,7 +38,7 @@ class PhotoObservation {
   Mat3 R_BL_;
   Vec3 t_BL_;
   size_t frame_=0;
-  bool frozen_=false;
+  bool frozen_=false,frame_supported_=false;
   double sigma_=1,deskew_ms_=0,photo_ms_=0,update_ms_=0,replenish_ms_=0;
   std::chrono::steady_clock::time_point update_start_;
   std::ofstream diagnostics_;

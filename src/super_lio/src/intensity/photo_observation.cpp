@@ -41,7 +41,7 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
     diagnostics_.open(dir+"/photo.csv");
     if(!diagnostics_)throw std::runtime_error("cannot write photometric diagnostics");
     diagnostics_<<std::setprecision(17);
-    diagnostics_<<"frame,timestamp,active_before,active_after,valid,residual_mean,residual_rms,residual_median,reject_fov,reject_invalid,reject_range,reject_outlier,sigma,frozen,trace_Ag,trace_Ap,weak_translation_eigenvalue,photo_in_weak_translation,weak_x,weak_y,weak_z,geo_eig0,geo_eig1,geo_eig2,geo_eig3,geo_eig4,geo_eig5,deskew_ms,cubemap_ms,idw_ms,igm_ms,photo_jacobian_ms,update_ms,replenish_ms,raw_points,raw_pixels,filled_pixels,igm_pixels\n";
+    diagnostics_<<"frame,timestamp,active_before,active_after,valid,residual_mean,residual_rms,residual_median,reject_fov,reject_invalid,reject_range,reject_outlier,sigma,frozen,trace_Ag,trace_Ap,weak_translation_eigenvalue,photo_in_weak_translation,weak_x,weak_y,weak_z,geo_eig0,geo_eig1,geo_eig2,geo_eig3,geo_eig4,geo_eig5,deskew_ms,cubemap_ms,idw_ms,igm_ms,photo_jacobian_ms,update_ms,replenish_ms,raw_points,raw_pixels,filled_pixels,igm_pixels,deskew_supported\n";
   }
 }
 void PhotoObservation::prepare(const LI2Sup::MeasureGroup& measures,
@@ -49,7 +49,13 @@ void PhotoObservation::prepare(const LI2Sup::MeasureGroup& measures,
   if(!cfg_.enable)return;
   ++frame_;photo_ms_=0;auto start=Clock::now();
   const auto& raw=measures.lidar.pc_intensity;
-  if(!raw||history.size()<2)throw std::runtime_error("missing dense intensity scan/IMU history");
+  if(!raw)throw std::runtime_error("missing dense intensity scan");
+  frame_supported_=history.size()>=2 && history.back().time>history.front().time;
+  if(!frame_supported_){
+    // An inherited synchronization outcome, e.g. a bag IMU gap. Keep the
+    // geometry update and output frame; never constrain it with a stale image.
+    points_.clear();deskew_ms_=0;update_start_=Clock::now();return;
+  }
   points_.resize(raw->size());
   const Mat3 R_end=predicted.R_.cast<double>();const Vec3 t_end=predicted.t_.cast<double>();
   tbb::parallel_for(tbb::blocked_range<size_t>(0,raw->size()),[&](const tbb::blocked_range<size_t>& rows){
@@ -128,7 +134,9 @@ PhotoTerms PhotoObservation::observe(const BASIC::SE3& pose,bool weighted,std::v
 }
 void PhotoObservation::add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b){
   if(!cfg_.enable)return;auto start=Clock::now();
-  geometry_=A.cast<double>();last_=observe(pose,true);
+  geometry_=A.cast<double>();
+  if(!frame_supported_){last_=PhotoTerms{};last_.invalid=int(features_.size());return;}
+  last_=observe(pose,true);
   A+=last_.A.cast<BASIC::scalar>();b+=last_.b.cast<BASIC::scalar>();
   photo_ms_+=elapsed(start);
 }
@@ -172,7 +180,8 @@ void PhotoObservation::replenish(const BASIC::SE3& pose,double timestamp){
 void PhotoObservation::finish(const BASIC::SE3& pose,double timestamp){
   if(!cfg_.enable)return;
   update_ms_=elapsed(update_start_);auto start=Clock::now();size_t active=features_.size();
-  replenish(pose,timestamp);replenish_ms_=elapsed(start);
+  if(frame_supported_)replenish(pose,timestamp);
+  replenish_ms_=elapsed(start);
   Eigen::SelfAdjointEigenSolver<Mat6> eig6(geometry_);
   Eigen::SelfAdjointEigenSolver<Mat3> eig3(geometry_.bottomRightCorner<3,3>());
   Vec3 weak=eig3.eigenvectors().col(0);double photo_weak=weak.dot(last_.A.bottomRightCorner<3,3>()*weak);
@@ -182,8 +191,8 @@ void PhotoObservation::finish(const BASIC::SE3& pose,double timestamp){
       <<sigma_<<','<<frozen_<<','<<geometry_.trace()<<','<<last_.A.trace()<<','<<eig3.eigenvalues()[0]<<','<<photo_weak;
     for(int k=0;k<3;++k)diagnostics_<<','<<weak[k];
     for(int k=0;k<6;++k)diagnostics_<<','<<eig6.eigenvalues()[k];
-    diagnostics_<<','<<deskew_ms_<<','<<image_->raster_ms<<','<<image_->idw_ms<<','<<image_->igm_ms<<','<<photo_ms_<<','<<update_ms_<<','<<replenish_ms_
-      <<','<<points_.size()<<','<<image_->raw_pixels<<','<<image_->filled_pixels<<','<<image_->valid_igm_pixels<<'\n';
+    diagnostics_<<','<<deskew_ms_<<','<<(frame_supported_?image_->raster_ms:0)<<','<<(frame_supported_?image_->idw_ms:0)<<','<<(frame_supported_?image_->igm_ms:0)<<','<<photo_ms_<<','<<update_ms_<<','<<replenish_ms_
+      <<','<<points_.size()<<','<<(frame_supported_?image_->raw_pixels:0)<<','<<(frame_supported_?image_->filled_pixels:0)<<','<<(frame_supported_?image_->valid_igm_pixels:0)<<','<<frame_supported_<<'\n';
   }
 }
 } // namespace cube

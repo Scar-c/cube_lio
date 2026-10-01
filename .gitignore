@@ -6,6 +6,7 @@
 /refs/
 /runtime/
 /results/
+/Testing/
 __pycache__/
 *.pyc
 *.pcd
