@@ -1,0 +1,8 @@
+dataset,mode,photo_enable,idw_enable,ate_rmse_m,frames,wall_processing_s
+eee_01,geo,False,True,0.11887563928229516,3981,13.6542
+eee_01,photo,True,True,0.11443781740040575,3981,24.4293
+shield1,geo,False,True,168.1915416661398,5418,12.7964
+shield1,photo,True,True,160.07963386895463,5418,31.031
+tunnel_d,geo,False,True,113.91929554770142,1179,11.0395
+tunnel_d,photo,True,True,131.0188877964826,1179,17.0421
+eee_01,photo_idw_off,True,False,0.11887563928229516,3981,21.4717

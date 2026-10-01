@@ -1,0 +1,1341 @@
+{
+  "phase": "P1",
+  "code_commit": "71e92770102f00cc68002868447baee3f92df220",
+  "p0_commit": "1b0698efe63fae09f9d498a285c3feb5b1b69cbd",
+  "runs": {
+    "eee_01": {
+      "geo": {
+        "dataset": "eee_01",
+        "alignment": "SE3 no scale",
+        "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+        "ate_rmse_m": 0.11887563928229516,
+        "ate_mean_m": 0.07792191990970784,
+        "ate_median_m": 0.06273789447712974,
+        "ate_max_m": 0.6929463332737996,
+        "matched": 3329,
+        "duplicate_estimate_timestamps": 0,
+        "frames": 3981,
+        "processed_duration_s": 398.0008728504181,
+        "first_timestamp": 1609059013.7636957,
+        "last_timestamp": 1609059411.7645686,
+        "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+        "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+        "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "lidar_read": 3987,
+        "imu_read": 153347,
+        "wall_processing_s": 13.6542,
+        "bag_duration_s": 398.683,
+        "peak_rss_kb": 164336,
+        "tbb_threads": 4,
+        "identity": {
+          "dataset": "eee_01",
+          "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+          "photo": false,
+          "idw_enable": true,
+          "config_sha256": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+          "head": "71e92770102f00cc68002868447baee3f92df220",
+          "threads": 4
+        },
+        "trajectory_path": "/home/lc/cube_lio/runtime/p1_final_geo_eee_01/trajectory.tum",
+        "trajectory_sha256": "bed82ecc15fab0a7fbea9a06d0ef0f7348e702b4ccb718cf894436a148bbd6b1",
+        "timing_mean_ms": {
+          "DownSample": 0.0703551,
+          "Observe": 2.3538,
+          "Undistort": 0.164752,
+          "UpdateMap": 0.171774
+        }
+      },
+      "photo": {
+        "dataset": "eee_01",
+        "alignment": "SE3 no scale",
+        "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+        "ate_rmse_m": 0.11443781740040575,
+        "ate_mean_m": 0.0771627792551763,
+        "ate_median_m": 0.0624882858426729,
+        "ate_max_m": 0.6449188397712766,
+        "matched": 3329,
+        "duplicate_estimate_timestamps": 0,
+        "frames": 3981,
+        "processed_duration_s": 398.0008728504181,
+        "first_timestamp": 1609059013.7636957,
+        "last_timestamp": 1609059411.7645686,
+        "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+        "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+        "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "lidar_read": 3987,
+        "imu_read": 153347,
+        "wall_processing_s": 24.4293,
+        "bag_duration_s": 398.683,
+        "peak_rss_kb": 171508,
+        "tbb_threads": 4,
+        "identity": {
+          "dataset": "eee_01",
+          "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+          "photo": true,
+          "idw_enable": true,
+          "config_sha256": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+          "head": "71e92770102f00cc68002868447baee3f92df220",
+          "threads": 4
+        },
+        "trajectory_path": "/home/lc/cube_lio/runtime/p1_final_photo_eee_01/trajectory.tum",
+        "trajectory_sha256": "d380626eef2fbde8543c44a6ec4eb9dd10e23cda8963065cffc5cd4542247cd3",
+        "timing_mean_ms": {
+          "DownSample": 0.0848098,
+          "Observe": 5.11599,
+          "Undistort": 0.183211,
+          "UpdateMap": 0.191387
+        },
+        "diagnostics": {
+          "frames": 3981,
+          "statistics": {
+            "frame": {
+              "mean": 1991.0,
+              "median": 1991.0,
+              "min": 1.0,
+              "max": 3981.0
+            },
+            "timestamp": {
+              "mean": 1609059212.7555149,
+              "median": 1609059212.7620444,
+              "min": 1609059013.7636957,
+              "max": 1609059411.7645686
+            },
+            "active_before": {
+              "mean": 15.44888219040442,
+              "median": 14.0,
+              "min": 0.0,
+              "max": 44.0
+            },
+            "active_after": {
+              "mean": 15.449886963074604,
+              "median": 14.0,
+              "min": 1.0,
+              "max": 44.0
+            },
+            "valid": {
+              "mean": 9.057523235367999,
+              "median": 9.0,
+              "min": 0.0,
+              "max": 31.0
+            },
+            "residual_mean": {
+              "mean": -1.0473199879447306,
+              "median": -1.026014481058102,
+              "min": -10.505083738155113,
+              "max": 9.757000987059055
+            },
+            "residual_rms": {
+              "mean": 4.088658892532404,
+              "median": 4.104010644391207,
+              "min": 0.0,
+              "max": 10.505083738155113
+            },
+            "residual_median": {
+              "mean": -0.7825621765311647,
+              "median": -0.8682413602672359,
+              "min": -10.505083738155113,
+              "max": 10.97405331386922
+            },
+            "reject_fov": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "reject_invalid": {
+              "mean": 5.589801557397639,
+              "median": 5.0,
+              "min": 0.0,
+              "max": 30.0
+            },
+            "reject_range": {
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "reject_outlier": {
+              "mean": 0.8015573976387842,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 10.0
+            },
+            "sigma": {
+              "mean": 2.3666203111403012,
+              "median": 2.373174017831787,
+              "min": 1.0,
+              "max": 2.373174017831787
+            },
+            "frozen": {
+              "mean": 0.995227329816629,
+              "median": 1.0,
+              "min": 0.0,
+              "max": 1.0
+            },
+            "trace_Ag": {
+              "mean": 1099411547.8138561,
+              "median": 1072610048.0,
+              "min": 365898352.0,
+              "max": 1927153263.953125
+            },
+            "trace_Ap": {
+              "mean": 350891.3789607031,
+              "median": 214166.15684232806,
+              "min": 0.0,
+              "max": 20400888.302834325
+            },
+            "weak_translation_eigenvalue": {
+              "mean": 477997.56963101897,
+              "median": 518480.40718939574,
+              "min": 76480.07196050536,
+              "max": 765524.817422946
+            },
+            "photo_in_weak_translation": {
+              "mean": 416.220990427365,
+              "median": 144.95157115049267,
+              "min": 0.0,
+              "max": 106725.44749952103
+            },
+            "weak_x": {
+              "mean": 0.02934475731925195,
+              "median": 0.03312916976455538,
+              "min": -0.9264097407712869,
+              "max": 0.9439503670137701
+            },
+            "weak_y": {
+              "mean": -0.12058005845094133,
+              "median": 0.0022291241664968223,
+              "min": -0.9995343777385199,
+              "max": 0.3943465510689078
+            },
+            "weak_z": {
+              "mean": -0.1884524219207199,
+              "median": -0.9792351267213315,
+              "min": -0.9999977269166586,
+              "max": 0.9999920953189332
+            },
+            "geo_eig0": {
+              "mean": 456792.30468210444,
+              "median": 503103.55932455836,
+              "min": 70615.79340037094,
+              "max": 690600.3640207651
+            },
+            "geo_eig1": {
+              "mean": 879858.7672195991,
+              "median": 986161.0126744607,
+              "min": 176041.23219370501,
+              "max": 1241521.0354041662
+            },
+            "geo_eig2": {
+              "mean": 1191609.1234469176,
+              "median": 1234454.0724229827,
+              "min": 519099.8959731632,
+              "max": 1523668.2850461067
+            },
+            "geo_eig3": {
+              "mean": 191070389.0735926,
+              "median": 188873597.5607165,
+              "min": 21337529.876110673,
+              "max": 447393515.4413385
+            },
+            "geo_eig4": {
+              "mean": 303749427.91897786,
+              "median": 287871420.31811595,
+              "min": 71519723.70881586,
+              "max": 636224515.4253486
+            },
+            "geo_eig5": {
+              "mean": 602063470.6259371,
+              "median": 585984913.9979169,
+              "min": 223916031.26580292,
+              "max": 990218063.4698051
+            },
+            "deskew_ms": {
+              "mean": 0.24521369404672191,
+              "median": 0.269486,
+              "min": 0.111592,
+              "max": 0.595953
+            },
+            "cubemap_ms": {
+              "mean": 0.6057692152725446,
+              "median": 0.629194,
+              "min": 0.452307,
+              "max": 2.165376
+            },
+            "idw_ms": {
+              "mean": 1.0748034840492338,
+              "median": 1.126616,
+              "min": 0.895115,
+              "max": 6.878391
+            },
+            "igm_ms": {
+              "mean": 0.15720200728460185,
+              "median": 0.157892,
+              "min": 0.109219,
+              "max": 0.96516
+            },
+            "photo_jacobian_ms": {
+              "mean": 0.029528964832956545,
+              "median": 0.030866,
+              "min": 0.002374,
+              "max": 0.11871799999999999
+            },
+            "update_ms": {
+              "mean": 2.7531669035418234,
+              "median": 2.878857,
+              "min": 1.098124,
+              "max": 14.593729
+            },
+            "replenish_ms": {
+              "mean": 0.2478873592062296,
+              "median": 0.245742,
+              "min": 0.156704,
+              "max": 1.032827
+            },
+            "raw_points": {
+              "mean": 11828.872393870886,
+              "median": 12061.0,
+              "min": 10250.0,
+              "max": 13020.0
+            },
+            "raw_pixels": {
+              "mean": 4805.289374529013,
+              "median": 4909.0,
+              "min": 4121.0,
+              "max": 5210.0
+            },
+            "filled_pixels": {
+              "mean": 6413.409193669932,
+              "median": 6519.0,
+              "min": 5564.0,
+              "max": 7120.0
+            },
+            "igm_pixels": {
+              "mean": 267.99924642049734,
+              "median": 244.0,
+              "min": 64.0,
+              "max": 721.0
+            },
+            "deskew_supported": {
+              "mean": 1.0,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0
+            }
+          },
+          "sigma_frozen": true,
+          "positive_information_frames": 3950,
+          "positive_weak_information_frames": 3950,
+          "positive_information_frame_fraction": 0.9922130118060789,
+          "median_photo_to_weak_geo_information_ratio": 0.0003052872914897408,
+          "lowest_decile_geometry_frames": 399,
+          "lowest_decile_photo_weak_info_positive_fraction": 0.9523809523809523,
+          "lowest_decile_photo_to_geo_weak_ratio_median": 0.002481493904007593,
+          "unsupported_deskew_frames": 0,
+          "lifecycle_checks": "PASS"
+        }
+      }
+    },
+    "shield1": {
+      "geo": {
+        "dataset": "shield1",
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_rmse_m": 168.1915416661398,
+        "ate_mean_m": 150.54192969614533,
+        "ate_median_m": 151.5312123175337,
+        "ate_max_m": 304.36347667011256,
+        "matched": 1388,
+        "duplicate_estimate_timestamps": 0,
+        "frames": 5418,
+        "processed_duration_s": 541.7029485702515,
+        "first_timestamp": 1706671290.3902378,
+        "last_timestamp": 1706671832.0931864,
+        "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1.txt",
+        "gt_sha256": "525462e9ce03829cebce2e5106b9fe39737b6c9e12800bc4d5d14d9b593f4f5e",
+        "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "lidar_read": 5427,
+        "imu_read": 54276,
+        "wall_processing_s": 12.7964,
+        "bag_duration_s": 542.741,
+        "peak_rss_kb": 109128,
+        "tbb_threads": 4,
+        "identity": {
+          "dataset": "shield1",
+          "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1_gamma.bag",
+          "photo": false,
+          "idw_enable": true,
+          "config_sha256": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+          "head": "71e92770102f00cc68002868447baee3f92df220",
+          "threads": 4
+        },
+        "trajectory_path": "/home/lc/cube_lio/runtime/p1_final_geo_shield1/trajectory.tum",
+        "trajectory_sha256": "75d075506b8b5316c5b73972c432fcd8171c5257418008f03bb21c0273236adc",
+        "timing_mean_ms": {
+          "DownSample": 0.158119,
+          "Observe": 1.5,
+          "Undistort": 0.212837,
+          "UpdateMap": 0.0884702
+        }
+      },
+      "photo": {
+        "dataset": "shield1",
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_rmse_m": 160.07963386895463,
+        "ate_mean_m": 119.00319654752852,
+        "ate_median_m": 85.86704321287169,
+        "ate_max_m": 438.31834451646364,
+        "matched": 1388,
+        "duplicate_estimate_timestamps": 0,
+        "frames": 5418,
+        "processed_duration_s": 541.7029485702515,
+        "first_timestamp": 1706671290.3902378,
+        "last_timestamp": 1706671832.0931864,
+        "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1.txt",
+        "gt_sha256": "525462e9ce03829cebce2e5106b9fe39737b6c9e12800bc4d5d14d9b593f4f5e",
+        "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "lidar_read": 5427,
+        "imu_read": 54276,
+        "wall_processing_s": 31.031,
+        "bag_duration_s": 542.741,
+        "peak_rss_kb": 135952,
+        "tbb_threads": 4,
+        "identity": {
+          "dataset": "shield1",
+          "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1_gamma.bag",
+          "photo": true,
+          "idw_enable": true,
+          "config_sha256": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+          "head": "71e92770102f00cc68002868447baee3f92df220",
+          "threads": 4
+        },
+        "trajectory_path": "/home/lc/cube_lio/runtime/p1_final_photo_shield1/trajectory.tum",
+        "trajectory_sha256": "0f8c618083a42c9567ae62c4231ba0ddb7fb224a57aada008add865d9caa8277",
+        "timing_mean_ms": {
+          "DownSample": 0.156744,
+          "Observe": 4.73105,
+          "Undistort": 0.220329,
+          "UpdateMap": 0.0906523
+        },
+        "diagnostics": {
+          "frames": 5418,
+          "statistics": {
+            "frame": {
+              "mean": 2709.5,
+              "median": 2709.5,
+              "min": 1.0,
+              "max": 5418.0
+            },
+            "timestamp": {
+              "mean": 1706671561.2455003,
+              "median": 1706671561.2454143,
+              "min": 1706671290.3902378,
+              "max": 1706671832.0931864
+            },
+            "active_before": {
+              "mean": 51.88335179032853,
+              "median": 50.0,
+              "min": 0.0,
+              "max": 226.0
+            },
+            "active_after": {
+              "mean": 51.891103728313034,
+              "median": 50.0,
+              "min": 5.0,
+              "max": 226.0
+            },
+            "valid": {
+              "mean": 32.40919158361019,
+              "median": 30.0,
+              "min": 0.0,
+              "max": 173.0
+            },
+            "residual_mean": {
+              "mean": -2.5658237395877554,
+              "median": -2.5140220586804745,
+              "min": -6.80826884806781,
+              "max": 1.117696828352489
+            },
+            "residual_rms": {
+              "mean": 3.2924920645976132,
+              "median": 3.205869709842263,
+              "min": 0.0,
+              "max": 6.968609972910473
+            },
+            "residual_median": {
+              "mean": -2.59915874018364,
+              "median": -2.5689009554612436,
+              "min": -7.032835365936106,
+              "max": 1.8721358157506396
+            },
+            "reject_fov": {
+              "mean": 0.13713547434477666,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 19.0
+            },
+            "reject_invalid": {
+              "mean": 19.155038759689923,
+              "median": 16.0,
+              "min": 0.0,
+              "max": 128.0
+            },
+            "reject_range": {
+              "mean": 0.04558877814691768,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 51.0
+            },
+            "reject_outlier": {
+              "mean": 0.1363971945367294,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 9.0
+            },
+            "sigma": {
+              "mean": 2.3016973791829405,
+              "median": 2.306278273830926,
+              "min": 1.0,
+              "max": 2.306278273830926
+            },
+            "frozen": {
+              "mean": 0.9964931709117756,
+              "median": 1.0,
+              "min": 0.0,
+              "max": 1.0
+            },
+            "trace_Ag": {
+              "mean": 341022024.6971116,
+              "median": 306451529.078125,
+              "min": 220061.67724609375,
+              "max": 1008795319.0
+            },
+            "trace_Ap": {
+              "mean": 202480.25864521813,
+              "median": 137102.42656007988,
+              "min": 0.0,
+              "max": 4937270.493652757
+            },
+            "weak_translation_eigenvalue": {
+              "mean": 235419.50532681003,
+              "median": 221567.85112859396,
+              "min": 5585.0986001919755,
+              "max": 439199.68135933613
+            },
+            "photo_in_weak_translation": {
+              "mean": 3816.417760356088,
+              "median": 2078.824374905058,
+              "min": 0.0,
+              "max": 227664.35576810266
+            },
+            "weak_x": {
+              "mean": 0.22825677210225961,
+              "median": 0.19723808064920573,
+              "min": -0.9999586454619096,
+              "max": 0.9995876534641682
+            },
+            "weak_y": {
+              "mean": -0.30646621819026004,
+              "median": -0.734103839187749,
+              "min": -0.9999841901446297,
+              "max": 0.9988506325463297
+            },
+            "weak_z": {
+              "mean": -0.026991319278809274,
+              "median": -0.007839921424825133,
+              "min": -0.9999463964475437,
+              "max": 0.9944536699110875
+            },
+            "geo_eig0": {
+              "mean": 95474.0338533191,
+              "median": 91054.45083724789,
+              "min": 328.35122459472615,
+              "max": 251915.9480238001
+            },
+            "geo_eig1": {
+              "mean": 113661.37853204258,
+              "median": 108179.04076223554,
+              "min": 1083.481726087612,
+              "max": 274529.0162200924
+            },
+            "geo_eig2": {
+              "mean": 394304.61881007097,
+              "median": 399705.5551023646,
+              "min": 7263.907919308024,
+              "max": 740493.4212190666
+            },
+            "geo_eig3": {
+              "mean": 1210206.6708653318,
+              "median": 1140913.2120846002,
+              "min": 18957.984837484055,
+              "max": 3731837.4394771084
+            },
+            "geo_eig4": {
+              "mean": 151705882.8614276,
+              "median": 136189625.5184797,
+              "min": 56799.32640124141,
+              "max": 448210470.0984164
+            },
+            "geo_eig5": {
+              "mean": 187502495.13362327,
+              "median": 168570171.16016465,
+              "min": 128868.65449094737,
+              "max": 558529819.5473443
+            },
+            "deskew_ms": {
+              "mean": 0.574712215023994,
+              "median": 0.575778,
+              "min": 0.262363,
+              "max": 0.829832
+            },
+            "cubemap_ms": {
+              "mean": 1.2113728021410115,
+              "median": 1.214473,
+              "min": 0.969914,
+              "max": 1.315384
+            },
+            "idw_ms": {
+              "mean": 0.9340203235511259,
+              "median": 0.921244,
+              "min": 0.789465,
+              "max": 1.349815
+            },
+            "igm_ms": {
+              "mean": 0.1598497185308232,
+              "median": 0.155518,
+              "min": 0.122279,
+              "max": 0.439251
+            },
+            "photo_jacobian_ms": {
+              "mean": 0.04735110871170174,
+              "median": 0.047486,
+              "min": 0.003562,
+              "max": 0.09616199999999998
+            },
+            "update_ms": {
+              "mean": 1.551732726467331,
+              "median": 1.5433165,
+              "min": 0.212503,
+              "max": 2.831405
+            },
+            "replenish_ms": {
+              "mean": 0.26640896474713915,
+              "median": 0.263551,
+              "min": 0.18045,
+              "max": 0.430943
+            },
+            "raw_points": {
+              "mean": 23629.49981543005,
+              "median": 23706.0,
+              "min": 22756.0,
+              "max": 24000.0
+            },
+            "raw_pixels": {
+              "mean": 3721.814507198228,
+              "median": 3712.0,
+              "min": 2940.0,
+              "max": 5174.0
+            },
+            "filled_pixels": {
+              "mean": 4530.212624584718,
+              "median": 4495.0,
+              "min": 3554.0,
+              "max": 6959.0
+            },
+            "igm_pixels": {
+              "mean": 1967.0677371723884,
+              "median": 1955.0,
+              "min": 784.0,
+              "max": 4395.0
+            },
+            "deskew_supported": {
+              "mean": 1.0,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0
+            }
+          },
+          "sigma_frozen": true,
+          "positive_information_frames": 5396,
+          "positive_weak_information_frames": 5396,
+          "positive_information_frame_fraction": 0.9959394610557402,
+          "median_photo_to_weak_geo_information_ratio": 0.00943972684131533,
+          "lowest_decile_geometry_frames": 542,
+          "lowest_decile_photo_weak_info_positive_fraction": 0.992619926199262,
+          "lowest_decile_photo_to_geo_weak_ratio_median": 0.033266490946541695,
+          "unsupported_deskew_frames": 0,
+          "lifecycle_checks": "PASS"
+        }
+      }
+    },
+    "tunnel_d": {
+      "geo": {
+        "dataset": "tunnel_d",
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_rmse_m": 113.91929554770142,
+        "ate_mean_m": 105.57715743024556,
+        "ate_median_m": 115.2012627381527,
+        "ate_max_m": 164.56034030608487,
+        "matched": 1179,
+        "duplicate_estimate_timestamps": 1,
+        "frames": 1179,
+        "processed_duration_s": 117.91296577453613,
+        "first_timestamp": 1691509833.0480807,
+        "last_timestamp": 1691509950.9610465,
+        "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+        "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+        "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "lidar_read": 1189,
+        "imu_read": 11861,
+        "wall_processing_s": 11.0395,
+        "bag_duration_s": 119.013,
+        "peak_rss_kb": 108836,
+        "tbb_threads": 4,
+        "identity": {
+          "dataset": "tunnel_d",
+          "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+          "photo": false,
+          "idw_enable": true,
+          "config_sha256": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+          "head": "71e92770102f00cc68002868447baee3f92df220",
+          "threads": 4
+        },
+        "trajectory_path": "/home/lc/cube_lio/runtime/p1_final_geo_tunnel_d/trajectory.tum",
+        "trajectory_sha256": "a07250898a5bd75fe247554edaaad786f5e6aa8ccf77d24767ae5068bc6d5b24",
+        "timing_mean_ms": {
+          "DownSample": 0.347202,
+          "Observe": 1.01301,
+          "Undistort": 0.530197,
+          "UpdateMap": 0.0603072
+        }
+      },
+      "photo": {
+        "dataset": "tunnel_d",
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_rmse_m": 131.0188877964826,
+        "ate_mean_m": 122.8287449268966,
+        "ate_median_m": 133.83750933965118,
+        "ate_max_m": 182.8908193555352,
+        "matched": 1179,
+        "duplicate_estimate_timestamps": 1,
+        "frames": 1179,
+        "processed_duration_s": 117.91296577453613,
+        "first_timestamp": 1691509833.0480807,
+        "last_timestamp": 1691509950.9610465,
+        "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+        "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+        "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "lidar_read": 1189,
+        "imu_read": 11861,
+        "wall_processing_s": 17.0421,
+        "bag_duration_s": 119.013,
+        "peak_rss_kb": 129540,
+        "tbb_threads": 4,
+        "identity": {
+          "dataset": "tunnel_d",
+          "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+          "photo": true,
+          "idw_enable": true,
+          "config_sha256": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+          "head": "71e92770102f00cc68002868447baee3f92df220",
+          "threads": 4
+        },
+        "trajectory_path": "/home/lc/cube_lio/runtime/p1_final_photo_tunnel_d/trajectory.tum",
+        "trajectory_sha256": "a3b774e4afd3a10094641041d825fa9b1e58e28d029be4150684674197fcaa39",
+        "timing_mean_ms": {
+          "DownSample": 0.359016,
+          "Observe": 9.84242,
+          "Undistort": 0.53257,
+          "UpdateMap": 0.0704895
+        },
+        "diagnostics": {
+          "frames": 1179,
+          "statistics": {
+            "frame": {
+              "mean": 590.0,
+              "median": 590.0,
+              "min": 1.0,
+              "max": 1179.0
+            },
+            "timestamp": {
+              "mean": 1691509892.036277,
+              "median": 1691509892.05371,
+              "min": 1691509833.0480807,
+              "max": 1691509950.9610465
+            },
+            "active_before": {
+              "mean": 1170.8931297709923,
+              "median": 1200.0,
+              "min": 0.0,
+              "max": 1200.0
+            },
+            "active_after": {
+              "mean": 1171.910941475827,
+              "median": 1200.0,
+              "min": 195.0,
+              "max": 1200.0
+            },
+            "valid": {
+              "mean": 701.3401187446989,
+              "median": 702.0,
+              "min": 0.0,
+              "max": 1167.0
+            },
+            "residual_mean": {
+              "mean": -2.5700560983099647,
+              "median": -2.5406900172090974,
+              "min": -5.8809714960564685,
+              "max": 2.217897906656058
+            },
+            "residual_rms": {
+              "mean": 9.878989495179527,
+              "median": 9.8941701782819,
+              "min": 0.0,
+              "max": 31.468087819934997
+            },
+            "residual_median": {
+              "mean": -3.4031306222211906,
+              "median": -3.339435831721179,
+              "min": -7.777319523486341,
+              "max": 4.967247100563451
+            },
+            "reject_fov": {
+              "mean": 122.15521628498728,
+              "median": 99.0,
+              "min": 0.0,
+              "max": 459.0
+            },
+            "reject_invalid": {
+              "mean": 157.1704834605598,
+              "median": 149.0,
+              "min": 0.0,
+              "max": 1027.0
+            },
+            "reject_range": {
+              "mean": 2.8642917726887194,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 339.0
+            },
+            "reject_outlier": {
+              "mean": 187.36301950805768,
+              "median": 195.0,
+              "min": 0.0,
+              "max": 321.0
+            },
+            "sigma": {
+              "mean": 4.257900654577009,
+              "median": 4.311262820470942,
+              "min": 1.0,
+              "max": 4.311262820470942
+            },
+            "frozen": {
+              "mean": 0.9838846480067854,
+              "median": 1.0,
+              "min": 0.0,
+              "max": 1.0
+            },
+            "trace_Ag": {
+              "mean": 44842147.56678711,
+              "median": 44108791.625,
+              "min": 128348.19512939453,
+              "max": 84081700.25
+            },
+            "trace_Ap": {
+              "mean": 40771326.286609575,
+              "median": 39238707.55986598,
+              "min": 0.0,
+              "max": 449052143.8876207
+            },
+            "weak_translation_eigenvalue": {
+              "mean": 93757.88362231368,
+              "median": 89620.15340696159,
+              "min": 896.0219361295646,
+              "max": 195645.51119174546
+            },
+            "photo_in_weak_translation": {
+              "mean": 802761.7800156215,
+              "median": 753154.6531944113,
+              "min": 0.0,
+              "max": 2720637.9796697865
+            },
+            "weak_x": {
+              "mean": 0.5400672600843119,
+              "median": 0.8029967557993166,
+              "min": -0.9816560502789251,
+              "max": 0.9947746353284838
+            },
+            "weak_y": {
+              "mean": -0.28289628043671616,
+              "median": -0.5326774596075733,
+              "min": -0.9697792267540573,
+              "max": 0.9998088450530114
+            },
+            "weak_z": {
+              "mean": -0.02479639871434216,
+              "median": -0.043624165736801966,
+              "min": -0.995382327731023,
+              "max": 0.2798928086843783
+            },
+            "geo_eig0": {
+              "mean": 91880.48208691676,
+              "median": 88680.62668299308,
+              "min": 5.593202933428191,
+              "max": 185794.3199260228
+            },
+            "geo_eig1": {
+              "mean": 278288.1152616348,
+              "median": 278169.1258467065,
+              "min": 484.27457409993576,
+              "max": 491371.3360380945
+            },
+            "geo_eig2": {
+              "mean": 420203.840234026,
+              "median": 422715.49128699355,
+              "min": 1356.8707874220406,
+              "max": 654124.1779162278
+            },
+            "geo_eig3": {
+              "mean": 1237449.1846919663,
+              "median": 893532.2246231483,
+              "min": 5134.460006366506,
+              "max": 4347388.255371008
+            },
+            "geo_eig4": {
+              "mean": 17866792.616022695,
+              "median": 17412473.9190018,
+              "min": 11209.051316935997,
+              "max": 32957147.457958635
+            },
+            "geo_eig5": {
+              "mean": 24947533.328489877,
+              "median": 24275872.072344065,
+              "min": 110157.94524163673,
+              "max": 49426047.10074198
+            },
+            "deskew_ms": {
+              "mean": 1.4879158150975405,
+              "median": 1.478036,
+              "min": 0.0,
+              "max": 3.119903
+            },
+            "cubemap_ms": {
+              "mean": 3.2422164062765058,
+              "median": 3.267114,
+              "min": 0.0,
+              "max": 9.377521
+            },
+            "idw_ms": {
+              "mean": 0.986245268023749,
+              "median": 0.95449,
+              "min": 0.0,
+              "max": 1.904231
+            },
+            "igm_ms": {
+              "mean": 0.292323566581849,
+              "median": 0.281362,
+              "min": 0.0,
+              "max": 0.845271
+            },
+            "photo_jacobian_ms": {
+              "mean": 0.23826418066157762,
+              "median": 0.237437,
+              "min": 0.0,
+              "max": 0.39295599999999997
+            },
+            "update_ms": {
+              "mean": 1.2676194351145038,
+              "median": 1.246536,
+              "min": 0.186386,
+              "max": 2.533435
+            },
+            "replenish_ms": {
+              "mean": 2.5273744529262085,
+              "median": 2.502569,
+              "min": 0.001187,
+              "max": 3.902251
+            },
+            "raw_points": {
+              "mean": 69613.2417302799,
+              "median": 70617.0,
+              "min": 0.0,
+              "max": 93250.0
+            },
+            "raw_pixels": {
+              "mean": 20693.31636980492,
+              "median": 20830.0,
+              "min": 0.0,
+              "max": 27709.0
+            },
+            "filled_pixels": {
+              "mean": 24200.819338422392,
+              "median": 24311.0,
+              "min": 0.0,
+              "max": 33775.0
+            },
+            "igm_pixels": {
+              "mean": 17529.23409669211,
+              "median": 17537.0,
+              "min": 0.0,
+              "max": 26757.0
+            },
+            "deskew_supported": {
+              "mean": 0.9991518235793045,
+              "median": 1.0,
+              "min": 0.0,
+              "max": 1.0
+            }
+          },
+          "sigma_frozen": true,
+          "positive_information_frames": 1159,
+          "positive_weak_information_frames": 1159,
+          "positive_information_frame_fraction": 0.9830364715860899,
+          "median_photo_to_weak_geo_information_ratio": 8.803204664831515,
+          "lowest_decile_geometry_frames": 118,
+          "lowest_decile_photo_weak_info_positive_fraction": 0.9915254237288136,
+          "lowest_decile_photo_to_geo_weak_ratio_median": 14.601239051639379,
+          "unsupported_deskew_frames": 1,
+          "lifecycle_checks": "PASS"
+        }
+      }
+    }
+  },
+  "paired": {
+    "eee_01": {
+      "absolute_delta_m": -0.004437821881889417,
+      "relative_delta_percent": -3.733163420766872,
+      "gate_pass": true,
+      "frame_timestamp_parity": "PASS",
+      "photo_off_pristine_byte_parity": "PASS",
+      "wall_overhead_percent": 78.9141802522301
+    },
+    "shield1": {
+      "absolute_delta_m": -8.111907797185182,
+      "relative_delta_percent": -4.823017683783004,
+      "gate_pass": true,
+      "frame_timestamp_parity": "PASS",
+      "photo_off_pristine_byte_parity": "PASS",
+      "wall_overhead_percent": 142.4978900315714
+    },
+    "tunnel_d": {
+      "absolute_delta_m": 17.09959224878118,
+      "relative_delta_percent": 15.010268599862492,
+      "gate_pass": false,
+      "frame_timestamp_parity": "PASS",
+      "photo_off_pristine_byte_parity": "PASS",
+      "wall_overhead_percent": 54.373839394900145
+    }
+  },
+  "jacobian_tests": {
+    "projection_points": 6000,
+    "projection_max_abs_error": 8.89473361632e-09,
+    "residual_points": 1120,
+    "residual_max_abs_error": 3.78524589451e-09,
+    "all_six_dof_and_faces": true,
+    "boundary_tests": "PASS",
+    "idw_visibility": "PASS",
+    "information_sign": "PASS"
+  },
+  "numerical_acceptance_pass": false,
+  "verdict": "PARTIAL / NO-GO",
+  "idw_off_ablation": {
+    "dataset": "eee_01",
+    "alignment": "SE3 no scale",
+    "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+    "ate_rmse_m": 0.11887563928229516,
+    "ate_mean_m": 0.07792191990970784,
+    "ate_median_m": 0.06273789447712974,
+    "ate_max_m": 0.6929463332737996,
+    "matched": 3329,
+    "duplicate_estimate_timestamps": 0,
+    "frames": 3981,
+    "processed_duration_s": 398.0008728504181,
+    "first_timestamp": 1609059013.7636957,
+    "last_timestamp": 1609059411.7645686,
+    "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+    "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+    "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+    "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+    "lidar_read": 3987,
+    "imu_read": 153347,
+    "wall_processing_s": 21.4717,
+    "bag_duration_s": 398.683,
+    "peak_rss_kb": 170640,
+    "tbb_threads": 4,
+    "identity": {
+      "dataset": "eee_01",
+      "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+      "photo": true,
+      "idw_enable": false,
+      "config_sha256": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+      "head": "71e92770102f00cc68002868447baee3f92df220",
+      "threads": 4
+    },
+    "trajectory_path": "/home/lc/cube_lio/runtime/p1_ablation_eee_idw_off/trajectory.tum",
+    "trajectory_sha256": "bed82ecc15fab0a7fbea9a06d0ef0f7348e702b4ccb718cf894436a148bbd6b1",
+    "timing_mean_ms": {
+      "DownSample": 0.0890735,
+      "Observe": 4.27864,
+      "Undistort": 0.198507,
+      "UpdateMap": 0.216019
+    },
+    "diagnostics": {
+      "frames": 3981,
+      "statistics": {
+        "frame": {
+          "mean": 1991.0,
+          "median": 1991.0,
+          "min": 1.0,
+          "max": 3981.0
+        },
+        "timestamp": {
+          "mean": 1609059212.7555149,
+          "median": 1609059212.7620444,
+          "min": 1609059013.7636957,
+          "max": 1609059411.7645686
+        },
+        "active_before": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "active_after": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "valid": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "residual_mean": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "residual_rms": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "residual_median": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "reject_fov": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "reject_invalid": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "reject_range": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "reject_outlier": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "sigma": {
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "frozen": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "trace_Ag": {
+          "mean": 1097347455.6011465,
+          "median": 1073056935.875,
+          "min": 370604448.0,
+          "max": 1932009240.0546875
+        },
+        "trace_Ap": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "weak_translation_eigenvalue": {
+          "mean": 478759.7971120932,
+          "median": 518689.9379743367,
+          "min": 76480.07196050536,
+          "max": 739687.8508308952
+        },
+        "photo_in_weak_translation": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "weak_x": {
+          "mean": 0.029062162204729965,
+          "median": 0.03335405846547157,
+          "min": -0.9217590892714089,
+          "max": 0.943531146226784
+        },
+        "weak_y": {
+          "mean": -0.12109169518738593,
+          "median": 0.0007719464079492942,
+          "min": -0.9996995170377461,
+          "max": 0.37239474417117735
+        },
+        "weak_z": {
+          "mean": -0.19202582546798844,
+          "median": -0.9780746026287606,
+          "min": -0.9999993687247213,
+          "max": 0.9999989025704629
+        },
+        "geo_eig0": {
+          "mean": 457736.12152812973,
+          "median": 504053.58962482924,
+          "min": 70615.79340037094,
+          "max": 692900.6626288131
+        },
+        "geo_eig1": {
+          "mean": 879049.334303728,
+          "median": 984538.2228072387,
+          "min": 176041.23219370501,
+          "max": 1237657.8867630602
+        },
+        "geo_eig2": {
+          "mean": 1190638.3340373097,
+          "median": 1232947.0349100647,
+          "min": 536915.3744347645,
+          "max": 1542101.8580968936
+        },
+        "geo_eig3": {
+          "mean": 191462431.16552112,
+          "median": 188682526.50961447,
+          "min": 21337529.876110673,
+          "max": 445889182.36791843
+        },
+        "geo_eig4": {
+          "mean": 302769021.551097,
+          "median": 285855192.92185247,
+          "min": 74002501.91899025,
+          "max": 635490572.370198
+        },
+        "geo_eig5": {
+          "mean": 600588579.0946592,
+          "median": 584498038.36128,
+          "min": 224045291.13829753,
+          "max": 987327361.2549525
+        },
+        "deskew_ms": {
+          "mean": 0.25723525898015576,
+          "median": 0.273052,
+          "min": 0.110408,
+          "max": 0.45113
+        },
+        "cubemap_ms": {
+          "mean": 0.6359819638281838,
+          "median": 0.648201,
+          "min": 0.485557,
+          "max": 0.781167
+        },
+        "idw_ms": {
+          "mean": 0.010291009796533536,
+          "median": 0.009498,
+          "min": 0.007123,
+          "max": 0.048674
+        },
+        "igm_ms": {
+          "mean": 0.162954902537051,
+          "median": 0.162644,
+          "min": 0.115156,
+          "max": 0.439256
+        },
+        "photo_jacobian_ms": {
+          "mean": 0.005414617432805827,
+          "median": 0.005934999999999999,
+          "min": 0.001187,
+          "max": 0.022557
+        },
+        "update_ms": {
+          "mean": 2.9211857907560916,
+          "median": 3.001196,
+          "min": 1.051845,
+          "max": 4.93749
+        },
+        "replenish_ms": {
+          "mean": 0.2591586887716654,
+          "median": 0.263554,
+          "min": 0.19351,
+          "max": 0.322914
+        },
+        "raw_points": {
+          "mean": 11828.872393870886,
+          "median": 12061.0,
+          "min": 10250.0,
+          "max": 13020.0
+        },
+        "raw_pixels": {
+          "mean": 4805.314996232102,
+          "median": 4909.0,
+          "min": 4120.0,
+          "max": 5213.0
+        },
+        "filled_pixels": {
+          "mean": 4805.314996232102,
+          "median": 4909.0,
+          "min": 4120.0,
+          "max": 5213.0
+        },
+        "igm_pixels": {
+          "mean": 0.0,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "deskew_supported": {
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        }
+      },
+      "sigma_frozen": false,
+      "positive_information_frames": 0,
+      "positive_weak_information_frames": 0,
+      "positive_information_frame_fraction": 0.0,
+      "median_photo_to_weak_geo_information_ratio": 0.0,
+      "lowest_decile_geometry_frames": 399,
+      "lowest_decile_photo_weak_info_positive_fraction": 0.0,
+      "lowest_decile_photo_to_geo_weak_ratio_median": 0.0,
+      "unsupported_deskew_frames": 0,
+      "lifecycle_checks": "PASS"
+    }
+  }
+}

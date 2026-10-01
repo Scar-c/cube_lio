@@ -1,0 +1,20 @@
+{
+  "build_type": "Release",
+  "compiler": "GCC 9.4.0",
+  "ros": "Noetic",
+  "cpp_standard": 17,
+  "tbb_threads": 4,
+  "build_parallel_jobs": 4,
+  "opencv_threads_when_photo_on": 1,
+  "code_commit": "71e92770102f00cc68002868447baee3f92df220",
+  "binaries": {
+    "devel/lib/super_lio/cube_offline_node": "bf3e44c75f06d984c1db6c1f3fa9f24ad0d9fb63846668ddf4e26962eda3aebd",
+    "devel/lib/liblio.so": "e98d9fb5828b4858e9bd55c9a59b3f3e8e4c7fdc95af9f2e98cb822434013506"
+  },
+  "packages": [
+    "libeigen3-dev\t3.3.7-2",
+    "libopencv-dev\t4.2.0+dfsg-5",
+    "libpcl-dev\t1.10.0+dfsg-5ubuntu1",
+    "libtbb-dev:amd64\t2020.1-2"
+  ]
+}
