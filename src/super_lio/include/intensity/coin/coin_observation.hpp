@@ -14,6 +14,7 @@ class CoinObservation {
  public:
   CoinObservation(ros::NodeHandle& nh,const Eigen::Matrix4d& T_IL);
   bool enabled() const { return enabled_; }
+  bool shadow() const { return shadow_; }
 
   void prepare(const LI2Sup::LidarData& lidar,
                const std::vector<LI2Sup::DynamicState>& history,
@@ -25,7 +26,8 @@ class CoinObservation {
  private:
   Eigen::Matrix4d poseMatrix(const BASIC::SE3& pose) const;
 
-  bool enabled_=false,prepared_=false;
+  bool enabled_=false,prepared_=false,shadow_=false;
+  std::string selector_mode_="original";
   double photo_scale_=0.00095,measurement_variance_=0.001;
   Eigen::Matrix4d T_IL_=Eigen::Matrix4d::Identity();
   CoinImageSettings image_settings_;

@@ -1,0 +1,47 @@
+{
+  "branch": "p2s-geometry-degeneracy-interface-audit",
+  "start_sha": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+  "run_source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+  "note": "The source files were dirty during P2-S runs; exact hashes below identify the validated production tree. After production, only the unit-test fixture was extended for the explicit 60-feature cap and rebuilt; cube_offline_node SHA remained unchanged from every production run.",
+  "source_sha256": {
+    "src/super_lio/CMakeLists.txt": "7503c1481b61f3c9cfa8d47a34943b2f96ba7e3912b18cc583ac1bae9ee8e5e3",
+    "src/super_lio/include/lio/super_lio.h": "5fe4f3ea52bed36e36485d06759022b196eba60ceec5e6584df0f73a66fab368",
+    "src/super_lio/include/intensity/coin/coin_feature_manager.hpp": "e0cfd08ac20cc14e1c82711d8d8afabe73e719d3213f899b9e8eb227a6618cba",
+    "src/super_lio/include/intensity/coin/coin_observation.hpp": "2257df9d020efeae1addc04021b4329137aad820b2e05c3b72d33daa417983b0",
+    "src/super_lio/src/intensity/coin/coin_feature_manager.cpp": "ca73b72ba9706196e26a2feac0a8421e22cca63cb9c8a8b441d9c6f99d674ab5",
+    "src/super_lio/src/intensity/coin/coin_observation.cpp": "553ea526b69e589ef8b6d16a7ce2e50000e7dc698d3ff2589682d157c0d74949",
+    "src/super_lio/src/lio/super_lio.cpp": "c36af01cf0d2e34dc9491cdabdac40c87a5ca8ec9879750504eedd78e0037719",
+    "tools/p2r/run.py": "54231be77409b70acf8043fb74dc9a49205fb4740edff8e9257b7932865349de",
+    "tools/p2s/analyze_geometry.py": "7e2db18c5b3acedcc3e18b79a4b0c456faef030d5af5d23a93e1d4fa362919cb",
+    "tools/p2s/analyze_selectors.py": "fcb1d626b2b1d24401a70c0a8bee85581d3a6b033481c78c300bb90afad00741",
+    "tools/p2s/archive_results.py": "9cf691b063d1b59f54f61b432ea3e7a9139a1a1d930b70223149a2002c2da4ca",
+    "src/super_lio/test/test_coin_feature_math.cpp": "5c77c6422d02b72318a9f396030c3cb9f80c09b7b3a0e7da0bac6998ffc2049f"
+  },
+  "binary_path": "devel/lib/super_lio/cube_offline_node",
+  "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+  "production_run_binary_sha256": {
+    "S1_gradient": [
+      "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+      "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+      "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc"
+    ],
+    "S2_weakest": [
+      "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+      "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+      "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc"
+    ],
+    "S3_normalized": [
+      "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc"
+    ]
+  },
+  "config_sha256": {
+    "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+    "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+    "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+    "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+    "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+  },
+  "bag_sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e",
+  "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+  "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf"
+}

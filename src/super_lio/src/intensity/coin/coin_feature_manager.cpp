@@ -90,6 +90,24 @@ CoinWeakDirections CoinFeatureManager::weakDirectionsFromGeometry(const Eigen::M
   return result;
 }
 
+std::vector<cv::Point> CoinFeatureManager::selectPureGradient(
+    const std::vector<std::pair<double,cv::Point>>& candidates,int cap){
+  if(cap<=0)return {};
+  auto ranked=candidates;
+  std::sort(ranked.begin(),ranked.end(),[](const auto& a,const auto& b){
+    if(a.first!=b.first)return a.first>b.first;
+    if(a.second.y!=b.second.y)return a.second.y<b.second.y;
+    return a.second.x<b.second.x;
+  });
+  std::vector<cv::Point> result;
+  result.reserve(std::min(cap,static_cast<int>(ranked.size())));
+  for(const auto& item:ranked){
+    result.push_back(item.second);
+    if(static_cast<int>(result.size())==cap)break;
+  }
+  return result;
+}
+
 double CoinFeatureManager::sampleBilinearFloat(const cv::Mat& image,double x,double y){
   x=std::clamp(x,0.,static_cast<double>(image.cols-1));
   y=std::clamp(y,0.,static_cast<double>(image.rows-1));
@@ -142,12 +160,13 @@ bool CoinFeatureManager::projectUndistorted(const CoinFrame& frame,const std::ve
 }
 
 void CoinFeatureManager::update(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,
-                                const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL){
+                                const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL,
+                                bool pure_gradient,const std::vector<Vec3>& audit_eigenvectors_lidar){
   last_stats_=CoinFeatureFrameStats{};
   last_stats_.active_before=static_cast<int>(features_.size());
   track(frame,points,T_GL);
   updateSuppressionMask();
-  detect(frame,points,weak_directions_lidar,T_GL);
+  detect(frame,points,weak_directions_lidar,T_GL,pure_gradient,audit_eigenvectors_lidar);
   last_stats_.active_after=static_cast<int>(features_.size());
 }
 
@@ -203,7 +222,8 @@ void CoinFeatureManager::updateSuppressionMask(){
 }
 
 void CoinFeatureManager::detect(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,
-                                const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL){
+                                const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL,
+                                bool pure_gradient,const std::vector<Vec3>& audit_eigenvectors_lidar){
   const int needed=settings_.num_features-static_cast<int>(features_.size());
   if(needed<=0)return;
   std::vector<Vec3> directions=weak_directions_lidar;
@@ -211,8 +231,26 @@ void CoinFeatureManager::detect(const CoinFrame& frame,const std::vector<CoinSca
     directions.emplace_back(1,0,0);directions.emplace_back(0,1,0);directions.emplace_back(0,0,1);
   }
   std::vector<cv::Point> centers;
-  detectComplementary(frame,points,directions,needed,centers);
+  detectComplementary(frame,points,directions,needed,centers,pure_gradient);
   last_stats_.selected_centers=static_cast<int>(centers.size());
+  for(const auto& center:centers){
+    last_stats_.selected_center_pixels.emplace_back(center.x,center.y);
+    const float gx=frame.dx.ptr<float>(center.y)[center.x];
+    const float gy=frame.dy.ptr<float>(center.y)[center.x];
+    last_stats_.selected_gradient_sum+=std::hypot(gx,gy);
+    const int point_index=frame.image_index.ptr<int>(center.y)[center.x];
+    if(point_index>=0&&static_cast<std::size_t>(point_index)<points.size()){
+      const Mat23 du_dp=projector_.projectionJacobian(points[point_index].point_lidar);
+      const Eigen::Matrix<double,1,2> image_gradient(gx,gy);
+      for(std::size_t d=0;d<std::min<std::size_t>(3,audit_eigenvectors_lidar.size());++d){
+        Vec2 motion=du_dp*audit_eigenvectors_lidar[d];
+        const double norm=motion.norm();
+        if(norm>1e-12)last_stats_.selected_directional_score_sum[d]+=
+            std::abs(image_gradient.dot(motion/norm));
+      }
+      ++last_stats_.selected_metric_count;
+    }
+  }
   const Eigen::Matrix3d R_GL=T_GL.topLeftCorner<3,3>();
   const Vec3 t_GL=T_GL.topRightCorner<3,1>();
   for(const auto& center:centers){
@@ -236,7 +274,7 @@ void CoinFeatureManager::detect(const CoinFrame& frame,const std::vector<CoinSca
 
 void CoinFeatureManager::detectComplementary(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,
                                               const std::vector<Vec3>& directions,int needed,
-                                              std::vector<cv::Point>& centers){
+                                              std::vector<cv::Point>& centers,bool pure_gradient){
   cv::Mat abs_dx,abs_dy,gradient;
   cv::convertScaleAbs(frame.dx,abs_dx);cv::convertScaleAbs(frame.dy,abs_dy);
   cv::addWeighted(abs_dx,.5,abs_dy,.5,0,gradient);
@@ -258,6 +296,14 @@ void CoinFeatureManager::detectComplementary(const CoinFrame& frame,const std::v
     candidates.push_back(p);cv::circle(feature_mask,p,settings_.suppression_radius,0,-1);
   }
   last_stats_.candidates_after_nms=static_cast<int>(candidates.size());
+  if(pure_gradient){
+    std::vector<std::pair<double,cv::Point>> gradient_candidates;
+    gradient_candidates.reserve(candidates.size());
+    for(const auto& point:candidates)
+      gradient_candidates.emplace_back(gradient.ptr<uchar>(point.y)[point.x],point);
+    centers=selectPureGradient(gradient_candidates,needed);
+    return;
+  }
   std::vector<std::vector<std::pair<double,int>>> directional_scores(
       directions.size(),std::vector<std::pair<double,int>>(candidates.size(),std::make_pair(0.,0)));
   const int offset=settings_.patch_size/2+1;

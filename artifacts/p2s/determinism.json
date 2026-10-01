@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "production_repeatability_measured_for": [
+    "baseline_C1_S0",
+    "S1_gradient",
+    "S2_weakest"
+  ],
+  "selector_production_repeat_gate": "S1 and S2 each triggered three-run validation; S3 remained one run because it improved C1 by less than 10% and stayed above 10 m",
+  "runs": {
+    "baseline_C1_S0": {
+      "runs": 3,
+      "trajectory_hashes": [
+        "29300418ccbc2331acaf15850d39ae7a93ef47cfafd8289e459344116ab984f5",
+        "29300418ccbc2331acaf15850d39ae7a93ef47cfafd8289e459344116ab984f5",
+        "29300418ccbc2331acaf15850d39ae7a93ef47cfafd8289e459344116ab984f5"
+      ],
+      "repeat_validation_performed": true,
+      "bitwise_identical_across_repeats": true,
+      "bitwise_diagnostics_identical_across_repeats": null
+    },
+    "S1_gradient": {
+      "runs": 3,
+      "trajectory_sha256": [
+        "42bdff8778d3e4a409f320805dd92c01c98ac9b9311ee4bfbd177a975cc17179",
+        "42bdff8778d3e4a409f320805dd92c01c98ac9b9311ee4bfbd177a975cc17179",
+        "42bdff8778d3e4a409f320805dd92c01c98ac9b9311ee4bfbd177a975cc17179"
+      ],
+      "diagnostics_sha256": [
+        "e5896745370fa885206ea815ecc7ab171d72425bbad6dcf29249479a7d97a6b9",
+        "e5896745370fa885206ea815ecc7ab171d72425bbad6dcf29249479a7d97a6b9",
+        "e5896745370fa885206ea815ecc7ab171d72425bbad6dcf29249479a7d97a6b9"
+      ],
+      "comparisons_to_first": [
+        {
+          "run": "p2s_production_gradient_2",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        },
+        {
+          "run": "p2s_production_gradient_3",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        }
+      ],
+      "repeat_validation_performed": true,
+      "bitwise_identical_across_repeats": true,
+      "bitwise_diagnostics_identical_across_repeats": true
+    },
+    "S2_weakest": {
+      "runs": 3,
+      "trajectory_sha256": [
+        "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+        "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+        "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311"
+      ],
+      "diagnostics_sha256": [
+        "db7efed190be1f59d9f3b465fc1a52071f0fa9b87968d1368bbea6fba48950a9",
+        "db7efed190be1f59d9f3b465fc1a52071f0fa9b87968d1368bbea6fba48950a9",
+        "db7efed190be1f59d9f3b465fc1a52071f0fa9b87968d1368bbea6fba48950a9"
+      ],
+      "comparisons_to_first": [
+        {
+          "run": "p2s_production_weakest_2",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        },
+        {
+          "run": "p2s_production_weakest_3",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        }
+      ],
+      "repeat_validation_performed": true,
+      "bitwise_identical_across_repeats": true,
+      "bitwise_diagnostics_identical_across_repeats": true
+    },
+    "S3_normalized": {
+      "runs": 1,
+      "trajectory_sha256": [
+        "ea6df872e75e500730a69d1302abb879479838931ee47bdfaa7b680ac0a1dfe8"
+      ],
+      "diagnostics_sha256": [
+        "9b3ab1d60468ec7103cd3337fa876a2171ac40a2621198ea262347ebdd4ae4ad"
+      ],
+      "comparisons_to_first": [],
+      "repeat_validation_performed": false,
+      "bitwise_identical_across_repeats": null,
+      "bitwise_diagnostics_identical_across_repeats": null
+    }
+  },
+  "fixed_G1_shadow_trajectory_sha256": "9bfbc7d278f1177529b8a43b84f4c655e84a17625af144e68f29c0b1a44fcfff",
+  "all_shadow_modes_preserve_G1": true
+}

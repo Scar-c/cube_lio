@@ -3,7 +3,9 @@
 
 #include "intensity/coin/coin_image_processor.hpp"
 #include <Eigen/Eigenvalues>
+#include <array>
 #include <cstdint>
+#include <utility>
 #include <vector>
 
 namespace cube::coin {
@@ -38,6 +40,10 @@ struct CoinFeatureFrameStats {
   int candidates_after_nms=0,selected_centers=0;
   int rejected_projection=0,rejected_border=0,rejected_mask=0,rejected_range=0;
   int rejected_ncc=0,rejected_lifetime=0;
+  double selected_gradient_sum=0.;
+  std::array<double,3> selected_directional_score_sum{{0.,0.,0.}};
+  int selected_metric_count=0;
+  std::vector<Eigen::Vector2i> selected_center_pixels;
   std::vector<double> ncc_values;
 };
 
@@ -52,7 +58,8 @@ class CoinFeatureManager {
  public:
   CoinFeatureManager(CoinOusterProjector projector,CoinFeatureSettings settings={});
   void update(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,
-              const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL);
+              const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL,
+              bool pure_gradient=false,const std::vector<Vec3>& audit_eigenvectors_lidar={});
   bool projectUndistorted(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,
                           const Vec3& p_Lk,Vec3& p_Li,Vec2& uv,int& distortion_index,
                           bool round_bucket=false) const;
@@ -63,15 +70,18 @@ class CoinFeatureManager {
   static CoinWeakDirections weakDirectionsFromGeometry(const Eigen::MatrixXd& H_translation,
                                                        const Eigen::Matrix3d& R_GL,
                                                        double n_uninformative=25.);
+  static std::vector<cv::Point> selectPureGradient(
+      const std::vector<std::pair<double,cv::Point>>& candidates,int cap);
 
  private:
   void track(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,const Eigen::Matrix4d& T_GL);
   void updateSuppressionMask();
   void detect(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,
-              const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL);
+              const std::vector<Vec3>& weak_directions_lidar,const Eigen::Matrix4d& T_GL,
+              bool pure_gradient,const std::vector<Vec3>& audit_eigenvectors_lidar);
   void detectComplementary(const CoinFrame& frame,const std::vector<CoinScanPoint>& points,
                            const std::vector<Vec3>& weak_directions_lidar,int needed,
-                           std::vector<cv::Point>& centers);
+                           std::vector<cv::Point>& centers,bool pure_gradient);
   static double sampleBilinearFloat(const cv::Mat& image,double x,double y);
 
   CoinOusterProjector projector_;

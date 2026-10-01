@@ -1,0 +1,25 @@
+{
+  "classification": "AUDIT_ONLY_UNRESOLVED",
+  "H0": {
+    "description": "P2-R current retained and rigidly rebased overlapping Super propagation history",
+    "ATE_rmse_m": 152.83140320030125,
+    "path_length_m": 585.519728880889,
+    "trajectory_sha256": "9bfbc7d278f1177529b8a43b84f4c655e84a17625af144e68f29c0b1a44fcfff",
+    "binary_sha256": "267b0fae98e969a00ff4c55237a7df597038828347ca6930f013a6322c98eda7"
+  },
+  "H1_audit_proxy": {
+    "description": "earlier corrected-end implementation cleared history at corrected start; unsupported early acquisition points used the historical raw-point deskew path; this is not the requested corrected-IMU reconstruction",
+    "ATE_rmse_m": 139.73914735443566,
+    "path_length_m": 568.8111344825593,
+    "trajectory_sha256": "7a145b093235fa309530ff8bbe4a0116c60b4ac142253b4bb2ab36435097b349",
+    "binary_sha256": "0caf2bc5599f3ab0f7d89d86139ad69123916ae4c14c129e6b09052c5303bced"
+  },
+  "timestamp_vectors_equal": true,
+  "frames": 1180,
+  "max_translation_difference_m": 38.30070133585996,
+  "median_translation_difference_m": 7.968716379100194,
+  "p95_translation_difference_m": 37.940248984272344,
+  "max_quaternion_chord_difference": 0.019468766335686276,
+  "ate_difference_m": 13.092255845865594,
+  "interpretation": "The history policy is associated with a large trajectory change (+13.092 m ATE and up to 38.301 m translation difference), but the comparison does not isolate a scientifically valid reconstructed H1. Source/binary hashes differ and the old path lacked acquisition support. A safe Super-native raw-IMU reconstruction from a corrected anchor was not implemented; do not assign the G1 degradation solely to the rebase."
+}

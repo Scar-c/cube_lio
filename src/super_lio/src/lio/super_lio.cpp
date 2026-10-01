@@ -8,6 +8,7 @@
 #include <tbb/concurrent_vector.h>
 #include <tbb/enumerable_thread_specific.h>
 #include <algorithm>
+#include <cstdint>
 #include <iomanip>
 #include <limits>
 
@@ -94,6 +95,12 @@ void SuperLIO::init(){
         "imu_last_available_to_sync,imu_last_consumed,propagated_history_first,propagated_history_last,"
         "raw_coin_points,raw_coin_points_after_current_end,raw_coin_points_after_history_back,"
         "current_motion_fallback_points,geometry_points,imu_bracket_span_s,imu_support_issue\n";
+  }
+  std::string geometry_rows_path;
+  photo_nh.getParam("/p2s/geometry_rows_path",geometry_rows_path);
+  if(!geometry_rows_path.empty()){
+    geometry_rows_audit_.open(geometry_rows_path,std::ios::binary|std::ios::trunc);
+    if(!geometry_rows_audit_)throw std::runtime_error("cannot write P2-S geometry row audit");
   }
   photo_ = std::make_unique<cube::PhotoObservation>(photo_nh);
   Eigen::Matrix4d T_IL=Eigen::Matrix4d::Identity();
@@ -560,6 +567,7 @@ void SuperLIO::Observe(){
   ivox_->reset_max_group();
   int iter_num = 0;
   Eigen::MatrixXd geometry_translation_rows_final(0,3);
+  Eigen::VectorXd geometry_translation_residuals_final(0);
 
   kf_->UpdateObserve([&, this](const ESKF::KFState &kf_state, M6 &HTVH, V6 &HTVr) {
     const SE3 pose = kf_state.pose;
@@ -569,9 +577,11 @@ void SuperLIO::Observe(){
     tbb::enumerable_thread_specific<ThreadACC> tls_acc;
     std::vector<Eigen::Vector3d> geometry_translation_rows;
     std::vector<std::uint8_t> geometry_translation_valid;
+    std::vector<double> geometry_translation_residuals;
     if(coin_->enabled()){
       geometry_translation_rows.assign(points_body_v3_.size(),Eigen::Vector3d::Zero());
       geometry_translation_valid.assign(points_body_v3_.size(),0);
+      geometry_translation_residuals.assign(points_body_v3_.size(),0.);
     }
 
     tbb::parallel_for(
@@ -613,6 +623,7 @@ void SuperLIO::Observe(){
             if(coin_->enabled()){
               geometry_translation_rows[idx]=normvec.cast<double>();
               geometry_translation_valid[idx]=1;
+              geometry_translation_residuals[idx]=static_cast<double>(error);
             }
       
             local_acc.HTVH += J * 1000 * J.transpose();
@@ -636,11 +647,14 @@ void SuperLIO::Observe(){
         const int idx=effect_knn_idxs_[r_s];row_count+=geometry_translation_valid[idx]!=0;
       }
       geometry_translation_rows_final.resize(row_count,3);
+      geometry_translation_residuals_final.resize(static_cast<Eigen::Index>(row_count));
       std::size_t row=0;
       for(std::size_t r_s=0;r_s<effect_knn_num_;++r_s){
         const int idx=effect_knn_idxs_[r_s];
         if(!geometry_translation_valid[idx])continue;
         geometry_translation_rows_final.row(row++)=geometry_translation_rows[idx].transpose();
+        geometry_translation_residuals_final[static_cast<Eigen::Index>(row-1)]=
+            geometry_translation_residuals[idx];
       }
       coin_->add(pose,HTVH,HTVr);
     }
@@ -660,6 +674,26 @@ void SuperLIO::Observe(){
 
     iter_num++;
   });
+
+  if(geometry_rows_audit_){
+    const std::uint32_t frame=static_cast<std::uint32_t>(geometry_rows_audit_frame_++);
+    const double timestamp=measures_.lidar.end_time;
+    const std::uint32_t effective_points=static_cast<std::uint32_t>(ds_undistort_->size());
+    const std::uint32_t row_count=static_cast<std::uint32_t>(geometry_translation_rows_final.rows());
+    geometry_rows_audit_.write(reinterpret_cast<const char*>(&frame),sizeof(frame));
+    geometry_rows_audit_.write(reinterpret_cast<const char*>(&timestamp),sizeof(timestamp));
+    geometry_rows_audit_.write(reinterpret_cast<const char*>(&effective_points),sizeof(effective_points));
+    geometry_rows_audit_.write(reinterpret_cast<const char*>(&row_count),sizeof(row_count));
+    for(std::uint32_t row=0;row<row_count;++row){
+      for(int col=0;col<3;++col){
+        const double value=geometry_translation_rows_final(row,col);
+        geometry_rows_audit_.write(reinterpret_cast<const char*>(&value),sizeof(value));
+      }
+      const double residual=geometry_translation_residuals_final[row];
+      geometry_rows_audit_.write(reinterpret_cast<const char*>(&residual),sizeof(residual));
+    }
+    geometry_rows_audit_.flush();
+  }
 
   if(photo_->enabled()) photo_->finish(kf_->GetSE3(), kf_->GetNavState().timestamp);
   if(coin_->enabled()) coin_->finish(kf_->GetSE3(),kf_->GetNavState().timestamp,

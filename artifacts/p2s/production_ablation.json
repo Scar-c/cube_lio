@@ -1,0 +1,672 @@
+{
+  "scope": "only COIN complementary feature direction policy varied; Super geometry, ESKF, timing, image, NCC, patch/lifetime, residual, Jacobian, scale and variance frozen",
+  "GT_usage": "evaluator reports ATE after selection/run; no GT value or trajectory was used to select a mode or threshold",
+  "production_repeat_gate": {
+    "rule": "repeat only if first run improves C1 by at least 10% or reaches <=10 m",
+    "C1_S0_ate_rmse_m": 171.55263493049796,
+    "10_percent_improvement_cutoff_m": 154.39737143744816
+  },
+  "baselines": {
+    "G0_historical_geometry_ate_rmse_m": 113.91929554770142,
+    "G1_corrected_geometry_ate_rmse_m": 152.83140320030125,
+    "C1_S0": {
+      "name": "P2-R C1/S0 baseline",
+      "ate_rmse_m": 171.55263493049796,
+      "trajectory_sha256": "29300418ccbc2331acaf15850d39ae7a93ef47cfafd8289e459344116ab984f5",
+      "runs": 3,
+      "accepted_photo_frames": 1176,
+      "skipped_photo_frames": 4,
+      "accepted_motion_fallback_points": 0
+    },
+    "official_COiN_oracle_ate_rmse_m": 0.5001613629532796
+  },
+  "selector_ablation": {
+    "S1_gradient": {
+      "selector": "pure deterministic image gradient",
+      "runs": [
+        {
+          "name": "p2s_production_gradient",
+          "result": {
+            "status": "SUCCESS",
+            "node_exit_code": 0,
+            "evaluator_exit_code": 0
+          },
+          "evaluation": {
+            "dataset": "tunnel_d",
+            "alignment": "SE3 no scale",
+            "association": "evo nearest timestamps max_diff=0.1s offset=0",
+            "ate_rmse_m": 127.78760401504157,
+            "ate_mean_m": 118.45477561956038,
+            "ate_median_m": 118.92492591019031,
+            "ate_max_m": 192.11023453858067,
+            "matched": 1180,
+            "duplicate_estimate_timestamps": 1,
+            "frames": 1180,
+            "processed_duration_s": 118.01416993141174,
+            "first_timestamp": 1691509832.9570942,
+            "last_timestamp": 1691509950.9712641,
+            "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+            "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+            "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+            "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+          },
+          "run": {
+            "lidar_read": 1189,
+            "imu_read": 11861,
+            "frames": 1180,
+            "wall_processing_s": 40.5717,
+            "bag_duration_s": 119.013,
+            "peak_rss_kb": 480744,
+            "tbb_threads": 4
+          },
+          "identity": {
+            "dataset": "tunnel_d",
+            "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+            "coin": true,
+            "shadow": false,
+            "selector": "gradient",
+            "audit_csv": "runtime/p2s_production_gradient/time_audit.csv",
+            "fusion_audit_json": "runtime/p2s_production_gradient/fusion_equivalence.json",
+            "geometry_rows": null,
+            "source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+            "config_sha256": {
+              "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+              "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+              "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+              "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+              "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+            },
+            "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+            "threads": 4
+          },
+          "trajectory_sha256": "42bdff8778d3e4a409f320805dd92c01c98ac9b9311ee4bfbd177a975cc17179",
+          "diagnostics_sha256": "e5896745370fa885206ea815ecc7ab171d72425bbad6dcf29249479a7d97a6b9",
+          "frames": 1180,
+          "accepted_photo_frames": 1176,
+          "skipped_photo_frames": 4,
+          "skip_reasons": {
+            "imu_bracket_gap_or_order_invalid": 4
+          },
+          "accepted_motion_fallback_points": 0,
+          "selector_modes": [
+            "gradient"
+          ],
+          "max_active_feature_count": 60,
+          "scan_end_delta_s_min": -1.19037e-07,
+          "scan_end_delta_s_median": -1.085203e-09,
+          "scan_end_delta_s_max": 1.18981e-07,
+          "fusion_audit": {
+            "status": "PASS",
+            "frame": 1,
+            "pose_state_fixed_within_iteration": true,
+            "photo_rows": 750,
+            "valid_patches": 30,
+            "photo_scale": 0.00095,
+            "measurement_variance": 0.001,
+            "information_factor": 0.0009025,
+            "H_column_order": "right_local_rotation_then_global_position",
+            "b_sign": "positive_H_transpose_times_raw_intensity_residual",
+            "A_max_abs_difference": 3.725290298461914e-09,
+            "b_max_abs_difference": 4.547473508864641e-12,
+            "A_relative_norm_difference": 6.625542780460571e-16,
+            "b_relative_norm_difference": 9.510306134555288e-16,
+            "scalar_cast_A_relative_difference": 0,
+            "scalar_cast_b_relative_difference": 0,
+            "actual_total_accumulator_A_relative_rounding": 9.071551437653046e-08,
+            "actual_total_accumulator_b_relative_rounding": 1.1219667347156553e-07,
+            "actual_total_accumulator_A_max_abs_rounding": 0.5,
+            "actual_total_accumulator_b_max_abs_rounding": 0.000732421875,
+            "float_rounding_bound_A": 13.894927740097046,
+            "float_rounding_bound_b": 0.012246814207173884
+          }
+        },
+        {
+          "name": "p2s_production_gradient_2",
+          "result": {
+            "status": "SUCCESS",
+            "node_exit_code": 0,
+            "evaluator_exit_code": 0
+          },
+          "evaluation": {
+            "dataset": "tunnel_d",
+            "alignment": "SE3 no scale",
+            "association": "evo nearest timestamps max_diff=0.1s offset=0",
+            "ate_rmse_m": 127.78760401504157,
+            "ate_mean_m": 118.45477561956038,
+            "ate_median_m": 118.92492591019031,
+            "ate_max_m": 192.11023453858067,
+            "matched": 1180,
+            "duplicate_estimate_timestamps": 1,
+            "frames": 1180,
+            "processed_duration_s": 118.01416993141174,
+            "first_timestamp": 1691509832.9570942,
+            "last_timestamp": 1691509950.9712641,
+            "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+            "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+            "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+            "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+          },
+          "run": {
+            "lidar_read": 1189,
+            "imu_read": 11861,
+            "frames": 1180,
+            "wall_processing_s": 40.4538,
+            "bag_duration_s": 119.013,
+            "peak_rss_kb": 480828,
+            "tbb_threads": 4
+          },
+          "identity": {
+            "dataset": "tunnel_d",
+            "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+            "coin": true,
+            "shadow": false,
+            "selector": "gradient",
+            "audit_csv": "runtime/p2s_production_gradient_2/time_audit.csv",
+            "fusion_audit_json": null,
+            "geometry_rows": null,
+            "source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+            "config_sha256": {
+              "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+              "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+              "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+              "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+              "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+            },
+            "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+            "threads": 4
+          },
+          "trajectory_sha256": "42bdff8778d3e4a409f320805dd92c01c98ac9b9311ee4bfbd177a975cc17179",
+          "diagnostics_sha256": "e5896745370fa885206ea815ecc7ab171d72425bbad6dcf29249479a7d97a6b9",
+          "frames": 1180,
+          "accepted_photo_frames": 1176,
+          "skipped_photo_frames": 4,
+          "skip_reasons": {
+            "imu_bracket_gap_or_order_invalid": 4
+          },
+          "accepted_motion_fallback_points": 0,
+          "selector_modes": [
+            "gradient"
+          ],
+          "max_active_feature_count": 60,
+          "scan_end_delta_s_min": -1.19037e-07,
+          "scan_end_delta_s_median": -1.085203e-09,
+          "scan_end_delta_s_max": 1.18981e-07,
+          "fusion_audit": null
+        },
+        {
+          "name": "p2s_production_gradient_3",
+          "result": {
+            "status": "SUCCESS",
+            "node_exit_code": 0,
+            "evaluator_exit_code": 0
+          },
+          "evaluation": {
+            "dataset": "tunnel_d",
+            "alignment": "SE3 no scale",
+            "association": "evo nearest timestamps max_diff=0.1s offset=0",
+            "ate_rmse_m": 127.78760401504157,
+            "ate_mean_m": 118.45477561956038,
+            "ate_median_m": 118.92492591019031,
+            "ate_max_m": 192.11023453858067,
+            "matched": 1180,
+            "duplicate_estimate_timestamps": 1,
+            "frames": 1180,
+            "processed_duration_s": 118.01416993141174,
+            "first_timestamp": 1691509832.9570942,
+            "last_timestamp": 1691509950.9712641,
+            "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+            "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+            "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+            "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+          },
+          "run": {
+            "lidar_read": 1189,
+            "imu_read": 11861,
+            "frames": 1180,
+            "wall_processing_s": 40.7524,
+            "bag_duration_s": 119.013,
+            "peak_rss_kb": 480812,
+            "tbb_threads": 4
+          },
+          "identity": {
+            "dataset": "tunnel_d",
+            "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+            "coin": true,
+            "shadow": false,
+            "selector": "gradient",
+            "audit_csv": "runtime/p2s_production_gradient_3/time_audit.csv",
+            "fusion_audit_json": null,
+            "geometry_rows": null,
+            "source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+            "config_sha256": {
+              "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+              "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+              "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+              "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+              "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+            },
+            "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+            "threads": 4
+          },
+          "trajectory_sha256": "42bdff8778d3e4a409f320805dd92c01c98ac9b9311ee4bfbd177a975cc17179",
+          "diagnostics_sha256": "e5896745370fa885206ea815ecc7ab171d72425bbad6dcf29249479a7d97a6b9",
+          "frames": 1180,
+          "accepted_photo_frames": 1176,
+          "skipped_photo_frames": 4,
+          "skip_reasons": {
+            "imu_bracket_gap_or_order_invalid": 4
+          },
+          "accepted_motion_fallback_points": 0,
+          "selector_modes": [
+            "gradient"
+          ],
+          "max_active_feature_count": 60,
+          "scan_end_delta_s_min": -1.19037e-07,
+          "scan_end_delta_s_median": -1.085203e-09,
+          "scan_end_delta_s_max": 1.18981e-07,
+          "fusion_audit": null
+        }
+      ],
+      "first_run_ate_rmse_m": 127.78760401504157,
+      "improvement_vs_C1_fraction": 0.25511138860202964,
+      "repeats_triggered_by_predeclared_gate": true,
+      "material_repeat_gate_ate_m": 154.39737143744816,
+      "determinism_comparisons": [
+        {
+          "run": "p2s_production_gradient_2",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        },
+        {
+          "run": "p2s_production_gradient_3",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        }
+      ]
+    },
+    "S2_weakest": {
+      "selector": "always smallest eigenvector of Super H_t^T H_t",
+      "runs": [
+        {
+          "name": "p2s_production_weakest",
+          "result": {
+            "status": "SUCCESS",
+            "node_exit_code": 0,
+            "evaluator_exit_code": 0
+          },
+          "evaluation": {
+            "dataset": "tunnel_d",
+            "alignment": "SE3 no scale",
+            "association": "evo nearest timestamps max_diff=0.1s offset=0",
+            "ate_rmse_m": 3.1357949515127532,
+            "ate_mean_m": 2.801352849788967,
+            "ate_median_m": 2.3445247187970706,
+            "ate_max_m": 6.935568162411104,
+            "matched": 1180,
+            "duplicate_estimate_timestamps": 1,
+            "frames": 1180,
+            "processed_duration_s": 118.01416993141174,
+            "first_timestamp": 1691509832.9570942,
+            "last_timestamp": 1691509950.9712641,
+            "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+            "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+            "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+            "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+          },
+          "run": {
+            "lidar_read": 1189,
+            "imu_read": 11861,
+            "frames": 1180,
+            "wall_processing_s": 40.9887,
+            "bag_duration_s": 119.013,
+            "peak_rss_kb": 325080,
+            "tbb_threads": 4
+          },
+          "identity": {
+            "dataset": "tunnel_d",
+            "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+            "coin": true,
+            "shadow": false,
+            "selector": "weakest",
+            "audit_csv": "runtime/p2s_production_weakest/time_audit.csv",
+            "fusion_audit_json": null,
+            "geometry_rows": null,
+            "source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+            "config_sha256": {
+              "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+              "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+              "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+              "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+              "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+            },
+            "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+            "threads": 4
+          },
+          "trajectory_sha256": "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+          "diagnostics_sha256": "db7efed190be1f59d9f3b465fc1a52071f0fa9b87968d1368bbea6fba48950a9",
+          "frames": 1180,
+          "accepted_photo_frames": 1176,
+          "skipped_photo_frames": 4,
+          "skip_reasons": {
+            "imu_bracket_gap_or_order_invalid": 4
+          },
+          "accepted_motion_fallback_points": 0,
+          "selector_modes": [
+            "weakest"
+          ],
+          "max_active_feature_count": 60,
+          "scan_end_delta_s_min": -1.19037e-07,
+          "scan_end_delta_s_median": -1.085203e-09,
+          "scan_end_delta_s_max": 1.18981e-07,
+          "fusion_audit": null
+        },
+        {
+          "name": "p2s_production_weakest_2",
+          "result": {
+            "status": "SUCCESS",
+            "node_exit_code": 0,
+            "evaluator_exit_code": 0
+          },
+          "evaluation": {
+            "dataset": "tunnel_d",
+            "alignment": "SE3 no scale",
+            "association": "evo nearest timestamps max_diff=0.1s offset=0",
+            "ate_rmse_m": 3.1357949515127532,
+            "ate_mean_m": 2.801352849788967,
+            "ate_median_m": 2.3445247187970706,
+            "ate_max_m": 6.935568162411104,
+            "matched": 1180,
+            "duplicate_estimate_timestamps": 1,
+            "frames": 1180,
+            "processed_duration_s": 118.01416993141174,
+            "first_timestamp": 1691509832.9570942,
+            "last_timestamp": 1691509950.9712641,
+            "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+            "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+            "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+            "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+          },
+          "run": {
+            "lidar_read": 1189,
+            "imu_read": 11861,
+            "frames": 1180,
+            "wall_processing_s": 41.4759,
+            "bag_duration_s": 119.013,
+            "peak_rss_kb": 325812,
+            "tbb_threads": 4
+          },
+          "identity": {
+            "dataset": "tunnel_d",
+            "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+            "coin": true,
+            "shadow": false,
+            "selector": "weakest",
+            "audit_csv": "runtime/p2s_production_weakest_2/time_audit.csv",
+            "fusion_audit_json": null,
+            "geometry_rows": null,
+            "source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+            "config_sha256": {
+              "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+              "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+              "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+              "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+              "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+            },
+            "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+            "threads": 4
+          },
+          "trajectory_sha256": "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+          "diagnostics_sha256": "db7efed190be1f59d9f3b465fc1a52071f0fa9b87968d1368bbea6fba48950a9",
+          "frames": 1180,
+          "accepted_photo_frames": 1176,
+          "skipped_photo_frames": 4,
+          "skip_reasons": {
+            "imu_bracket_gap_or_order_invalid": 4
+          },
+          "accepted_motion_fallback_points": 0,
+          "selector_modes": [
+            "weakest"
+          ],
+          "max_active_feature_count": 60,
+          "scan_end_delta_s_min": -1.19037e-07,
+          "scan_end_delta_s_median": -1.085203e-09,
+          "scan_end_delta_s_max": 1.18981e-07,
+          "fusion_audit": null
+        },
+        {
+          "name": "p2s_production_weakest_3",
+          "result": {
+            "status": "SUCCESS",
+            "node_exit_code": 0,
+            "evaluator_exit_code": 0
+          },
+          "evaluation": {
+            "dataset": "tunnel_d",
+            "alignment": "SE3 no scale",
+            "association": "evo nearest timestamps max_diff=0.1s offset=0",
+            "ate_rmse_m": 3.1357949515127532,
+            "ate_mean_m": 2.801352849788967,
+            "ate_median_m": 2.3445247187970706,
+            "ate_max_m": 6.935568162411104,
+            "matched": 1180,
+            "duplicate_estimate_timestamps": 1,
+            "frames": 1180,
+            "processed_duration_s": 118.01416993141174,
+            "first_timestamp": 1691509832.9570942,
+            "last_timestamp": 1691509950.9712641,
+            "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+            "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+            "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+            "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+          },
+          "run": {
+            "lidar_read": 1189,
+            "imu_read": 11861,
+            "frames": 1180,
+            "wall_processing_s": 41.3179,
+            "bag_duration_s": 119.013,
+            "peak_rss_kb": 325676,
+            "tbb_threads": 4
+          },
+          "identity": {
+            "dataset": "tunnel_d",
+            "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+            "coin": true,
+            "shadow": false,
+            "selector": "weakest",
+            "audit_csv": "runtime/p2s_production_weakest_3/time_audit.csv",
+            "fusion_audit_json": null,
+            "geometry_rows": null,
+            "source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+            "config_sha256": {
+              "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+              "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+              "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+              "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+              "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+            },
+            "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+            "threads": 4
+          },
+          "trajectory_sha256": "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+          "diagnostics_sha256": "db7efed190be1f59d9f3b465fc1a52071f0fa9b87968d1368bbea6fba48950a9",
+          "frames": 1180,
+          "accepted_photo_frames": 1176,
+          "skipped_photo_frames": 4,
+          "skip_reasons": {
+            "imu_bracket_gap_or_order_invalid": 4
+          },
+          "accepted_motion_fallback_points": 0,
+          "selector_modes": [
+            "weakest"
+          ],
+          "max_active_feature_count": 60,
+          "scan_end_delta_s_min": -1.19037e-07,
+          "scan_end_delta_s_median": -1.085203e-09,
+          "scan_end_delta_s_max": 1.18981e-07,
+          "fusion_audit": null
+        }
+      ],
+      "first_run_ate_rmse_m": 3.1357949515127532,
+      "improvement_vs_C1_fraction": 0.9817210912978213,
+      "repeats_triggered_by_predeclared_gate": true,
+      "material_repeat_gate_ate_m": 154.39737143744816,
+      "determinism_comparisons": [
+        {
+          "run": "p2s_production_weakest_2",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        },
+        {
+          "run": "p2s_production_weakest_3",
+          "timestamp_vector_equal": true,
+          "frame_count_equal": true,
+          "trajectory_sha256_equal": true,
+          "max_translation_difference_m": 0.0,
+          "max_quaternion_chord_difference": 0.0,
+          "ATE_difference_m": 0.0
+        }
+      ]
+    },
+    "S3_normalized": {
+      "selector": "COIN contribution/N < official-derived 0.01609598",
+      "runs": [
+        {
+          "name": "p2s_production_normalized",
+          "result": {
+            "status": "SUCCESS",
+            "node_exit_code": 0,
+            "evaluator_exit_code": 0
+          },
+          "evaluation": {
+            "dataset": "tunnel_d",
+            "alignment": "SE3 no scale",
+            "association": "evo nearest timestamps max_diff=0.1s offset=0",
+            "ate_rmse_m": 166.387644163637,
+            "ate_mean_m": 155.99628016661669,
+            "ate_median_m": 160.37460600144544,
+            "ate_max_m": 238.88572493478452,
+            "matched": 1180,
+            "duplicate_estimate_timestamps": 1,
+            "frames": 1180,
+            "processed_duration_s": 118.01416993141174,
+            "first_timestamp": 1691509832.9570942,
+            "last_timestamp": 1691509950.9712641,
+            "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+            "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+            "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+            "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+          },
+          "run": {
+            "lidar_read": 1189,
+            "imu_read": 11861,
+            "frames": 1180,
+            "wall_processing_s": 41.3998,
+            "bag_duration_s": 119.013,
+            "peak_rss_kb": 223736,
+            "tbb_threads": 4
+          },
+          "identity": {
+            "dataset": "tunnel_d",
+            "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+            "coin": true,
+            "shadow": false,
+            "selector": "normalized",
+            "audit_csv": "runtime/p2s_production_normalized/time_audit.csv",
+            "fusion_audit_json": null,
+            "geometry_rows": null,
+            "source_head": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+            "config_sha256": {
+              "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+              "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+              "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+              "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+              "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+            },
+            "binary_sha256": "b93e9e7ec8a10f0ae37bf86052286e23718614b5134e0d9fcbde3b4d312ce7bc",
+            "threads": 4
+          },
+          "trajectory_sha256": "ea6df872e75e500730a69d1302abb879479838931ee47bdfaa7b680ac0a1dfe8",
+          "diagnostics_sha256": "9b3ab1d60468ec7103cd3337fa876a2171ac40a2621198ea262347ebdd4ae4ad",
+          "frames": 1180,
+          "accepted_photo_frames": 1176,
+          "skipped_photo_frames": 4,
+          "skip_reasons": {
+            "imu_bracket_gap_or_order_invalid": 4
+          },
+          "accepted_motion_fallback_points": 0,
+          "selector_modes": [
+            "normalized"
+          ],
+          "max_active_feature_count": 60,
+          "scan_end_delta_s_min": -1.19037e-07,
+          "scan_end_delta_s_median": -1.085203e-09,
+          "scan_end_delta_s_max": 1.18981e-07,
+          "fusion_audit": null
+        }
+      ],
+      "first_run_ate_rmse_m": 166.387644163637,
+      "improvement_vs_C1_fraction": 0.03010732402305268,
+      "repeats_triggered_by_predeclared_gate": false,
+      "material_repeat_gate_ate_m": 154.39737143744816,
+      "determinism_comparisons": []
+    }
+  },
+  "summary": {
+    "S1_gradient_ate_rmse_m": 127.78760401504157,
+    "S2_weakest_ate_rmse_m": 3.1357949515127532,
+    "S3_normalized_ate_rmse_m": 166.387644163637,
+    "S2_improvement_vs_C1_m": 168.4168399789852,
+    "S2_ate_classification": "MECHANISM_REPRODUCED"
+  },
+  "fusion_gate": {
+    "S1_first_run": "PASS",
+    "other_modes": "same CoinObservation production H/r accumulator; inherited P2-R equivalence test, direction-policy change only"
+  },
+  "timing_gate": {
+    "accepted_fallback_points_all_runs_zero": true,
+    "all_runs_skip_four_genuine_imu_gaps": true
+  },
+  "feature_cap_gate": {
+    "cap": 60,
+    "all_production_runs_respect_cap": true,
+    "maximum_active_features_by_run": {
+      "p2s_production_gradient": 60,
+      "p2s_production_gradient_2": 60,
+      "p2s_production_gradient_3": 60,
+      "p2s_production_weakest": 60,
+      "p2s_production_weakest_2": 60,
+      "p2s_production_weakest_3": 60,
+      "p2s_production_normalized": 60
+    }
+  },
+  "weak_direction_frequency": {
+    "official": {
+      "frames": 1185,
+      "weak_frames": 1014,
+      "weak_fraction": 0.8556962025316456
+    },
+    "Super_G1_shadow_S0": {
+      "frames": 1180,
+      "weak_frames": 61,
+      "weak_fraction": 0.051694915254237285
+    },
+    "Super_C1_S0": {
+      "frames": 1176,
+      "weak_frames": 60,
+      "fallback_xyz_frames": 1116
+    }
+  }
+}

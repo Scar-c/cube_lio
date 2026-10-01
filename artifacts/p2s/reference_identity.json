@@ -1,0 +1,41 @@
+{
+  "phase": "P2-S geometry degeneracy interface audit",
+  "start_branch": "p2r-super-coin-time-consistency",
+  "start_sha": "9e03a7c48cd7631a7c5f367d36d012b6730b038c",
+  "official_coin_source_sha": "76729cc4feb3649cbd79d28f82d9f62a2c82889b",
+  "tunneld_bag_path": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+  "tunneld_bag_sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e",
+  "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+  "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+  "official_geometry_trace": {
+    "path": "runtime/p2/coin_geometry_trace.bin",
+    "sha256": "a109780d120c0be0fe99bca121dc175ec1ee44ba4fe73cf09d75c731b4c9c544"
+  },
+  "official_feature_frame_map": {
+    "path": "runtime/p2/feature_frames_real.csv",
+    "sha256": "80583c838b78c73d406e2bfdec1160cf05da9b226d63602722fe3cee3571855c"
+  },
+  "super_geometry_trace": {
+    "path": "runtime/p2s_shadow_s0_final/geometry_rows.bin",
+    "sha256": "085860c010bc7ec94646631bd043cd6cf2517a57b2488b97d106c7c6a6d01508"
+  },
+  "super_g1_trajectory_sha256": "9bfbc7d278f1177529b8a43b84f4c655e84a17625af144e68f29c0b1a44fcfff",
+  "official_weak_direction_frequency": {
+    "frames": 1185,
+    "weak_frames": 1014,
+    "weak_fraction": 0.8556962025316456
+  },
+  "super_g1_shadow_weak_direction_frequency": {
+    "frames": 1180,
+    "weak_frames": 61,
+    "weak_fraction": 0.051694915254237285
+  },
+  "normalized_threshold_predeclared_before_super_selector_runs": {
+    "rule": "median official contribution/N over every direction marked weak by exact c<25 rule",
+    "official_weak_direction_samples": 1015,
+    "threshold": 0.016095975127952227,
+    "frozen_candidate_threshold": 0.01609598,
+    "threshold_matches_frozen_rounding": true,
+    "use_for_selector_S3": true
+  }
+}

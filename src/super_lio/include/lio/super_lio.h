@@ -88,6 +88,8 @@ protected:
   Timer time_record_;
   std::ofstream time_audit_;
   std::size_t time_audit_frame_=0;
+  std::ofstream geometry_rows_audit_;
+  std::size_t geometry_rows_audit_frame_=0;
 };
 
 } // namespace END.

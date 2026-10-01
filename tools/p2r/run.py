@@ -27,12 +27,16 @@ def main():
     parser.add_argument('dataset',choices=BAGS)
     parser.add_argument('--name',required=True)
     parser.add_argument('--port',type=int,default=11562)
-    parser.add_argument('--coin',action='store_true')
+    mode=parser.add_mutually_exclusive_group()
+    mode.add_argument('--coin',action='store_true',help='inject faithful COIN measurements')
+    mode.add_argument('--shadow',action='store_true',help='run COIN features on geometry-only states without injecting measurements')
+    parser.add_argument('--selector',choices=('original','gradient','weakest','normalized'),default='original')
     parser.add_argument('--audit-csv',type=Path)
     parser.add_argument('--fusion-audit-json',type=Path)
+    parser.add_argument('--geometry-rows',type=Path,help='diagnostic-only final geometry rows binary trace')
     args=parser.parse_args()
-    if args.coin and args.dataset!='tunnel_d':
-        parser.error('COIN production validation is scoped to TunnelD')
+    if (args.coin or args.shadow) and args.dataset!='tunnel_d':
+        parser.error('COIN selection is scoped to TunnelD')
     out=ROOT/'runtime'/args.name
     out.mkdir(parents=True,exist_ok=False)
     env=dict(os.environ,ROS_MASTER_URI=f'http://127.0.0.1:{args.port}',
@@ -44,8 +48,10 @@ def main():
                   ('params.yaml','line_removal.yaml','os_enwide.json')]
     paths=[config,photo_config]+(coin_configs if args.dataset=='tunnel_d' else [])
     identity={'dataset':args.dataset,'bag':str(BAGS[args.dataset]),
-              'coin':args.coin,'audit_csv':str(args.audit_csv) if args.audit_csv else None,
+              'coin':args.coin,'shadow':args.shadow,'selector':args.selector,
+              'audit_csv':str(args.audit_csv) if args.audit_csv else None,
               'fusion_audit_json':str(args.fusion_audit_json) if args.fusion_audit_json else None,
+              'geometry_rows':str(args.geometry_rows) if args.geometry_rows else None,
               'source_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
               'config_sha256':{str(p.relative_to(ROOT)):sha(p) for p in paths},
               'binary_sha256':sha(ROOT/'devel/lib/super_lio/cube_offline_node'),
@@ -68,10 +74,12 @@ def main():
         params={
             '/lio/offline/bag':str(BAGS[args.dataset]),
             '/lio/offline/out_dir':str(out),'/lio/offline/threads':'4',
-            '/photo/enable':'false','/coin/enable':str(args.coin).lower(),
+            '/photo/enable':'false','/coin/enable':str(args.coin or args.shadow).lower(),
+            '/coin/shadow':str(args.shadow).lower(),'/coin/selector_mode':args.selector,
             '/image/u_shift':'0','/coin/measurement_variance':'0.001',
             '/p2r/time_audit_path':str(args.audit_csv.resolve()) if args.audit_csv else '',
             '/p2r/fusion_audit_path':str(args.fusion_audit_json.resolve()) if args.fusion_audit_json else '',
+            '/p2s/geometry_rows_path':str(args.geometry_rows.resolve()) if args.geometry_rows else '',
         }
         for key,value in params.items():
             subprocess.run(['rosparam','set',key,value],env=env,check=True)
