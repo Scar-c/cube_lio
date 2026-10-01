@@ -61,6 +61,8 @@ int main(){
                   "future intensity projection contract must remain an interface");
     static_assert(std::is_base_of<cube::IntensityRepresentation,CoinIntensityRepresentation>::value,
                   "COIN must have a documented opt-in representation adapter");
+    static_assert(!std::is_abstract<CoinIntensityRepresentation>::value,
+                  "COIN adapter must implement projection, samples, residual and validity checks");
 
     Eigen::MatrixXd duplicated(2*H.rows(),3);
     duplicated.topRows(H.rows())=H;duplicated.bottomRows(H.rows())=H;

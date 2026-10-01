@@ -1,10 +1,12 @@
 // Independent GPLv3 implementation; see photo_observation.hpp for provenance.
 #include "intensity/photo_observation.hpp"
+#include "intensity/spherical_image.hpp"
+#include "intensity/coin/coin_feature_manager.hpp"
+#include "intensity/coin/super_degeneracy_gate.hpp"
 #include "lio/params.h"
 #include <Eigen/Eigenvalues>
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
-#include <tbb/enumerable_thread_specific.h>
 #include <numeric>
 #include <chrono>
 #include <iomanip>
@@ -31,6 +33,19 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
   LOAD("/cubemap","range_absolute",range_absolute);LOAD("/cubemap","range_relative",range_relative);
   LOAD("/cubemap","gaussian_sigma",gaussian_sigma);
 #undef LOAD
+  nh.param<std::string>("/photo/projection",projection_name_,"cubemap");
+  nh.param<std::string>("/photo/measurement",measurement_name_,"igm");
+  nh.param<std::string>("/photo/selector",selector_mode_,"all");
+  nh.param("/photo/weakest_gate_threshold",weakest_gate_threshold_,0.31913064578672057);
+  if(projection_name_!="cubemap"&&projection_name_!="equirectangular")
+    throw std::invalid_argument("unknown intensity projection: "+projection_name_);
+  if(measurement_name_!="raw"&&measurement_name_!="igm")
+    throw std::invalid_argument("unknown intensity measurement channel: "+measurement_name_);
+  if(selector_mode_!="all"&&selector_mode_!="weakest")
+    throw std::invalid_argument("unknown photometric selector: "+selector_mode_);
+  if(!std::isfinite(weakest_gate_threshold_)||weakest_gate_threshold_<0.)
+    throw std::invalid_argument("photo weakest-direction gate threshold must be finite and nonnegative");
+  cfg_.build_igm=measurement_name_=="igm";
   cfg_.validate();sigma_=cfg_.sigma_min;
   std::string policy;nh.param<std::string>("/photo/information_policy",policy,"C0");
   policy_=parsePolicy(policy);
@@ -38,7 +53,10 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
   if(!cfg_.enable)return;
   cv::setNumThreads(1); // TBB owns frontend parallelism; avoid nested OpenCV pools.
   R_BL_=LI2Sup::g_lidar_imu.R_.cast<double>();t_BL_=LI2Sup::g_lidar_imu.t_.cast<double>();
-  image_=std::make_unique<CubeImage>(cfg_);
+  const MeasurementChannel channel=cfg_.build_igm?
+      MeasurementChannel::IntensityGradientMagnitude:MeasurementChannel::RawIntensity;
+  if(projection_name_=="cubemap")image_=std::make_unique<CubeImage>(cfg_,channel);
+  else image_=std::make_unique<SphericalImage>(cfg_,channel);
   std::string dir;nh.getParam("/lio/offline/out_dir",dir);
   if(!dir.empty()){
     if(audit_enabled_){
@@ -49,7 +67,7 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
     diagnostics_.open(dir+"/photo.csv");
     if(!diagnostics_)throw std::runtime_error("cannot write photometric diagnostics");
     diagnostics_<<std::setprecision(17);
-    diagnostics_<<"frame,timestamp,active_before,active_after,valid,residual_mean,residual_rms,residual_median,reject_fov,reject_invalid,reject_range,reject_outlier,sigma,frozen,trace_Ag,trace_Ap,weak_translation_eigenvalue,photo_in_weak_translation,weak_x,weak_y,weak_z,geo_eig0,geo_eig1,geo_eig2,geo_eig3,geo_eig4,geo_eig5,deskew_ms,cubemap_ms,idw_ms,igm_ms,photo_jacobian_ms,update_ms,replenish_ms,raw_points,raw_pixels,filled_pixels,igm_pixels,deskew_supported\n";
+    diagnostics_<<"frame,timestamp,projection,measurement,selector,weakest_gate_confidence,weakest_gate_active,active_before,active_after,valid,residual_mean,residual_rms,residual_median,reject_fov,reject_invalid,reject_range,reject_outlier,sigma,frozen,trace_Ag,trace_Ap,weak_translation_eigenvalue,photo_in_weak_translation,weak_x,weak_y,weak_z,geo_eig0,geo_eig1,geo_eig2,geo_eig3,geo_eig4,geo_eig5,deskew_ms,raster_ms,idw_ms,igm_ms,photo_jacobian_ms,update_ms,replenish_ms,raw_points,raw_pixels,filled_pixels,igm_pixels,deskew_supported\n";
   }
 }
 void PhotoObservation::prepare(const LI2Sup::MeasureGroup& measures,
@@ -104,17 +122,26 @@ void PhotoObservation::prepare(const LI2Sup::MeasureGroup& measures,
 }
 PhotoTerms PhotoObservation::observe(const BASIC::SE3& pose,bool weighted,std::vector<double>* residuals)const{
   const Mat3 R=pose.R_.cast<double>();const Vec3 t=pose.t_.cast<double>();
-  tbb::enumerable_thread_specific<Acc> locals;
-  tbb::parallel_for(tbb::blocked_range<size_t>(0,features_.size()),[&](const tbb::blocked_range<size_t>& rows){
-    auto& a=locals.local();
-    for(size_t i=rows.begin();i<rows.end();++i){
+  constexpr size_t kFeatureBlock=32;
+  const size_t block_count=(features_.size()+kFeatureBlock-1)/kFeatureBlock;
+  std::vector<Acc> accumulators(block_count);
+  tbb::parallel_for(tbb::blocked_range<size_t>(0,block_count,1),[&](const tbb::blocked_range<size_t>& blocks){
+    for(size_t block=blocks.begin();block<blocks.end();++block){
+      auto& a=accumulators[block];
+      const size_t begin=block*kFeatureBlock,end=std::min(features_.size(),begin+kFeatureBlock);
+      for(size_t i=begin;i<end;++i){
       const auto& feat=features_[i];
-      const Vec3 p_L=landmarkInLidar(feat.world,R,t,R_BL_,t_BL_);auto q=image_->projector.project(p_L);
-      if(q.face<0||q.seam||p_L.norm()<std::sqrt(LI2Sup::g_blind2)||p_L.norm()>std::sqrt(LI2Sup::g_maxrange2)){++a.terms.fov;continue;}
+      const Vec3 p_L=landmarkInLidar(feat.world,R,t,R_BL_,t_BL_);Projection q;
+      if(!image_->project(p_L,q)||q.face<0||q.seam||p_L.norm()<std::sqrt(LI2Sup::g_blind2)||p_L.norm()>std::sqrt(LI2Sup::g_maxrange2)){++a.terms.fov;continue;}
       Sample sample;
-      if(!image_->sample(q,sample)){++a.terms.invalid;continue;}
-      if(std::abs(p_L.norm()-sample.depth)>cfg_.range_absolute+cfg_.range_relative*sample.depth){++a.terms.range;continue;}
-      const double residual=sample.value-feat.reference;
+      if(!image_->validityCheck(q,p_L.norm(),cfg_.range_absolute,cfg_.range_relative,sample)){
+        if(sample.depth>0.&&std::abs(p_L.norm()-sample.depth)>cfg_.range_absolute+cfg_.range_relative*sample.depth)
+          ++a.terms.range;
+        else ++a.terms.invalid;
+        continue;
+      }
+      double residual=0.;
+      if(!image_->computeResidual(q,feat.reference,residual)){++a.terms.invalid;continue;}
       if(weighted&&frozen_&&std::abs(residual)>cfg_.robust_gate*sigma_){++a.terms.outlier;continue;}
       ++a.terms.valid;a.residuals.push_back(residual);
       if(weighted&&frozen_){
@@ -125,10 +152,11 @@ PhotoTerms PhotoObservation::observe(const BASIC::SE3& pose,bool weighted,std::v
         a.terms.A.noalias()+=w*J.transpose()*J;
         a.terms.b.noalias()-=w*J.transpose()*residual; // Exact upstream -J^T W r sign.
       }
+      }
     }
   });
   PhotoTerms total;std::vector<double> values;
-  for(const auto& a:locals){
+  for(const auto& a:accumulators){
     total.A+=a.terms.A;total.b+=a.terms.b;total.valid+=a.terms.valid;
     total.fov+=a.terms.fov;total.invalid+=a.terms.invalid;total.range+=a.terms.range;total.outlier+=a.terms.outlier;
     values.insert(values.end(),a.residuals.begin(),a.residuals.end());
@@ -148,12 +176,12 @@ std::vector<ResidualContribution> PhotoObservation::auditRows(const BASIC::SE3& 
   tbb::parallel_for(tbb::blocked_range<size_t>(0,features_.size()),[&](const tbb::blocked_range<size_t>& rows){
     for(size_t i=rows.begin();i<rows.end();++i){
       const auto& feat=features_[i];
-      const Vec3 p_L=landmarkInLidar(feat.world,R,t,R_BL_,t_BL_);const auto q=image_->projector.project(p_L);
-      if(q.face<0||q.seam||p_L.norm()<std::sqrt(LI2Sup::g_blind2)||p_L.norm()>std::sqrt(LI2Sup::g_maxrange2))continue;
+      const Vec3 p_L=landmarkInLidar(feat.world,R,t,R_BL_,t_BL_);Projection q;
+      if(!image_->project(p_L,q)||q.face<0||q.seam||
+         p_L.norm()<std::sqrt(LI2Sup::g_blind2)||p_L.norm()>std::sqrt(LI2Sup::g_maxrange2))continue;
       Sample sample;
-      if(!image_->sample(q,sample))continue;
-      if(std::abs(p_L.norm()-sample.depth)>cfg_.range_absolute+cfg_.range_relative*sample.depth)continue;
-      const double residual=sample.value-feat.reference;
+      if(!image_->validityCheck(q,p_L.norm(),cfg_.range_absolute,cfg_.range_relative,sample))continue;
+      double residual=0.;if(!image_->computeResidual(q,feat.reference,residual))continue;
       if(frozen_&&std::abs(residual)>cfg_.robust_gate*sigma_)continue;
       double weight=0;
       if(frozen_){
@@ -180,7 +208,8 @@ void PhotoObservation::writeAudit(const BASIC::SE3& pose,const BASIC::M6& covari
   const Mat6 prior=G*covariance.cast<double>()*G.transpose();
   for(auto policy:{InformationPolicy::C0,InformationPolicy::C60,InformationPolicy::C100,InformationPolicy::K100}){
     auto terms=informationBudget(rows,policy,cfg_.suppression_radius);
-    auto m=auditInformation(geometry_,geometry_b,prior,G*delta,rows,terms,cfg_.resolution);
+    auto m=auditInformation(geometry_,geometry_b,prior,G*delta,rows,terms,
+                             image_?image_->coordinateResolution():cfg_.resolution);
     m["active"]=double(features_.size());m["frozen"]=frozen_;m["supported"]=frame_supported_;
     // Comparison establishes that the diagnostic sampler retains P1 robust semantics.
     const auto raw=informationBudget(rows,InformationPolicy::C0,cfg_.suppression_radius);
@@ -211,59 +240,111 @@ void PhotoObservation::add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b,cons
   A+=last_.A.cast<BASIC::scalar>();b+=last_.b.cast<BASIC::scalar>();
   ++audit_iteration_;photo_ms_+=elapsed(start);
 }
-void PhotoObservation::replenish(const BASIC::SE3& pose,double timestamp){
+void PhotoObservation::replenish(const BASIC::SE3& pose,double timestamp,
+                                 const Eigen::MatrixXd& geometry_translation_rows){
   const Mat3 R=pose.R_.cast<double>();const Vec3 t=pose.t_.cast<double>();
+  Eigen::Vector3d weak_global=Eigen::Vector3d::Zero();bool weak_valid=false;
+  if(selector_mode_=="weakest"){
+    const Mat3 R_GL=R*R_BL_;
+    const auto geometry=coin::CoinFeatureManager::weakDirectionsFromGeometry(
+        geometry_translation_rows,R_GL,25.);
+    const bool previous_supported=has_previous_weak_axis_&&timestamp>previous_weak_axis_timestamp_&&
+        timestamp-previous_weak_axis_timestamp_<=.25;
+    const auto signal=coin::SuperDegeneracyGate::measure(
+        geometry,previous_weak_axis_global_,previous_supported);
+    weakest_gate_confidence_=signal.confidence;
+    weakest_gate_active_=coin::SuperDegeneracyGate::activate(signal,weakest_gate_threshold_);
+    if(geometry.geometry_rows>3&&geometry.eigenvectors.col(0).allFinite()){
+      previous_weak_axis_global_=geometry.eigenvectors.col(0).normalized();
+      previous_weak_axis_timestamp_=timestamp;has_previous_weak_axis_=true;
+    }
+    if(weakest_gate_active_){weak_global=geometry.eigenvectors.col(0).normalized();weak_valid=weak_global.allFinite();}
+  }
   std::vector<Feature> surviving;std::vector<Projection> centers;
   for(const auto& f:features_){
     if(frame_-f.birth_frame>=size_t(cfg_.max_lifetime))continue;
-    Vec3 p_L=landmarkInLidar(f.world,R,t,R_BL_,t_BL_);auto q=image_->projector.project(p_L);Sample s;
-    if(!image_->sample(q,s)||std::abs(p_L.norm()-s.depth)>cfg_.range_absolute+cfg_.range_relative*s.depth)continue;
+    Vec3 p_L=landmarkInLidar(f.world,R,t,R_BL_,t_BL_);Projection q;Sample s;
+    if(!image_->project(p_L,q)||!image_->validityCheck(q,p_L.norm(),cfg_.range_absolute,
+                                                       cfg_.range_relative,s))continue;
     if(frozen_&&std::abs(s.value-f.reference)>cfg_.robust_gate*sigma_)continue;
     surviving.push_back(f);centers.push_back(q);
   }
   features_=std::move(surviving);
-  const int n=cfg_.resolution;std::array<cv::Mat,6> suppression;
-  for(auto& m:suppression)m=cv::Mat::zeros(n,n,CV_8U);
+  std::vector<cv::Mat> suppression(image_->chartCount());
+  for(int chart=0;chart<image_->chartCount();++chart)
+    suppression[chart]=cv::Mat::zeros(image_->chartHeight(chart),image_->chartWidth(chart),CV_8U);
   auto suppress=[&](const Projection& q){
-    int u=int(q.uv.x()),v=int(q.uv.y()),radius=cfg_.suppression_radius;
-    for(int y=std::max(0,v-radius);y<=std::min(n-1,v+radius);++y)
-      for(int x=std::max(0,u-radius);x<=std::min(n-1,u+radius);++x)
+    if(q.face<0||q.face>=image_->chartCount())return;
+    const int width=image_->chartWidth(q.face),height=image_->chartHeight(q.face);
+    const int u=static_cast<int>(q.uv.x()),v=static_cast<int>(q.uv.y()),radius=cfg_.suppression_radius;
+    for(int y=std::max(0,v-radius);y<=std::min(height-1,v+radius);++y)
+      for(int dx=-radius;dx<=radius;++dx){
+        int x=u+dx;
+        if(image_->wrapsHorizontally(q.face)){x%=width;if(x<0)x+=width;}
+        else if(x<0||x>=width)continue;
         suppression[q.face].at<uint8_t>(y,x)=255;
+      }
   };
   for(const auto& q:centers)suppress(q);
-  struct Candidate{int index;Projection projection;double response;};std::vector<Candidate> candidates;
-  for(int face=0;face<6;++face){
-    const auto& f=image_->face(face);
-    for(int index:f.point_index){
-      if(index<0)continue;auto q=image_->projector.project(points_[index].p);Sample s;
-      if(image_->sample(q,s)&&s.value>=cfg_.high_response)candidates.push_back({index,q,s.value});
+  struct Candidate{int index;Projection projection;double reference,response,rank;};std::vector<Candidate> candidates;
+  const bool use_igm=measurement_name_=="igm";
+  for(const int index:image_->candidatePointIndices()){
+    if(index<0||static_cast<std::size_t>(index)>=points_.size())continue;
+    Projection q;Sample sample;
+    if(!image_->project(points_[index].p,q)||q.face<0||q.face>=image_->chartCount()||
+       !image_->validityCheck(q,points_[index].p.norm(),cfg_.range_absolute,
+                              cfg_.range_relative,sample))continue;
+    Eigen::Vector2d gradient=sample.gradient.transpose();
+    const double response=use_igm?sample.value:gradient.norm();
+    if(response>=cfg_.high_response){
+      double rank=response;
+      if(selector_mode_=="weakest"&&weak_valid){
+        const Vec3 delta_pixel=-R_BL_.transpose()*R.transpose()*weak_global;
+        const Eigen::Vector2d projected_motion=q.jacobian*delta_pixel;
+        rank=std::abs((sample.gradient*projected_motion).value());
+      }
+      candidates.push_back({index,q,sample.value,response,rank});
     }
   }
-  std::sort(candidates.begin(),candidates.end(),[](const Candidate& a,const Candidate& b){if(a.response==b.response)return a.index<b.index;return a.response>b.response;});
+  std::sort(candidates.begin(),candidates.end(),[](const Candidate& a,const Candidate& b){
+    return a.rank==b.rank?a.index<b.index:a.rank>b.rank;
+  });
   for(const auto& c:candidates){
     if(features_.size()>=size_t(cfg_.max_features))break;
     const auto& q=c.projection;
-    if(suppression[q.face].at<uint8_t>(int(q.uv.y()),int(q.uv.x())))continue;
+    int u=static_cast<int>(q.uv.x()),v=static_cast<int>(q.uv.y());
+    if(image_->wrapsHorizontally(q.face)){u%=image_->chartWidth(q.face);if(u<0)u+=image_->chartWidth(q.face);}
+    if(u<0||u>=image_->chartWidth(q.face)||v<0||v>=image_->chartHeight(q.face)||
+       suppression[q.face].at<uint8_t>(v,u))continue;
     Vec3 p_B=R_BL_*points_[c.index].p+t_BL_;
-    features_.push_back({R*p_B+t,c.response,timestamp,frame_,q.face});suppress(q);
+    features_.push_back({R*p_B+t,c.reference,timestamp,frame_,q.face});suppress(q);
   }
 }
-void PhotoObservation::finish(const BASIC::SE3& pose,double timestamp){
+void PhotoObservation::finish(const BASIC::SE3& pose,double timestamp,
+                              const Eigen::MatrixXd& geometry_translation_rows){
   if(!cfg_.enable)return;
   update_ms_=elapsed(update_start_);auto start=Clock::now();size_t active=features_.size();
-  if(frame_supported_)replenish(pose,timestamp);
+  weakest_gate_confidence_=0.;weakest_gate_active_=false;
+  if(frame_supported_)replenish(pose,timestamp,geometry_translation_rows);
   replenish_ms_=elapsed(start);
   Eigen::SelfAdjointEigenSolver<Mat6> eig6(geometry_);
   Eigen::SelfAdjointEigenSolver<Mat3> eig3(geometry_.bottomRightCorner<3,3>());
   Vec3 weak=eig3.eigenvectors().col(0);double photo_weak=weak.dot(last_.A.bottomRightCorner<3,3>()*weak);
   if(diagnostics_){
-    diagnostics_<<frame_<<','<<timestamp<<','<<active<<','<<features_.size()<<','<<last_.valid<<','
+    diagnostics_<<frame_<<','<<timestamp<<','<<projection_name_<<','<<measurement_name_<<','<<selector_mode_<<','
+      <<weakest_gate_confidence_<<','<<weakest_gate_active_<<','
+      <<active<<','<<features_.size()<<','<<last_.valid<<','
       <<last_.mean<<','<<last_.rms<<','<<last_.median<<','<<last_.fov<<','<<last_.invalid<<','<<last_.range<<','<<last_.outlier<<','
       <<sigma_<<','<<frozen_<<','<<geometry_.trace()<<','<<last_.A.trace()<<','<<eig3.eigenvalues()[0]<<','<<photo_weak;
     for(int k=0;k<3;++k)diagnostics_<<','<<weak[k];
     for(int k=0;k<6;++k)diagnostics_<<','<<eig6.eigenvalues()[k];
-    diagnostics_<<','<<deskew_ms_<<','<<(frame_supported_?image_->raster_ms:0)<<','<<(frame_supported_?image_->idw_ms:0)<<','<<(frame_supported_?image_->igm_ms:0)<<','<<photo_ms_<<','<<update_ms_<<','<<replenish_ms_
-      <<','<<points_.size()<<','<<(frame_supported_?image_->raw_pixels:0)<<','<<(frame_supported_?image_->filled_pixels:0)<<','<<(frame_supported_?image_->valid_igm_pixels:0)<<','<<frame_supported_<<'\n';
+    diagnostics_<<','<<deskew_ms_<<','<<(frame_supported_?image_->rasterMilliseconds():0)<<','
+      <<(frame_supported_?image_->interpolationMilliseconds():0)<<','
+      <<(frame_supported_?image_->featureChannelMilliseconds():0)<<','
+      <<photo_ms_<<','<<update_ms_<<','<<replenish_ms_<<','<<points_.size()<<','
+      <<(frame_supported_?image_->rawPixelCount():0)<<','
+      <<(frame_supported_?image_->filledPixelCount():0)<<','
+      <<(frame_supported_?image_->validFeaturePixelCount():0)<<','<<frame_supported_<<'\n';
   }
 }
 } // namespace cube

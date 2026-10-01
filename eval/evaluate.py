@@ -21,6 +21,7 @@ def ground_truth(dataset):
                     out.write(' '.join(format(v,'.17g') for v in [m.header.stamp.to_sec(),p.x,p.y,p.z,q.x,q.y,q.z,q.w])+'\n')
         return cache
     if dataset == 'shield1': return Path('/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1.txt')
+    if dataset == 'shield4': return Path('/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel4.txt')
     return Path('/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum')
 
 def main():
@@ -44,7 +45,7 @@ def main():
         estimated=positions[indices]
         association='NTU author linear interpolation strict bracket <0.1s, duplicate removal'
     else:
-        if dataset == 'shield1':
+        if dataset in ('shield1', 'shield4'):
             # Official gamma2GT_leica.py: T_eval=T_device @ inverse(T).
             q=np.array([-.00492765,.00575961,.0117651,.999901])
             x,y,z,w=q

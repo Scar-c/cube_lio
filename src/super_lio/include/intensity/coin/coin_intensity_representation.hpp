@@ -6,44 +6,72 @@
 
 namespace cube::coin {
 
-// An opt-in adapter for documenting the COIN mapping to the future interface.
-// The current estimator continues to call its existing COIN projector and
-// photometric model directly; this adapter does not alter production behavior.
+// Adapter for the frozen COIN raw-intensity image and scalar residual. It is
+// available for controlled comparisons; the production COIN call path remains
+// unchanged and continues to use its calibrated acquisition-time matches.
 class CoinIntensityRepresentation final : public cube::IntensityRepresentation {
  public:
   CoinIntensityRepresentation(const CoinOusterProjector& projector,const CoinFrame& frame)
       :projector_(projector),frame_(frame){}
 
-  bool project(const Eigen::Vector3d& point,Eigen::Vector2d& pixel) const override{
-    const ProjectedPoint projected=projector_.project(point);
+  bool project(const Vec3& point,cube::Projection& projection) const override{
+    const auto projected=projector_.project(point);
     if(!projected.in_fov)return false;
-    pixel=projected.uv;
-    return true;
+    projection=cube::Projection{};projection.face=0;projection.uv=projected.uv;
+    projection.jacobian=projector_.projectionJacobian(point);
+    return projection.uv.allFinite()&&projection.jacobian.allFinite();
   }
 
-  bool sample_intensity(const Eigen::Vector2d& pixel,double& intensity) const override{
-    if(frame_.intensity.empty()||!pixel.allFinite()||pixel.x()<0.||pixel.y()<0.||
-       pixel.x()>=frame_.intensity.cols-1||pixel.y()>=frame_.intensity.rows-1)return false;
-    intensity=CoinPhotometricModel::sampleFloat(frame_.intensity,pixel.x(),pixel.y());
+  bool sampleIntensity(const cube::Projection& projection,double& intensity) const override{
+    if(!coordinatesValid(projection,false))return false;
+    intensity=CoinPhotometricModel::sampleFloat(frame_.intensity,projection.uv.x(),projection.uv.y());
     return std::isfinite(intensity);
   }
 
-  bool sample_gradient(const Eigen::Vector2d& pixel,Eigen::Vector2d& gradient) const override{
-    if(frame_.intensity.empty()||!pixel.allFinite()||pixel.x()<1.||pixel.y()<1.||
-       pixel.x()+1.>=frame_.intensity.cols-1||pixel.y()+1.>=frame_.intensity.rows-1)return false;
-    gradient=CoinPhotometricModel::centralImageGradient(frame_.intensity,pixel.x(),pixel.y());
+  bool sampleGradient(const cube::Projection& projection,Eigen::Vector2d& gradient) const override{
+    if(!coordinatesValid(projection,true))return false;
+    gradient=CoinPhotometricModel::centralImageGradient(frame_.intensity,
+                                                        projection.uv.x(),projection.uv.y());
     return gradient.allFinite();
   }
 
-  bool compute_residual(const Eigen::Vector2d& pixel,double reference_intensity,
-                        double& residual) const override{
+  bool computeResidual(const cube::Projection& projection,double reference_intensity,
+                       double& residual) const override{
     double current=0.;
-    if(!std::isfinite(reference_intensity)||!sample_intensity(pixel,current))return false;
+    if(!std::isfinite(reference_intensity)||!sampleIntensity(projection,current))return false;
     residual=current-reference_intensity;
     return std::isfinite(residual);
   }
 
+  bool validityCheck(const cube::Projection& projection,double expected_depth,
+                     double range_absolute,double range_relative,
+                     cube::Sample& sample) const override{
+    if(!coordinatesValid(projection,false)||frame_.range.empty()||!std::isfinite(expected_depth))return false;
+    const int u=static_cast<int>(std::floor(projection.uv.x()));
+    const int v=static_cast<int>(std::floor(projection.uv.y()));
+    sample.depth=frame_.range.ptr<float>(v)[u];
+    if(!(sample.depth>0.)||std::abs(expected_depth-sample.depth)>
+       range_absolute+range_relative*sample.depth)return false;
+    Eigen::Vector2d gradient;
+    if(!sampleIntensity(projection,sample.value)||!sampleGradient(projection,gradient))return false;
+    sample.gradient=gradient.transpose();
+    return true;
+  }
+
  private:
+  bool coordinatesValid(const cube::Projection& projection,bool need_gradient) const{
+    if(frame_.intensity.empty()||frame_.mask.empty()||!projection.uv.allFinite()||
+       projection.face!=0||projection.uv.x()<0.||projection.uv.y()<0.||
+       projection.uv.x()>=frame_.intensity.cols-1||projection.uv.y()>=frame_.intensity.rows-1)
+      return false;
+    if(need_gradient&&(projection.uv.x()<1.||projection.uv.y()<1.||
+       projection.uv.x()+1.>=frame_.intensity.cols-1||
+       projection.uv.y()+1.>=frame_.intensity.rows-1))return false;
+    const int u=static_cast<int>(std::floor(projection.uv.x()));
+    const int v=static_cast<int>(std::floor(projection.uv.y()));
+    return frame_.mask.ptr<uchar>(v)[u]!=0;
+  }
+
   const CoinOusterProjector& projector_;
   const CoinFrame& frame_;
 };

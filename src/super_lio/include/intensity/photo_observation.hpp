@@ -7,6 +7,7 @@
 #include <fstream>
 #include <chrono>
 #include <memory>
+#include <string>
 #include <ros/ros.h>
 
 namespace cube {
@@ -26,12 +27,19 @@ class PhotoObservation {
  public:
   explicit PhotoObservation(ros::NodeHandle& nh);
   bool enabled() const{return cfg_.enable;}
+  bool needsGeometryRows() const{return cfg_.enable&&selector_mode_=="weakest";}
   void prepare(const LI2Sup::MeasureGroup& measures,
                const std::vector<LI2Sup::DynamicState>& history,const BASIC::SE3& predicted);
   void add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b,const BASIC::M6& prior_covariance);
-  void finish(const BASIC::SE3& pose,double timestamp);
+  void finish(const BASIC::SE3& pose,double timestamp,
+              const Eigen::MatrixXd& geometry_translation_rows);
  private:
   Settings cfg_;
+  std::string projection_name_="cubemap",measurement_name_="igm",selector_mode_="all";
+  double weakest_gate_threshold_=0.31913064578672057,weakest_gate_confidence_=0.;
+  bool weakest_gate_active_=false,has_previous_weak_axis_=false;
+  Eigen::Vector3d previous_weak_axis_global_=Eigen::Vector3d::UnitX();
+  double previous_weak_axis_timestamp_=0.;
   InformationPolicy policy_=InformationPolicy::C0;
   bool audit_enabled_=false;
   std::ofstream audit_;
@@ -40,7 +48,7 @@ class PhotoObservation {
   std::vector<ResidualContribution> auditRows(const BASIC::SE3& pose)const;
   void writeAudit(const BASIC::SE3& pose,const BASIC::M6& covariance,
                   const Vec6& geometry_b,const std::vector<ResidualContribution>& rows);
-  std::unique_ptr<CubeImage> image_;
+  std::unique_ptr<RasterIntensityRepresentation> image_;
   std::vector<ScanPoint> points_;
   std::vector<Feature> features_;
   std::vector<double> early_residuals_;
@@ -54,6 +62,7 @@ class PhotoObservation {
   PhotoTerms last_;
   Mat6 geometry_=Mat6::Zero();
   PhotoTerms observe(const BASIC::SE3& pose,bool weighted,std::vector<double>* residuals=nullptr)const;
-  void replenish(const BASIC::SE3& pose,double timestamp);
+  void replenish(const BASIC::SE3& pose,double timestamp,
+                 const Eigen::MatrixXd& geometry_translation_rows);
 };
 } // namespace cube

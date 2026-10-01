@@ -1,0 +1,61 @@
+{
+  "Shield4_Cubemap_Raw_C1_all_use": {
+    "ate_rmse_m": [
+      90.39422459718111,
+      90.39422459718111
+    ],
+    "bitwise_trajectory_identical": true,
+    "runs": [
+      "p3_shield4_cube_raw_c1_all32",
+      "p3_shield4_cube_raw_c1_all32_repeat"
+    ],
+    "trajectory_sha256": [
+      "aa42f52e6fce824ed65e0380da9aa2f06fdf647ee07b1b8b00eb0bd7a1f43f32",
+      "aa42f52e6fce824ed65e0380da9aa2f06fdf647ee07b1b8b00eb0bd7a1f43f32"
+    ]
+  },
+  "Shield4_photo_off_geometry_control": {
+    "ate_rmse_m": [
+      9739.859138551865,
+      9739.859138551865
+    ],
+    "bitwise_trajectory_identical": true,
+    "first_step_over_2m_at_frame": 2047,
+    "max_frame_translation_step_m": 94.3713950220214,
+    "runs": [
+      "p3_shield4_geometry32",
+      "p3_shield4_geometry32_repeat"
+    ],
+    "trajectory_sha256": [
+      "ad6ee5037d42bc6490f90e1552e9d90e6c790ddba28fd337cbb55ccbb46e6fb8",
+      "ad6ee5037d42bc6490f90e1552e9d90e6c790ddba28fd337cbb55ccbb46e6fb8"
+    ]
+  },
+  "TunnelD_Cubemap_IGM_all_use": {
+    "bitwise_trajectory_identical": true,
+    "runs": [
+      "p3_tunneld_cube_igm_all32_det1",
+      "p3_tunneld_cube_igm_all32_det2"
+    ],
+    "trajectory_sha256": [
+      "60d7981c6a6b1ccf8507d6736f65837c1d87154d30fe4ef2a935e6bcb7dbf967",
+      "60d7981c6a6b1ccf8507d6736f65837c1d87154d30fe4ef2a935e6bcb7dbf967"
+    ]
+  },
+  "historical_online_offline_G1": {
+    "all_recorded_diagnostics_identical": true,
+    "byte_identical": true,
+    "offline_run": "offline_infra_tunneld_g1_threads32",
+    "reference_run": "p2t_g1_repeat3",
+    "source_artifact": "artifacts/offline_infra/g1_cross_thread_parity.json",
+    "threads": [
+      4,
+      32
+    ],
+    "trajectory_sha256": [
+      "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63",
+      "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63"
+    ]
+  },
+  "p3_fixed_chunk_reduction": "PhotoObservation reduces fixed 32-feature chunks in ascending order; the two full TunnelD CUBE+IGM all-use trajectories are byte-identical."
+}

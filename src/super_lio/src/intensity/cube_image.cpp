@@ -19,9 +19,15 @@ void Settings::validate() const {
      weight<0||sigma_min<=0||robust_gate<=0||huber_delta<=0)
     throw std::invalid_argument("invalid photometric configuration");
 }
-CubeImage::CubeImage(const Settings& cfg):projector(cfg.resolution),cfg_(cfg){cfg_.validate();}
+CubeImage::CubeImage(const Settings& cfg,MeasurementChannel channel)
+  :projector(cfg.resolution),cfg_(cfg),channel_(channel){cfg_.validate();}
+bool CubeImage::project(const Vec3& point,Projection& projection) const{
+  projection=projector.project(point);
+  return projection.face>=0;
+}
 void CubeImage::build(const std::vector<ScanPoint>& points){
   auto t=Clock::now();const int n=cfg_.resolution;
+  candidate_points_.clear();
   for(auto& f:faces_){
     f.intensity=cv::Mat::zeros(n,n,CV_64F);f.depth=cv::Mat::zeros(n,n,CV_64F);
     f.raw_mask=cv::Mat::zeros(n,n,CV_8U);f.point_index.assign(n*n,-1);
@@ -39,9 +45,15 @@ void CubeImage::build(const std::vector<ScanPoint>& points){
   raster_ms=ms(t);t=Clock::now();
   tbb::parallel_for(0,6,[&](int i){auto& f=faces_[i];f.mask=f.raw_mask.clone();if(cfg_.idw_enable)fill(f);});
   idw_ms=ms(t);t=Clock::now();
-  tbb::parallel_for(0,6,[&](int i){gradients(faces_[i]);});igm_ms=ms(t);
+  if(cfg_.build_igm&&channel_==MeasurementChannel::IntensityGradientMagnitude)
+    tbb::parallel_for(0,6,[&](int i){gradients(faces_[i]);});
+  igm_ms=ms(t);
   raw_pixels=filled_pixels=valid_igm_pixels=0;
-  for(const auto& f:faces_){raw_pixels+=cv::countNonZero(f.raw_mask);filled_pixels+=cv::countNonZero(f.mask);valid_igm_pixels+=cv::countNonZero(f.igm_mask);}
+  for(const auto& f:faces_){
+    raw_pixels+=cv::countNonZero(f.raw_mask);filled_pixels+=cv::countNonZero(f.mask);
+    valid_igm_pixels+=cv::countNonZero(f.igm_mask);
+    for(const int index:f.point_index)if(index>=0)candidate_points_.push_back(index);
+  }
 }
 void CubeImage::fill(Face& f){
   const int n=cfg_.resolution,radius=cfg_.idw_radius;
@@ -104,9 +116,12 @@ bool CubeImage::sample(const Projection& q,Sample& s)const{
   int u=int(std::floor(q.uv.x())),v=int(std::floor(q.uv.y()));const int n=cfg_.resolution;
   if(u<2||v<2||u>=n-3||v>=n-3)return false;
   const auto& f=faces_[q.face];
-  for(int y=v;y<=v+1;++y)for(int x=u;x<=u+1;++x)if(!f.igm_mask.at<uint8_t>(y,x))return false;
+  const bool use_igm=channel_==MeasurementChannel::IntensityGradientMagnitude;
+  const cv::Mat& value_mask=use_igm?f.igm_mask:f.mask;
+  for(int y=v;y<=v+1;++y)for(int x=u;x<=u+1;++x)if(!value_mask.at<uint8_t>(y,x))return false;
   double x=q.uv.x()-u,y=q.uv.y()-v;
-  double a=f.igm.at<double>(v,u),b=f.igm.at<double>(v,u+1),c=f.igm.at<double>(v+1,u),d=f.igm.at<double>(v+1,u+1);
+  const cv::Mat& image=use_igm?f.igm:f.intensity;
+  double a=image.at<double>(v,u),b=image.at<double>(v,u+1),c=image.at<double>(v+1,u),d=image.at<double>(v+1,u+1);
   s.value=(1-y)*((1-x)*a+x*b)+y*((1-x)*c+x*d);
   s.gradient << (1-y)*(b-a)+y*(d-c),(1-x)*(c-a)+x*(d-b);
   double depths[4]={f.depth.at<double>(v,u),f.depth.at<double>(v,u+1),f.depth.at<double>(v+1,u),f.depth.at<double>(v+1,u+1)};
@@ -114,5 +129,26 @@ bool CubeImage::sample(const Projection& q,Sample& s)const{
   if(*mm.second-*mm.first>cfg_.range_absolute+cfg_.range_relative*(*mm.first))return false;
   s.depth=(1-y)*((1-x)*depths[0]+x*depths[1])+y*((1-x)*depths[2]+x*depths[3]);
   return std::isfinite(s.value)&&s.gradient.allFinite();
+}
+bool CubeImage::sampleIntensity(const Projection& q,double& intensity) const{
+  Sample sample;
+  if(!this->sample(q,sample))return false;
+  intensity=sample.value;return true;
+}
+bool CubeImage::sampleGradient(const Projection& q,Eigen::Vector2d& gradient) const{
+  Sample sample;
+  if(!this->sample(q,sample))return false;
+  gradient=sample.gradient.transpose();return true;
+}
+bool CubeImage::computeResidual(const Projection& q,double reference,double& residual) const{
+  double current=0.;
+  if(!std::isfinite(reference)||!sampleIntensity(q,current))return false;
+  residual=current-reference;return std::isfinite(residual);
+}
+bool CubeImage::validityCheck(const Projection& q,double expected_depth,double range_absolute,
+                              double range_relative,Sample& sample) const{
+  if(!this->sample(q,sample)||!std::isfinite(expected_depth)||
+     std::abs(expected_depth-sample.depth)>range_absolute+range_relative*sample.depth)return false;
+  return true;
 }
 } // namespace cube

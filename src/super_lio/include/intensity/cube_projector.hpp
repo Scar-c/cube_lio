@@ -1,5 +1,6 @@
 // CUBE-LIO independent implementation, GPL-3.0-or-later.
 #pragma once
+#include "intensity/intensity_representation.hpp"
 #include <Eigen/Core>
 #include <array>
 #include <cmath>
@@ -14,12 +15,6 @@ using Vec6 = Eigen::Matrix<double,6,1>;
 inline Mat3 hat(const Vec3& v) {
   Mat3 a; a << 0,-v.z(),v.y(),v.z(),0,-v.x(),-v.y(),v.x(),0; return a;
 }
-struct Projection {
-  int face = -1;
-  Eigen::Vector2d uv = Eigen::Vector2d::Zero();
-  Eigen::Matrix<double,2,3> jacobian = Eigen::Matrix<double,2,3>::Zero();
-  bool seam = false;
-};
 class CubeProjector {
  public:
   explicit CubeProjector(int n) : n_(n), f_((n-1)*.5) {

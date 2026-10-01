@@ -549,7 +549,7 @@ struct ThreadACC{
 void SuperLIO::Observe(){
   if(photo_->enabled()) photo_->prepare(measures_, propagate_states_, kf_->GetSE3());
   if(coin_->enabled()) coin_->prepare(measures_.lidar,propagate_states_,kf_->GetSE3());
-  const bool capture_geometry_rows=coin_->enabled()||geometry_rows_audit_.is_open();
+  const bool capture_geometry_rows=coin_->enabled()||photo_->needsGeometryRows()||geometry_rows_audit_.is_open();
   size_t ptsize = ds_undistort_->size();
   
   static std::vector<float> _lengths;
@@ -696,7 +696,8 @@ void SuperLIO::Observe(){
     geometry_rows_audit_.flush();
   }
 
-  if(photo_->enabled()) photo_->finish(kf_->GetSE3(), kf_->GetNavState().timestamp);
+  if(photo_->enabled()) photo_->finish(kf_->GetSE3(), kf_->GetNavState().timestamp,
+                                       geometry_translation_rows_final);
   if(coin_->enabled()) coin_->finish(kf_->GetSE3(),kf_->GetNavState().timestamp,
                                      geometry_translation_rows_final);
   frame_num_++;
