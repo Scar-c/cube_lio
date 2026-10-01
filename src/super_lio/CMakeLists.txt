@@ -111,3 +111,7 @@ target_include_directories(test_cube_photo PRIVATE ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(test_cube_photo ${OpenCV_LIBS} tbb)
 enable_testing()
 add_test(NAME cube_photo_jacobians COMMAND test_cube_photo)
+
+add_executable(test_information_budget test/test_information_budget.cpp src/intensity/information_budget.cpp)
+target_link_libraries(test_information_budget tbb)
+add_test(NAME photo_information_budget COMMAND test_information_budget)

@@ -509,7 +509,7 @@ void SuperLIO::Observe(){
     }
     HTVH = sum_HTVH.cast<scalar>();
     HTVr = sum_HTVr.cast<scalar>();
-    if(photo_->enabled()) photo_->add(pose, HTVH, HTVr);
+    if(photo_->enabled()) photo_->add(pose, HTVH, HTVr, kf_->GetCov().topLeftCorner<6,6>());
 
     if(need_converge) return;
 

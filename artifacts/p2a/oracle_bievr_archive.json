@@ -1,0 +1,104 @@
+{
+  "branch": "coin_bievr",
+  "sha": "a518cec38a80b29154b6e70994cf0d3763141434",
+  "config": {
+    "num_voxels": 100,
+    "intensity_point_downsample_resolution_m": 0.1,
+    "photometric_scale": 0.001
+  },
+  "round11": [
+    {
+      "run": 1,
+      "trajectory_sha256": "a8ea08e009f813c03cad94ad43d5297b24b1ce8bfd0703efbe925ddac78caebf",
+      "frames": 1185,
+      "path_length_m": 176.24092083900297,
+      "evaluation_text": "APE w.r.t. translation part (m)\n(with SE(3) Umeyama alignment)\n\n       max\t0.882452\n      mean\t0.543536\n    median\t0.622406\n       min\t0.097866\n      rmse\t0.585354\n       sse\t405.684803\n       std\t0.217275\n\n"
+    },
+    {
+      "run": 2,
+      "trajectory_sha256": "a8ea08e009f813c03cad94ad43d5297b24b1ce8bfd0703efbe925ddac78caebf",
+      "frames": 1185,
+      "path_length_m": 176.24092083900297,
+      "evaluation_text": "APE w.r.t. translation part (m)\n(with SE(3) Umeyama alignment)\n\n       max\t0.882452\n      mean\t0.543536\n    median\t0.622406\n       min\t0.097866\n      rmse\t0.585354\n       sse\t405.684803\n       std\t0.217275\n\n"
+    },
+    {
+      "run": 3,
+      "trajectory_sha256": "a8ea08e009f813c03cad94ad43d5297b24b1ce8bfd0703efbe925ddac78caebf",
+      "frames": 1185,
+      "path_length_m": 176.24092083900297,
+      "evaluation_text": "APE w.r.t. translation part (m)\n(with SE(3) Umeyama alignment)\n\n       max\t0.882452\n      mean\t0.543536\n    median\t0.622406\n       min\t0.097866\n      rmse\t0.585354\n       sse\t405.684803\n       std\t0.217275\n\n"
+    }
+  ],
+  "round11_vectorbool_fix/tunneld/run1": {
+    "photo_csv_sha256": "591e1d184575ca7df96ba018a3ea488f7298cb475fba971941c16687d03e22c1",
+    "rows": 1185,
+    "q_ratio_valid_count": 1185,
+    "q_ratio_percentiles": [
+      0.5445593063065923,
+      3.010557530302988,
+      6.698627218389378,
+      9.73785067736096
+    ],
+    "weak_direction_note": "CSV v1 derives observed-voxel normal eigenvectors; diagnostic production pose translation direction, not marginalized observability"
+  },
+  "round16_r3_parity/tunneld_c1": {
+    "photo_csv_sha256": "591e1d184575ca7df96ba018a3ea488f7298cb475fba971941c16687d03e22c1",
+    "rows": 1185,
+    "q_ratio_valid_count": 1185,
+    "q_ratio_percentiles": [
+      0.5445593063065923,
+      3.010557530302988,
+      6.698627218389378,
+      9.73785067736096
+    ],
+    "weak_direction_note": "CSV v1 derives observed-voxel normal eigenvectors; diagnostic production pose translation direction, not marginalized observability"
+  },
+  "round16_tunneld_same_as_round11": {
+    "trajectory.tum": true,
+    "photo.csv": true
+  },
+  "required_source_files_unmodified": true,
+  "external_worktree_unrelated_modifications": [
+    "interfaces/ros1/launch/mapping_avia.launch",
+    "interfaces/ros1/launch/mapping_mid360.launch",
+    "interfaces/ros1/rviz/config.rviz"
+  ],
+  "flatsurfaces_round12": {
+    "B0": {
+      "trajectory_sha256": "dce52ea73cead82b2a191797c9576253b196b07799d2606658c161ca523bf9e6",
+      "evaluation_text": "APE w.r.t. translation part (m)\n(with SE(3) Umeyama alignment)\n\n       max\t3.484536\n      mean\t1.367570\n    median\t1.290567\n       min\t0.484912\n      rmse\t1.523154\n       sse\t1897.757229\n       std\t0.670634\n\n"
+    },
+    "C0": {
+      "trajectory_sha256": "507297104610d86155295bf92c3dd82f6179530101ff473fd1ff219a086e9456",
+      "evaluation_text": "APE w.r.t. translation part (m)\n(with SE(3) Umeyama alignment)\n\n       max\t3.208374\n      mean\t1.543785\n    median\t1.557912\n       min\t0.188078\n      rmse\t1.654686\n       sse\t2236.933831\n       std\t0.595577\n\n"
+    },
+    "C1_A": {
+      "trajectory_sha256": "6920bc2bb7c198500eb5be96852c2dcc344547e97c81679e5c14009caa8e4e22",
+      "evaluation_text": "APE w.r.t. translation part (m)\n(with SE(3) Umeyama alignment)\n\n       max\t0.293504\n      mean\t0.051082\n    median\t0.048456\n       min\t0.002313\n      rmse\t0.059469\n       sse\t2.889334\n       std\t0.030450\n\n"
+    },
+    "C1_B": {
+      "trajectory_sha256": "6920bc2bb7c198500eb5be96852c2dcc344547e97c81679e5c14009caa8e4e22",
+      "evaluation_text": "APE w.r.t. translation part (m)\n(with SE(3) Umeyama alignment)\n\n       max\t0.293504\n      mean\t0.051082\n    median\t0.048456\n       min\t0.002313\n      rmse\t0.059469\n       sse\t2.889334\n       std\t0.030450\n\n"
+    }
+  },
+  "flatsurfaces_round16_equals_round12_c1": true,
+  "frozen_p1_reevaluation": {
+    "dataset": "tunnel_d",
+    "alignment": "SE3 no scale",
+    "association": "evo nearest timestamps max_diff=0.1s offset=0",
+    "ate_rmse_m": 0.5853538973824002,
+    "ate_mean_m": 0.5435355234164617,
+    "ate_median_m": 0.6224053722449077,
+    "ate_max_m": 0.8824516233678286,
+    "matched": 1184,
+    "duplicate_estimate_timestamps": 0,
+    "frames": 1185,
+    "processed_duration_s": 118.6143159866333,
+    "first_timestamp": 1691509832.356948,
+    "last_timestamp": 1691509950.971264,
+    "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+    "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+    "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+    "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+  }
+}

@@ -1,0 +1,1 @@
+{"fixture_rows":1200,"repeats_per_policy":20,"policies":["C0","C60","C100","K100"],"max_relative_A_error":0,"max_relative_b_error":0,"selected_ids_exact":true,"budget_scaling":"PASS","no_sparse_boost":"PASS","k100_order_and_suppression":"PASS","nan_inf_psd":"PASS"}

@@ -22,6 +22,8 @@ def main():
     p.add_argument('--name', required=True)
     p.add_argument('--photo', action='store_true')
     p.add_argument('--idw-off', action='store_true')
+    p.add_argument('--policy',choices=['C0','C60','C100','K100'],default='C0')
+    p.add_argument('--audit',action='store_true')
     p.add_argument('--port', type=int, default=11431)
     a = p.parse_args()
     out = ROOT / 'runtime' / a.name
@@ -33,7 +35,7 @@ def main():
     meta = {'dataset': a.dataset, 'bag': BAGS[a.dataset], 'photo': a.photo,
             'idw_enable': not a.idw_off, 'config_sha256': hashlib.sha256(config.read_bytes()).hexdigest(),
             'head': subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
-            'threads': 4}
+            'threads': 4,'policy':a.policy,'information_audit':a.audit}
     (out/'identity.json').write_text(json.dumps(meta,indent=2)+'\n')
     with (out/'master.log').open('w') as log:
         master = subprocess.Popen(['roscore','-p',str(a.port)],env=env,stdout=log,stderr=log)
@@ -52,6 +54,8 @@ def main():
             photo_config = ROOT/'tools/cube_lio/config/photo.yaml'
             if photo_config.exists(): subprocess.run(['rosparam','load',str(photo_config)],env=env,check=True)
             subprocess.run(['rosparam','set','/photo/enable',str(a.photo).lower()],env=env,check=True)
+            subprocess.run(['rosparam','set','/photo/information_policy',a.policy],env=env,check=True)
+            subprocess.run(['rosparam','set','/photo/information_audit',str(a.audit).lower()],env=env,check=True)
             if a.idw_off: subprocess.run(['rosparam','set','/cubemap/idw_enable','false'],env=env,check=True)
             with (out/'node.log').open('w') as node_log:
                 subprocess.run([str(ROOT/'devel/lib/super_lio/cube_offline_node')],cwd=ROOT,

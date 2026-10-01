@@ -2,6 +2,7 @@
 // Patrick Pfreundschuh, COIN-LIO main 76729cc4 (BSD-3-Clause). No source copied.
 #pragma once
 #include "cube_image.hpp"
+#include "information_budget.hpp"
 #include "common/ds.h"
 #include <fstream>
 #include <chrono>
@@ -27,10 +28,18 @@ class PhotoObservation {
   bool enabled() const{return cfg_.enable;}
   void prepare(const LI2Sup::MeasureGroup& measures,
                const std::vector<LI2Sup::DynamicState>& history,const BASIC::SE3& predicted);
-  void add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b);
+  void add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b,const BASIC::M6& prior_covariance);
   void finish(const BASIC::SE3& pose,double timestamp);
  private:
   Settings cfg_;
+  InformationPolicy policy_=InformationPolicy::C0;
+  bool audit_enabled_=false;
+  std::ofstream audit_;
+  int audit_iteration_=0;
+  BASIC::SE3 predicted_pose_;
+  std::vector<ResidualContribution> auditRows(const BASIC::SE3& pose)const;
+  void writeAudit(const BASIC::SE3& pose,const BASIC::M6& covariance,
+                  const Vec6& geometry_b,const std::vector<ResidualContribution>& rows);
   std::unique_ptr<CubeImage> image_;
   std::vector<ScanPoint> points_;
   std::vector<Feature> features_;

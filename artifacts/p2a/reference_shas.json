@@ -1,0 +1,26 @@
+{
+  "super_lio_frozen_p1_sha": "8db5c84281c35e848f2212fc482b60bf4e2a694b",
+  "coin_lio": {
+    "repository": "https://github.com/ethz-asl/COIN-LIO",
+    "sha": "76729cc4feb3649cbd79d28f82d9f62a2c82889b",
+    "clean": true,
+    "path": "refs/COIN-LIO"
+  },
+  "coin_bievr": {
+    "repository": "https://github.com/Scar-c/BIEVR-LIO",
+    "branch": "coin_bievr",
+    "sha": "a518cec38a80b29154b6e70994cf0d3763141434",
+    "required_source_files_clean": true,
+    "path": "/home/lc/algorithm_versa/src/BIEVR-LIO"
+  },
+  "cube_slides": {
+    "url": "https://www.docswell.com/s/scomup/59N8N9-2026-03-22-173102",
+    "inspected_slides": [
+      10,
+      13,
+      15,
+      18
+    ],
+    "git_sha": null
+  }
+}

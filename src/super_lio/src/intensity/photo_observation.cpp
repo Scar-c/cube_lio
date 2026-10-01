@@ -32,12 +32,20 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
   LOAD("/cubemap","gaussian_sigma",gaussian_sigma);
 #undef LOAD
   cfg_.validate();sigma_=cfg_.sigma_min;
+  std::string policy;nh.param<std::string>("/photo/information_policy",policy,"C0");
+  policy_=parsePolicy(policy);
+  nh.param("/photo/information_audit",audit_enabled_,false);
   if(!cfg_.enable)return;
   cv::setNumThreads(1); // TBB owns frontend parallelism; avoid nested OpenCV pools.
   R_BL_=LI2Sup::g_lidar_imu.R_.cast<double>();t_BL_=LI2Sup::g_lidar_imu.t_.cast<double>();
   image_=std::make_unique<CubeImage>(cfg_);
   std::string dir;nh.getParam("/lio/offline/out_dir",dir);
   if(!dir.empty()){
+    if(audit_enabled_){
+      audit_.open(dir+"/information.csv");
+      if(!audit_)throw std::runtime_error("cannot write information audit");
+      audit_<<std::setprecision(17);
+    }
     diagnostics_.open(dir+"/photo.csv");
     if(!diagnostics_)throw std::runtime_error("cannot write photometric diagnostics");
     diagnostics_<<std::setprecision(17);
@@ -47,7 +55,7 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
 void PhotoObservation::prepare(const LI2Sup::MeasureGroup& measures,
                               const std::vector<LI2Sup::DynamicState>& history,const BASIC::SE3& predicted){
   if(!cfg_.enable)return;
-  ++frame_;photo_ms_=0;auto start=Clock::now();
+  ++frame_;audit_iteration_=0;predicted_pose_=predicted;photo_ms_=0;auto start=Clock::now();
   const auto& raw=measures.lidar.pc_intensity;
   if(!raw)throw std::runtime_error("missing dense intensity scan");
   frame_supported_=history.size()>=2 && history.back().time>history.front().time;
@@ -132,13 +140,76 @@ PhotoTerms PhotoObservation::observe(const BASIC::SE3& pose,bool weighted,std::v
   if(residuals)*residuals=std::move(values);
   return total;
 }
-void PhotoObservation::add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b){
+std::vector<ResidualContribution> PhotoObservation::auditRows(const BASIC::SE3& pose)const{
+  if(!frame_supported_)return {};
+  const Mat3 R=pose.R_.cast<double>();const Vec3 t=pose.t_.cast<double>();
+  std::vector<ResidualContribution> slots(features_.size());
+  std::vector<uint8_t> valid(features_.size(),0); // Separate bytes, never packed bits.
+  tbb::parallel_for(tbb::blocked_range<size_t>(0,features_.size()),[&](const tbb::blocked_range<size_t>& rows){
+    for(size_t i=rows.begin();i<rows.end();++i){
+      const auto& feat=features_[i];
+      const Vec3 p_L=landmarkInLidar(feat.world,R,t,R_BL_,t_BL_);const auto q=image_->projector.project(p_L);
+      if(q.face<0||q.seam||p_L.norm()<std::sqrt(LI2Sup::g_blind2)||p_L.norm()>std::sqrt(LI2Sup::g_maxrange2))continue;
+      Sample sample;
+      if(!image_->sample(q,sample))continue;
+      if(std::abs(p_L.norm()-sample.depth)>cfg_.range_absolute+cfg_.range_relative*sample.depth)continue;
+      const double residual=sample.value-feat.reference;
+      if(frozen_&&std::abs(residual)>cfg_.robust_gate*sigma_)continue;
+      double weight=0;
+      if(frozen_){
+        const double z=std::abs(residual)/sigma_;
+        const double robust=z<=cfg_.huber_delta?1.:cfg_.huber_delta/z;
+        weight=cfg_.weight*robust/(sigma_*sigma_);
+      }
+      slots[i]={i,q.face,q.uv,feat.reference,residual,weight,
+                residualJacobian(feat.world,R,t,R_BL_,t_BL_,q,sample)};
+      valid[i]=1;
+    }
+  });
+  std::vector<ResidualContribution> out;
+  for(size_t i=0;i<slots.size();++i)if(valid[i])out.push_back(slots[i]);
+  return out;
+}
+void PhotoObservation::writeAudit(const BASIC::SE3& pose,const BASIC::M6& covariance,
+                                 const Vec6& geometry_b,const std::vector<ResidualContribution>& rows){
+  const Mat3 delta_R=predicted_pose_.R_.cast<double>().transpose()*pose.R_.cast<double>();
+  const Eigen::AngleAxisd rotation(delta_R);
+  Vec6 delta;delta.head<3>()=rotation.axis()*rotation.angle();
+  delta.tail<3>()=(pose.t_-predicted_pose_.t_).cast<double>();
+  Mat6 G=Mat6::Identity();G.topLeftCorner<3,3>()-=.5*hat(delta.head<3>());
+  const Mat6 prior=G*covariance.cast<double>()*G.transpose();
+  for(auto policy:{InformationPolicy::C0,InformationPolicy::C60,InformationPolicy::C100,InformationPolicy::K100}){
+    auto terms=informationBudget(rows,policy,cfg_.suppression_radius);
+    auto m=auditInformation(geometry_,geometry_b,prior,G*delta,rows,terms,cfg_.resolution);
+    m["active"]=double(features_.size());m["frozen"]=frozen_;m["supported"]=frame_supported_;
+    // Comparison establishes that the diagnostic sampler retains P1 robust semantics.
+    const auto raw=informationBudget(rows,InformationPolicy::C0,cfg_.suppression_radius);
+    m["raw_A_relative_error"]=(raw.A-last_.A).norm()/std::max(1.,last_.A.norm());
+    m["raw_b_relative_error"]=(raw.b-last_.b).norm()/std::max(1.,last_.b.norm());
+    m["valid_count_error"]=double(rows.size())-last_.valid;
+    Eigen::SelfAdjointEigenSolver<Mat6> difference(raw.A-terms.A);
+    m["authority_difference_min_eigenvalue"]=difference.eigenvalues()[0];
+    if(frame_==1&&audit_iteration_==0&&policy==InformationPolicy::C0){
+      audit_<<"frame,iteration,policy";for(const auto& kv:m)audit_<<','<<kv.first;audit_<<'\n';
+    }
+    audit_<<frame_<<','<<audit_iteration_<<','<<policyName(policy);
+    for(const auto& kv:m)audit_<<','<<kv.second;audit_<<'\n';
+  }
+}
+void PhotoObservation::add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b,const BASIC::M6& prior_covariance){
   if(!cfg_.enable)return;auto start=Clock::now();
-  geometry_=A.cast<double>();
-  if(!frame_supported_){last_=PhotoTerms{};last_.invalid=int(features_.size());return;}
-  last_=observe(pose,true);
+  geometry_=A.cast<double>();const Vec6 geometry_b=b.cast<double>();
+  if(!frame_supported_){last_=PhotoTerms{};last_.invalid=int(features_.size());}
+  else last_=observe(pose,true); // Preserve P1 raw accumulation, including C0/shadow control.
+  std::vector<ResidualContribution> rows;
+  if(audit_enabled_||policy_!=InformationPolicy::C0)rows=auditRows(pose);
+  if(audit_enabled_)writeAudit(pose,prior_covariance,geometry_b,rows);
+  if(policy_!=InformationPolicy::C0){
+    const auto terms=informationBudget(rows,policy_,cfg_.suppression_radius);
+    last_.A=terms.A;last_.b=terms.b;
+  }
   A+=last_.A.cast<BASIC::scalar>();b+=last_.b.cast<BASIC::scalar>();
-  photo_ms_+=elapsed(start);
+  ++audit_iteration_;photo_ms_+=elapsed(start);
 }
 void PhotoObservation::replenish(const BASIC::SE3& pose,double timestamp){
   const Mat3 R=pose.R_.cast<double>();const Vec3 t=pose.t_.cast<double>();
