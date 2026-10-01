@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--port',type=int,default=11562)
     parser.add_argument('--coin',action='store_true')
     parser.add_argument('--audit-csv',type=Path)
+    parser.add_argument('--fusion-audit-json',type=Path)
     args=parser.parse_args()
     if args.coin and args.dataset!='tunnel_d':
         parser.error('COIN production validation is scoped to TunnelD')
@@ -44,6 +45,7 @@ def main():
     paths=[config,photo_config]+(coin_configs if args.dataset=='tunnel_d' else [])
     identity={'dataset':args.dataset,'bag':str(BAGS[args.dataset]),
               'coin':args.coin,'audit_csv':str(args.audit_csv) if args.audit_csv else None,
+              'fusion_audit_json':str(args.fusion_audit_json) if args.fusion_audit_json else None,
               'source_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
               'config_sha256':{str(p.relative_to(ROOT)):sha(p) for p in paths},
               'binary_sha256':sha(ROOT/'devel/lib/super_lio/cube_offline_node'),
@@ -69,6 +71,7 @@ def main():
             '/photo/enable':'false','/coin/enable':str(args.coin).lower(),
             '/image/u_shift':'0','/coin/measurement_variance':'0.001',
             '/p2r/time_audit_path':str(args.audit_csv.resolve()) if args.audit_csv else '',
+            '/p2r/fusion_audit_path':str(args.fusion_audit_json.resolve()) if args.fusion_audit_json else '',
         }
         for key,value in params.items():
             subprocess.run(['rosparam','set',key,value],env=env,check=True)

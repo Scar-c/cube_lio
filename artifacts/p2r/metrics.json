@@ -1,0 +1,20 @@
+{
+  "verdict": "P2-R NO-GO \u2014 TIMING FIXED BUT COIN DOES NOT RESCUE SUPER",
+  "dataset": "ENWIDE TunnelD",
+  "evaluator": "SE3 no scale; evo nearest timestamp max_diff=0.1 s",
+  "g0_historical_geometry_ate_rmse_m": 113.91929554770142,
+  "g1_corrected_geometry_ate_rmse_m": 152.83140320030125,
+  "c1_faithful_coin_ate_rmse_m": 171.55263493049796,
+  "official_coin_oracle_ate_rmse_m": 0.5001613629532796,
+  "c1_minus_g1_ate_rmse_m": 18.721231730196706,
+  "g1_minus_g0_ate_rmse_m": 38.91210765259983,
+  "c1_classification": "FAIL",
+  "timing_gate": "PASS",
+  "fusion_gate": "PASS",
+  "determinism_gate": "PASS",
+  "c1_accepted_photo_frames": 1176,
+  "c1_skipped_photo_frames": 4,
+  "c1_accepted_motion_fallback_points": 0,
+  "g1_trajectory_sha256": "9bfbc7d278f1177529b8a43b84f4c655e84a17625af144e68f29c0b1a44fcfff",
+  "c1_trajectory_sha256": "29300418ccbc2331acaf15850d39ae7a93ef47cfafd8289e459344116ab984f5"
+}

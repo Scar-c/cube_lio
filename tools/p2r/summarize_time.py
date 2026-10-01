@@ -35,7 +35,7 @@ def main():
         'offsets_s':{
             'valid_raw_max_minus_current_end':stats([gap(r) for r in normal]),
             'valid_raw_max_minus_geometry_max':stats([raw_geom(r) for r in normal]),
-            'geometry_max_minus_last_visited_geometry':stats([geom_gap(r) for r in normal]),
+            'geometry_max_minus_last_visited_geometry':stats([geom_gap(r) for r in normal]) if args.phase=='R0_HISTORICAL' else None,
             'imu_available_minus_current_end':stats([value(r,'imu_last_available_to_sync')-value(r,'current_lidar_end_time') for r in normal]),
             'history_back_minus_current_end':stats([value(r,'propagated_history_last')-value(r,'current_lidar_end_time') for r in normal]),
         },
@@ -67,6 +67,17 @@ def main():
                 result['counts']['normal_frames_with_raw_max_after_geometry_max'],
             'sync_waits_for_imu_after_end_but_consumes_only_samples_at_or_before_end':True,
             'consequence':'All 1179 normal frames have raw COIN points beyond the propagated history; the median is 11335 points per frame.'
+        }
+    else:
+        gaps=[r for r in normal if r.get('imu_support_issue')]
+        supported=[r for r in normal if not r.get('imu_support_issue')]
+        result['imu_support']={
+            'complete_frames':len(supported),'gap_frames':len(gaps),
+            'gap_reasons':{reason:sum(r['imu_support_issue']==reason for r in gaps)
+                           for reason in sorted(set(r['imu_support_issue'] for r in gaps))},
+            'unsupported_candidate_points_on_gap_frames':sum(int(r['current_motion_fallback_points']) for r in gaps),
+            'unsupported_candidate_points_on_supported_frames':sum(int(r['current_motion_fallback_points']) for r in supported),
+            'note':'Candidate points on gap frames are not accepted COIN observations; C1 must verify full-frame skips.'
         }
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({'phase':args.phase,'normal_frames':len(normal),

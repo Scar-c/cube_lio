@@ -36,6 +36,8 @@ class CoinObservation {
   std::vector<CoinScanPoint> points_;
   CoinFrame frame_;
   std::ofstream diagnostics_;
+  std::ofstream fusion_audit_;
+  bool fusion_audited_=false;
   std::size_t scan_index_=0;
   int active_before_=0,valid_patches_=0,photo_rows_=0,motion_fallback_points_=0;
   double residual_square_sum_=0.,photo_A_norm_=0.,photo_b_norm_=0.;

@@ -133,6 +133,7 @@ struct OusterTimeAudit {
   double max_offset_all_raw=0.,max_offset_valid_raw=0.;
   double max_offset_geometry=0.,last_offset_geometry=0.;
   double imu_last_available=-1.,imu_last_consumed=-1.;
+  double imu_bracket_span_s=0.;
   std::vector<double> valid_raw_offsets;
 };
 
@@ -147,6 +148,7 @@ struct LidarData
   // Optional calibrated Ouster photo stream, retaining the original pixel id.
   std::vector<CoinRawPoint> coin_raw_points;
   OusterTimeAudit time_audit;
+  std::string imu_support_issue;
 };
 
 

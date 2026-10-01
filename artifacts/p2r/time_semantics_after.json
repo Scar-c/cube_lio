@@ -1,0 +1,122 @@
+{
+  "phase": "R1_CORRECTED_G1",
+  "dataset": "ENWIDE TunnelD",
+  "csv_sha256": "dd6e1e2a2e5d169acfda01602121dd1126826b5f296025f3b007b4f757896edc",
+  "frames": {
+    "processed": 1189,
+    "normal": 1180,
+    "initialization": 9
+  },
+  "offsets_s": {
+    "valid_raw_max_minus_current_end": {
+      "min": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "valid_raw_max_minus_geometry_max": {
+      "min": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.00828081
+    },
+    "geometry_max_minus_last_visited_geometry": null,
+    "imu_available_minus_current_end": {
+      "min": 0.00012612342834472656,
+      "median": 0.0050994157791137695,
+      "p95": 0.009908437728881836,
+      "max": 0.15331506729125977
+    },
+    "history_back_minus_current_end": {
+      "min": -0.13106369972229004,
+      "median": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    }
+  },
+  "counts": {
+    "valid_raw_points": 148215754,
+    "valid_raw_points_after_current_end": 0,
+    "valid_raw_points_after_history_back": 22380,
+    "motion_fallback_points": 22380,
+    "normal_frames_with_motion_fallback": 4,
+    "normal_frames_with_raw_max_after_geometry_max": 29,
+    "normal_frames_with_full_raw_max_after_current_end": 0
+  },
+  "per_scan": {
+    "raw_points_after_current_end": {
+      "min": 0,
+      "median": 0.0,
+      "p95": 0,
+      "max": 0
+    },
+    "raw_points_after_history_back": {
+      "min": 0,
+      "median": 0.0,
+      "p95": 0,
+      "max": 9215
+    },
+    "motion_fallback_points": {
+      "min": 0,
+      "median": 0.0,
+      "p95": 0,
+      "max": 9215
+    }
+  },
+  "run": {
+    "lidar_read": 1189,
+    "imu_read": 11861,
+    "frames": 1180,
+    "wall_processing_s": 9.43876,
+    "bag_duration_s": 119.013,
+    "peak_rss_kb": 113344,
+    "tbb_threads": 4
+  },
+  "evaluation": {
+    "dataset": "tunnel_d",
+    "alignment": "SE3 no scale",
+    "association": "evo nearest timestamps max_diff=0.1s offset=0",
+    "ate_rmse_m": 152.83140320030125,
+    "ate_mean_m": 144.01755449722336,
+    "ate_median_m": 155.02340550482876,
+    "ate_max_m": 212.55010377705491,
+    "matched": 1180,
+    "duplicate_estimate_timestamps": 1,
+    "frames": 1180,
+    "processed_duration_s": 118.01416993141174,
+    "first_timestamp": 1691509832.9570942,
+    "last_timestamp": 1691509950.9712641,
+    "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+    "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+    "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+    "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+  },
+  "trajectory_sha256": "9bfbc7d278f1177529b8a43b84f4c655e84a17625af144e68f29c0b1a44fcfff",
+  "identity": {
+    "dataset": "tunnel_d",
+    "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+    "coin": false,
+    "audit_csv": "runtime/p2r_g1_rebased_history/time_audit.csv",
+    "fusion_audit_json": null,
+    "source_head": "41d2a0902203287ad38609bd72ad0850d1bce2b5",
+    "config_sha256": {
+      "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+      "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+      "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+      "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+      "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+    },
+    "binary_sha256": "267b0fae98e969a00ff4c55237a7df597038828347ca6930f013a6322c98eda7",
+    "threads": 4
+  },
+  "imu_support": {
+    "complete_frames": 1176,
+    "gap_frames": 4,
+    "gap_reasons": {
+      "imu_bracket_gap_or_order_invalid": 4
+    },
+    "unsupported_candidate_points_on_gap_frames": 22380,
+    "unsupported_candidate_points_on_supported_frames": 0,
+    "note": "Candidate points on gap frames are not accepted COIN observations; C1 must verify full-frame skips."
+  }
+}

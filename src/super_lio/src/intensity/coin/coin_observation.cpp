@@ -1,10 +1,13 @@
 #include "intensity/coin/coin_observation.hpp"
+#include "intensity/coin/coin_acquisition.hpp"
 
 #include "lio/params.h"
 #include <ros/ros.h>
 
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
+#include <limits>
 #include <stdexcept>
 
 namespace cube::coin {
@@ -17,27 +20,6 @@ Eigen::Matrix4d transform(const Mat3& R,const Vec3d& t){
   T.topLeftCorner<3,3>()=R;T.topRightCorner<3,1>()=t;return T;
 }
 
-bool stateAt(const std::vector<LI2Sup::DynamicState>& history,double time,
-             Mat3& R,Vec3d& p){
-  if(history.size()<2||time>history.back().time)return false;
-  auto tail=std::upper_bound(history.begin(),history.end(),time,
-      [](double t,const LI2Sup::DynamicState& s){return t<s.time;});
-  if(tail==history.end()){
-    const auto& last=history.back();R=last.R.cast<double>();p=last.p.cast<double>();return true;
-  }
-  auto head=tail==history.begin()?tail:std::prev(tail);
-  if(head==tail){
-    auto next=std::next(tail);if(next==history.end())return false;tail=next;
-  }
-  const double dt=tail->time-head->time;
-  if(!(dt>0.))return false;
-  const double tau=time-head->time,s=tau/dt;
-  Eigen::Quaterniond q0(head->R.cast<double>()),q1(tail->R.cast<double>());
-  R=q0.slerp(s,q1).toRotationMatrix();
-  p=head->p.cast<double>()+head->v.cast<double>()*tau+
-    0.5*tail->a.cast<double>()*tau*tau;
-  return R.allFinite()&&p.allFinite();
-}
 }
 
 CoinObservation::CoinObservation(ros::NodeHandle& nh,const Eigen::Matrix4d& T_IL)
@@ -73,7 +55,14 @@ CoinObservation::CoinObservation(ros::NodeHandle& nh,const Eigen::Matrix4d& T_IL
   if(!output_dir.empty()){
     diagnostics_.open(output_dir+"/coin_observation.csv");
     if(!diagnostics_)throw std::runtime_error("cannot write COIN observation diagnostics");
-    diagnostics_<<"frame,timestamp,raw_points,motion_fallback_points,coin_minus_super_scan_end_s,active_before,valid_patches,photo_rows,residual_rms,photo_A_norm,photo_b_norm,weak_dirs,active_after,added,removed,status,skip_reason\n";
+    diagnostics_<<"frame,timestamp,raw_points,motion_fallback_points,coin_minus_super_scan_end_s,active_before,valid_patches,photo_rows,residual_rms,photo_A_norm,photo_b_norm,weak_dirs,active_after,added,removed,status,skip_reason,ncc_count,ncc_median,rejected_ncc\n";
+  }
+  std::string fusion_audit_path;
+  nh.getParam("/p2r/fusion_audit_path",fusion_audit_path);
+  if(!fusion_audit_path.empty()){
+    fusion_audit_.open(fusion_audit_path);
+    if(!fusion_audit_)throw std::runtime_error("cannot write P2R fusion audit");
+    fusion_audit_<<std::setprecision(17);
   }
 }
 
@@ -93,19 +82,20 @@ void CoinObservation::prepare(const LI2Sup::LidarData& lidar,
   for(const auto& raw:lidar.coin_raw_points)max_offset=std::max(max_offset,raw.offset_time);
   coin_scan_end_delta_s_=lidar.coin_raw_points.empty()?0.:
     max_offset-(lidar.end_time-lidar.start_time);
-  const char* skip_reason=nullptr;
-  if(lidar.coin_raw_points.empty())skip_reason="no_raw_ouster_samples";
-  else if(history.size()<2)skip_reason="insufficient_propagated_imu_history";
-  if(skip_reason){
+  auto skip_frame=[&](const std::string& reason,int unsupported_points){
     const int active=static_cast<int>(feature_manager_->features().size());
     if(diagnostics_){
-      diagnostics_<<scan_index_<<','<<lidar.end_time<<','<<lidar.coin_raw_points.size()
-        <<",0,"<<coin_scan_end_delta_s_<<','<<active<<",0,0,0,0,0,0,"<<active
-        <<",0,0,SKIPPED,"<<skip_reason<<'\n';
+      diagnostics_<<scan_index_<<','<<lidar.end_time<<','<<lidar.coin_raw_points.size()<<','
+        <<unsupported_points<<','<<coin_scan_end_delta_s_<<','<<active
+        <<",0,0,0,0,0,0,"<<active<<",0,0,SKIPPED,"<<reason<<",0,0,0\n";
     }
     ROS_WARN_THROTTLE(5.0,"COIN observation skipped at scan %zu: %s; geometric update continues",
-                      scan_index_,skip_reason);
+                      scan_index_,reason.c_str());
     ++scan_index_;
+  };
+  const auto input_issue=coinFrameInputIssue(lidar,history);
+  if(!input_issue.empty()){
+    skip_frame(input_issue,static_cast<int>(lidar.coin_raw_points.size()));
     return;
   }
   const Eigen::Matrix4d T_GI=poseMatrix(predicted_pose);
@@ -113,7 +103,6 @@ void CoinObservation::prepare(const LI2Sup::LidarData& lidar,
   const Vec3d t_GI=T_GI.topRightCorner<3,1>();
   const Mat3 R_IL=T_IL_.topLeftCorner<3,3>();
   const Vec3d t_IL=T_IL_.topRightCorner<3,1>();
-  const Mat3 R_LI=R_IL.transpose();
   const Mat3 R_GL_end=R_GI*R_IL;
   const Vec3d t_GL_end=R_GI*t_IL+t_GI;
 
@@ -133,16 +122,22 @@ void CoinObservation::prepare(const LI2Sup::LidarData& lidar,
       const Vec3d t_GL_acq=R_GI_acq*t_IL+t_GI_acq;
       const Vec3d p_global=R_GI_acq*(R_IL*point.point_lidar+t_IL)+t_GI_acq;
       point.point_lidar=R_GL_end.transpose()*(p_global-t_GL_end);
-      T_Li_Lk.topLeftCorner<3,3>()=R_GL_acq.transpose()*R_GL_end;
-      T_Li_Lk.topRightCorner<3,1>()=R_GL_acq.transpose()*(t_GL_end-t_GL_acq);
+      T_Li_Lk=lidarAcquisitionToEnd(R_GL_acq,t_GL_acq,R_GL_end,t_GL_end);
     }else{
-      // Match Super-LIO's existing post-history fallback: retain the raw scan point.
       ++motion_fallback_points_;
-      point.point_lidar=R_LI*(R_GI.transpose()*(R_IL*point.point_lidar+t_IL)-t_IL);
+      continue;
+    }
+    if(!point.point_lidar.allFinite()||!T_Li_Lk.allFinite()){
+      ++motion_fallback_points_;
+      continue;
     }
     points_.push_back(point);
     transforms.push_back(T_Li_Lk);
     transform_indices.push_back(static_cast<int>(transform_indices.size()));
+  }
+  if(motion_fallback_points_){
+    skip_frame("unsupported_or_nonfinite_acquisition_transform",motion_fallback_points_);
+    return;
   }
   frame_=image_processor_->process(points_);
   frame_.T_Li_Lk_vec=std::move(transforms);
@@ -156,6 +151,9 @@ void CoinObservation::add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b){
   const auto T_GI=poseMatrix(pose);
   Eigen::Matrix<double,6,6> photo_A=Eigen::Matrix<double,6,6>::Zero();
   Eigen::Matrix<double,6,1> photo_b=Eigen::Matrix<double,6,1>::Zero();
+  const bool audit_this_frame=fusion_audit_&&!fusion_audited_;
+  std::vector<Eigen::Matrix<double,1,6>> audit_H;
+  std::vector<double> audit_r;
   valid_patches_=photo_rows_=0;residual_square_sum_=0.;
   const auto& features=feature_manager_->features();
   for(const auto& feature:features){
@@ -174,13 +172,69 @@ void CoinObservation::add(const BASIC::SE3& pose,BASIC::M6& A,BASIC::V6& b){
       const Eigen::Matrix<double,1,6> H=row.correction_jacobian_super;
       photo_A.noalias()+=H.transpose()*H;
       photo_b.noalias()+=H.transpose()*row.residual;
+      if(audit_this_frame){audit_H.push_back(H);audit_r.push_back(row.residual);}
       residual_square_sum_+=row.residual*row.residual;++photo_rows_;
     }
   }
   const double factor=photo_scale_*photo_scale_/measurement_variance_;
   photo_A*=factor;photo_b*=factor;
   photo_A_norm_=photo_A.norm();photo_b_norm_=photo_b.norm();
+  BASIC::M6 A_before;
+  BASIC::V6 b_before;
+  if(audit_this_frame&&photo_rows_){A_before=A;b_before=b;}
   A+=photo_A.cast<BASIC::scalar>();b+=photo_b.cast<BASIC::scalar>();
+  if(audit_this_frame&&photo_rows_){
+    Eigen::MatrixXd H(photo_rows_,6);
+    Eigen::VectorXd residual(photo_rows_);
+    for(int i=0;i<photo_rows_;++i){H.row(i)=audit_H[i];residual(i)=audit_r[i];}
+    const Eigen::MatrixXd H_scaled=photo_scale_*H;
+    const Eigen::VectorXd r_scaled=photo_scale_*residual;
+    const Eigen::Matrix<double,6,6> A_explicit=
+        (H_scaled.transpose()*H_scaled)/measurement_variance_;
+    const Eigen::Matrix<double,6,1> b_explicit=
+        (H_scaled.transpose()*r_scaled)/measurement_variance_;
+    const double A_max=(A_explicit-photo_A).cwiseAbs().maxCoeff();
+    const double b_max=(b_explicit-photo_b).cwiseAbs().maxCoeff();
+    const double A_rel=(A_explicit-photo_A).norm()/std::max(1.,A_explicit.norm());
+    const double b_rel=(b_explicit-photo_b).norm()/std::max(1.,b_explicit.norm());
+    const auto A_cast=A_explicit.cast<BASIC::scalar>();
+    const auto b_cast=b_explicit.cast<BASIC::scalar>();
+    const double cast_A_rel=(A_cast.cast<double>()-photo_A.cast<BASIC::scalar>().cast<double>()).norm()/
+        std::max(1.,A_cast.cast<double>().norm());
+    const double cast_b_rel=(b_cast.cast<double>()-photo_b.cast<BASIC::scalar>().cast<double>()).norm()/
+        std::max(1.,b_cast.cast<double>().norm());
+    const double actual_A_rel=((A-A_before).cast<double>()-A_cast.cast<double>()).norm()/
+        std::max(1.,A_cast.cast<double>().norm());
+    const double actual_b_rel=((b-b_before).cast<double>()-b_cast.cast<double>()).norm()/
+        std::max(1.,b_cast.cast<double>().norm());
+    const double actual_A_abs=((A-A_before).cast<double>()-A_cast.cast<double>()).cwiseAbs().maxCoeff();
+    const double actual_b_abs=((b-b_before).cast<double>()-b_cast.cast<double>()).cwiseAbs().maxCoeff();
+    const double eps=std::numeric_limits<BASIC::scalar>::epsilon();
+    const double A_rounding_bound=4*eps*(A_before.cast<double>().cwiseAbs()+
+        A_cast.cast<double>().cwiseAbs()).maxCoeff();
+    const double b_rounding_bound=4*eps*(b_before.cast<double>().cwiseAbs()+
+        b_cast.cast<double>().cwiseAbs()).maxCoeff();
+    const bool pass=A_rel<1e-10&&b_rel<1e-10&&cast_A_rel<1e-6&&cast_b_rel<1e-6&&
+        actual_A_abs<=A_rounding_bound&&actual_b_abs<=b_rounding_bound;
+    fusion_audit_<<"{\"status\":\""<<(pass?"PASS":"FAIL")<<"\","
+      <<"\"frame\":"<<scan_index_<<",\"pose_state_fixed_within_iteration\":true,"
+      <<"\"photo_rows\":"<<photo_rows_<<",\"valid_patches\":"<<valid_patches_<<','
+      <<"\"photo_scale\":"<<photo_scale_<<",\"measurement_variance\":"<<measurement_variance_<<','
+      <<"\"information_factor\":"<<factor<<",\"H_column_order\":\"right_local_rotation_then_global_position\","
+      <<"\"b_sign\":\"positive_H_transpose_times_raw_intensity_residual\","
+      <<"\"A_max_abs_difference\":"<<A_max<<",\"b_max_abs_difference\":"<<b_max<<','
+      <<"\"A_relative_norm_difference\":"<<A_rel<<",\"b_relative_norm_difference\":"<<b_rel<<','
+      <<"\"scalar_cast_A_relative_difference\":"<<cast_A_rel<<','
+      <<"\"scalar_cast_b_relative_difference\":"<<cast_b_rel<<','
+      <<"\"actual_total_accumulator_A_relative_rounding\":"<<actual_A_rel<<','
+      <<"\"actual_total_accumulator_b_relative_rounding\":"<<actual_b_rel<<','
+      <<"\"actual_total_accumulator_A_max_abs_rounding\":"<<actual_A_abs<<','
+      <<"\"actual_total_accumulator_b_max_abs_rounding\":"<<actual_b_abs<<','
+      <<"\"float_rounding_bound_A\":"<<A_rounding_bound<<','
+      <<"\"float_rounding_bound_b\":"<<b_rounding_bound<<"}\n";
+    fusion_audit_.flush();
+    fusion_audited_=true;
+  }
 }
 
 void CoinObservation::finish(const BASIC::SE3& pose,double timestamp,
@@ -197,10 +251,16 @@ void CoinObservation::finish(const BASIC::SE3& pose,double timestamp,
   const auto& stats=feature_manager_->lastStats();
   if(diagnostics_){
     const double rms=photo_rows_?std::sqrt(residual_square_sum_/photo_rows_):0.;
+    std::vector<double> finite_ncc;
+    for(double ncc:stats.ncc_values)if(std::isfinite(ncc))finite_ncc.push_back(ncc);
+    std::sort(finite_ncc.begin(),finite_ncc.end());
+    const double ncc_median=finite_ncc.empty()?0.:
+        finite_ncc[finite_ncc.size()/2];
     diagnostics_<<scan_index_<<','<<timestamp<<','<<points_.size()<<','<<motion_fallback_points_<<','
       <<coin_scan_end_delta_s_<<','<<active_before_<<','
       <<valid_patches_<<','<<photo_rows_<<','<<rms<<','<<photo_A_norm_<<','<<photo_b_norm_<<','<<weak.lidar.size()<<','
-      <<feature_manager_->features().size()<<','<<stats.added<<','<<stats.removed<<",USED,\n";
+      <<feature_manager_->features().size()<<','<<stats.added<<','<<stats.removed
+      <<",USED,,"<<finite_ncc.size()<<','<<ncc_median<<','<<stats.rejected_ncc<<'\n';
   }
   ++scan_index_;prepared_=false;
 }

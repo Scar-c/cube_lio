@@ -2,6 +2,7 @@
 #include "ros/ROSWrapper.h"
 #include "super_lio/CloudPose.h"
 #include "super_lio/CloudPose2.h"
+#include "ros/ouster_time_support.hpp"
 
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <cmath>
@@ -357,6 +358,13 @@ void ROSWrapper::stdMsgHandler(const sensor_msgs::PointCloud2::ConstPtr& msg){
         audit.valid_raw_offsets.push_back(offset);
       }
     }
+    // COIN's temporal support is all valid raw Ouster samples, irrespective
+    // of Super's geometry filter rate or message point ordering.
+    const auto support=ousterScanTimeSupport(pl_orig.points,coin_preprocess_blind_);
+    if(!support.has_valid_raw){
+      ROS_WARN("Ouster scan has no valid raw temporal-support points; skipping scan");
+      return;
+    }
     if(coin_enabled_){
       lidar_data.coin_raw_points.reserve(pl_orig.size());
       for(std::size_t raw_index=0;raw_index<pl_orig.size();++raw_index){
@@ -394,7 +402,7 @@ void ROSWrapper::stdMsgHandler(const sensor_msgs::PointCloud2::ConstPtr& msg){
       lidar_data.pc->emplace_back(
           pt.x, pt.y, pt.z, pt.intensity, offset_time);
     }
-    lidar_data.end_time = lidar_data.start_time + offset_time;
+    lidar_data.end_time = lidar_data.start_time + support.max_offset_s;
     break;
   }
   default:
@@ -499,18 +507,30 @@ bool ROSWrapper::sync_measure(MeasureGroup& meas){
     return false;
   }
 
-  if (last_timestamp_imu_ < meas.lidar.end_time) {
+  if (!imuHasReachedScanEnd(last_timestamp_imu_,meas.lidar.end_time)) {
     return false;
   }
 
-  /*** push imu_ data, and pop from imu_ buffer ***/
-  double imu_time = imu_buffer_.front().secs;
   meas.imu.clear();
-  while ((!imu_buffer_.empty()) && (imu_time < meas.lidar.end_time)) {
-    imu_time = imu_buffer_.front().secs;
-    if (imu_time > meas.lidar.end_time) break;
-    meas.imu.push_back(imu_buffer_.front());
-    imu_buffer_.pop_front();
+  if(g_lidar_type==LID_TYPE::OUSTER){
+    const auto window=collectOusterImuWindow(imu_buffer_,meas.lidar.end_time,
+        have_last_synced_imu_?&last_synced_imu_:nullptr);
+    meas.imu=window.samples;
+    meas.lidar.imu_support_issue=window.issue;
+    meas.lidar.time_audit.imu_bracket_span_s=window.bracket_span_s;
+    if(window.has_end_sample){
+      last_synced_imu_=window.end_sample;
+      have_last_synced_imu_=true;
+    }
+  }else{
+    /*** Historical non-Ouster synchronization remains unchanged. ***/
+    double imu_time=imu_buffer_.front().secs;
+    while(!imu_buffer_.empty()&&imu_time<meas.lidar.end_time){
+      imu_time=imu_buffer_.front().secs;
+      if(imu_time>meas.lidar.end_time)break;
+      meas.imu.push_back(imu_buffer_.front());
+      imu_buffer_.pop_front();
+    }
   }
 
   last_timestamp_lidar_ = meas.lidar.end_time;

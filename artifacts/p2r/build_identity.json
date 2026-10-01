@@ -1,0 +1,39 @@
+{
+  "branch": "p2r-super-coin-time-consistency",
+  "start_sha": "b493d593cb56bd07adb255779aaaf20f551b3621",
+  "run_source_head": "41d2a0902203287ad38609bd72ad0850d1bce2b5",
+  "note": "Run identities record pre-archive committed HEAD; this file records exact working-tree source hashes and built binary for final G1/C1 runs. No source changes after validation runs.",
+  "source_sha256": {
+    "src/super_lio/CMakeLists.txt": "7503c1481b61f3c9cfa8d47a34943b2f96ba7e3912b18cc583ac1bae9ee8e5e3",
+    "src/super_lio/include/common/ds.h": "b7fa34fcfa327ff4e6b72dbfde2c8d1514f1c760f2e57a51beb02f77d4182778",
+    "src/super_lio/include/intensity/coin/coin_acquisition.hpp": "af53c385f08b55d1920445628ff14f713c72b0b3d438e38710205d3a9a8d7d51",
+    "src/super_lio/include/intensity/coin/coin_observation.hpp": "3fabc50c5fa8a3f2b302c181766315724a7aee12f5feba3cf6ffb9035a9eadf8",
+    "src/super_lio/include/lio/ouster_scan_history.hpp": "947372fe79822814ee240a2b33c6dc1a45f6ca6a838aaa1edd3ac5e684118466",
+    "src/super_lio/include/ros/ROSWrapper.h": "637a63b0fae2346e57d6736d17ff57e26f165d75f59ae9c693d698eccd63fc6e",
+    "src/super_lio/include/ros/ouster_time_support.hpp": "fa8bdf31920484496ce5f0fbf32739f367ad04ea9186b0107f291c8d6efb72d2",
+    "src/super_lio/src/intensity/coin/coin_observation.cpp": "e14b2599bb9d3737d70986977b3e919bd04d3882fcb2070c6c0610771b509286",
+    "src/super_lio/src/lio/super_lio.cpp": "edc45d897b0cef07117261331ec7c04f087c38216fc1f5cf5537c20411b670c0",
+    "src/super_lio/src/ros/ROSWrapper.cpp": "8a45ab77ca977c8d871110bbd34b7c4a7f4fe31fb2b3dcab1c5da9589b83670d",
+    "src/super_lio/test/test_ouster_time_support.cpp": "b62be46a89c2ce256b0a6f675d1e4844038655c68a9edb4ee1c6533a96bf3fc9",
+    "tools/p2r/run.py": "4bb35cd0f7e5f2a4d308dee77e0f2f4122fdcbc967a206c4058d159fc8d45bf1",
+    "tools/p2r/summarize_time.py": "37b9134ef76f74f1d2e89a85b268186f011b8244ccbf6c211e4648075c944440"
+  },
+  "binary_path": "devel/lib/super_lio/cube_offline_node",
+  "binary_sha256": "267b0fae98e969a00ff4c55237a7df597038828347ca6930f013a6322c98eda7",
+  "run_binary_sha256": {
+    "c1_1": "267b0fae98e969a00ff4c55237a7df597038828347ca6930f013a6322c98eda7",
+    "c1_2": "267b0fae98e969a00ff4c55237a7df597038828347ca6930f013a6322c98eda7",
+    "c1_3": "267b0fae98e969a00ff4c55237a7df597038828347ca6930f013a6322c98eda7"
+  },
+  "g1_binary_sha256": "267b0fae98e969a00ff4c55237a7df597038828347ca6930f013a6322c98eda7",
+  "config_sha256": {
+    "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+    "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+    "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+    "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+    "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+  },
+  "bag_sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e",
+  "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+  "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf"
+}

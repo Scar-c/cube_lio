@@ -138,3 +138,7 @@ endif()
 
 add_executable(test_coin_feature_math test/test_coin_feature_math.cpp)
 target_link_libraries(test_coin_feature_math lio ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+add_executable(test_ouster_time_support test/test_ouster_time_support.cpp)
+target_link_libraries(test_ouster_time_support lio ${catkin_LIBRARIES})
+add_test(NAME ouster_time_support COMMAND test_ouster_time_support)

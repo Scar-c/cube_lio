@@ -77,6 +77,7 @@ public:
     lidar_pushed_ = false;
     last_timestamp_imu_ = -1.0;
     last_timestamp_lidar_ = -1.0;
+    have_last_synced_imu_ = false;
   }
 
   void pub_odom(const NavState&);
@@ -115,6 +116,8 @@ private:
   bool lidar_pushed_ = false;
   double last_timestamp_imu_ = -1.0;
   double last_timestamp_lidar_ = -1.0;
+  bool have_last_synced_imu_ = false;
+  IMUData last_synced_imu_;
 
   ESKF::Ptr eskf_ = nullptr;
   OctVoxMap<BASIC::V3, BASIC::scalar>::Ptr ivox_ = nullptr;
