@@ -34,4 +34,6 @@
   <run_depend>python3</run_depend>
   <run_depend>python3-psutil</run_depend>
 
+  <build_depend>rosbag</build_depend>
+  <run_depend>rosbag</run_depend>
 </package>

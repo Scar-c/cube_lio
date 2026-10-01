@@ -58,6 +58,11 @@ public:
     self_queue_.callAvailable();
   }
 
+  // Offline replay uses the identical production callbacks and synchronization.
+  void replay(const sensor_msgs::Imu::ConstPtr& m) { imuHandler(m); }
+  void replay(const sensor_msgs::PointCloud2::ConstPtr& m) { stdMsgHandler(m); }
+  void replay(const livox_ros_driver::CustomMsg::ConstPtr& m) { livoxHandler(m); }
+
   void setESKF(ESKF::Ptr& eskf) {
     eskf_ = eskf;
   }

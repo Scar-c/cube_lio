@@ -16,6 +16,7 @@ add_definitions(-DROOT=\"${CMAKE_CURRENT_SOURCE_DIR}/\")
 find_package(Eigen3 REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rosbag
   rospy
   basic
   pcl_ros
@@ -97,3 +98,7 @@ target_link_libraries(relocation_node
   lio
   ${catkin_LIBRARIES}
 )
+
+add_dependencies(lio ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_executable(cube_offline_node src/apps/cube_offline_node.cpp)
+target_link_libraries(cube_offline_node lio ${catkin_LIBRARIES})
