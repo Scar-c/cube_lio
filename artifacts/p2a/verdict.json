@@ -1,0 +1,16 @@
+{
+  "verdict": "P2A NO-GO — AGGREGATE AUTHORITY NOT THE MAIN CAUSE",
+  "reference_valid": true,
+  "shadow_gate": "PASS",
+  "determinism": "PASS",
+  "ntu_regression": "PASS",
+  "tunnel_d_candidate_classes": {
+    "C60": "FAIL",
+    "C100": "FAIL",
+    "K100": "FAIL"
+  },
+  "supported_observation": "Dense-Ouster aggregate photo authority is strongly larger and can be controlled.",
+  "hypothesis_outcome": "Aggregate authority alone is not supported as the main TunnelD root cause by the fixed tested family.",
+  "shield1_improvement_is_localization_recovery": false,
+  "next_phase_started": false
+}

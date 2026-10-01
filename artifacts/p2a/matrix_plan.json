@@ -1,0 +1,316 @@
+{
+  "dataset_order": [
+    "eee_01",
+    "tunnel_d",
+    "shield1"
+  ],
+  "policy_order": [
+    "C0",
+    "C60",
+    "C100",
+    "K100"
+  ],
+  "ntu_shield_runs_per_policy": 1,
+  "tunnel_runs_per_policy": 2,
+  "audit_enabled": false,
+  "photo_off_regression_per_dataset": 1,
+  "repeat_pose_tolerance": 1e-09,
+  "gate_sha256": "6a0254906ddd68d92ecab4d09c34e48948e3dbdb6152d395f35adaeb93a39940",
+  "runs": [
+    {
+      "dataset": "eee_01",
+      "policy": "GEO",
+      "repeat": 1,
+      "name": "p2a_geo_regression_eee_01",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "eee_01",
+        "--name",
+        "p2a_geo_regression_eee_01"
+      ]
+    },
+    {
+      "dataset": "eee_01",
+      "policy": "C0",
+      "repeat": 1,
+      "name": "p2a_actual_eee_01_C0_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "eee_01",
+        "--name",
+        "p2a_actual_eee_01_C0_1",
+        "--photo",
+        "--policy",
+        "C0"
+      ]
+    },
+    {
+      "dataset": "eee_01",
+      "policy": "C60",
+      "repeat": 1,
+      "name": "p2a_actual_eee_01_C60_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "eee_01",
+        "--name",
+        "p2a_actual_eee_01_C60_1",
+        "--photo",
+        "--policy",
+        "C60"
+      ]
+    },
+    {
+      "dataset": "eee_01",
+      "policy": "C100",
+      "repeat": 1,
+      "name": "p2a_actual_eee_01_C100_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "eee_01",
+        "--name",
+        "p2a_actual_eee_01_C100_1",
+        "--photo",
+        "--policy",
+        "C100"
+      ]
+    },
+    {
+      "dataset": "eee_01",
+      "policy": "K100",
+      "repeat": 1,
+      "name": "p2a_actual_eee_01_K100_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "eee_01",
+        "--name",
+        "p2a_actual_eee_01_K100_1",
+        "--photo",
+        "--policy",
+        "K100"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "GEO",
+      "repeat": 1,
+      "name": "p2a_geo_regression_tunnel_d",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_geo_regression_tunnel_d"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "C0",
+      "repeat": 1,
+      "name": "p2a_actual_tunnel_d_C0_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_C0_1",
+        "--photo",
+        "--policy",
+        "C0"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "C0",
+      "repeat": 2,
+      "name": "p2a_actual_tunnel_d_C0_2",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_C0_2",
+        "--photo",
+        "--policy",
+        "C0"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "C60",
+      "repeat": 1,
+      "name": "p2a_actual_tunnel_d_C60_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_C60_1",
+        "--photo",
+        "--policy",
+        "C60"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "C60",
+      "repeat": 2,
+      "name": "p2a_actual_tunnel_d_C60_2",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_C60_2",
+        "--photo",
+        "--policy",
+        "C60"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "C100",
+      "repeat": 1,
+      "name": "p2a_actual_tunnel_d_C100_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_C100_1",
+        "--photo",
+        "--policy",
+        "C100"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "C100",
+      "repeat": 2,
+      "name": "p2a_actual_tunnel_d_C100_2",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_C100_2",
+        "--photo",
+        "--policy",
+        "C100"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "K100",
+      "repeat": 1,
+      "name": "p2a_actual_tunnel_d_K100_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_K100_1",
+        "--photo",
+        "--policy",
+        "K100"
+      ]
+    },
+    {
+      "dataset": "tunnel_d",
+      "policy": "K100",
+      "repeat": 2,
+      "name": "p2a_actual_tunnel_d_K100_2",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "tunnel_d",
+        "--name",
+        "p2a_actual_tunnel_d_K100_2",
+        "--photo",
+        "--policy",
+        "K100"
+      ]
+    },
+    {
+      "dataset": "shield1",
+      "policy": "GEO",
+      "repeat": 1,
+      "name": "p2a_geo_regression_shield1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "shield1",
+        "--name",
+        "p2a_geo_regression_shield1"
+      ]
+    },
+    {
+      "dataset": "shield1",
+      "policy": "C0",
+      "repeat": 1,
+      "name": "p2a_actual_shield1_C0_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "shield1",
+        "--name",
+        "p2a_actual_shield1_C0_1",
+        "--photo",
+        "--policy",
+        "C0"
+      ]
+    },
+    {
+      "dataset": "shield1",
+      "policy": "C60",
+      "repeat": 1,
+      "name": "p2a_actual_shield1_C60_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "shield1",
+        "--name",
+        "p2a_actual_shield1_C60_1",
+        "--photo",
+        "--policy",
+        "C60"
+      ]
+    },
+    {
+      "dataset": "shield1",
+      "policy": "C100",
+      "repeat": 1,
+      "name": "p2a_actual_shield1_C100_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "shield1",
+        "--name",
+        "p2a_actual_shield1_C100_1",
+        "--photo",
+        "--policy",
+        "C100"
+      ]
+    },
+    {
+      "dataset": "shield1",
+      "policy": "K100",
+      "repeat": 1,
+      "name": "p2a_actual_shield1_K100_1",
+      "argv": [
+        "python3",
+        "/home/lc/cube_lio/tools/cube_lio/run.py",
+        "shield1",
+        "--name",
+        "p2a_actual_shield1_K100_1",
+        "--photo",
+        "--policy",
+        "K100"
+      ]
+    }
+  ]
+}
