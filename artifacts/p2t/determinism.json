@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "TunnelD": {
+    "S2": {
+      "runs": [
+        "p2t_s2_reference",
+        "p2t_s2_repeat2",
+        "p2t_s2_repeat3"
+      ],
+      "trajectory_sha256": [
+        "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+        "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+        "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311"
+      ],
+      "diagnostics_sha256": [
+        "f937f819fb02554feaad0f97c387c7519c3c461f3c65a2cc9b352d580bd04146",
+        "f937f819fb02554feaad0f97c387c7519c3c461f3c65a2cc9b352d580bd04146",
+        "f937f819fb02554feaad0f97c387c7519c3c461f3c65a2cc9b352d580bd04146"
+      ],
+      "timestamp_vector_equal": true,
+      "frames_equal": true,
+      "ate_rmse_m": [
+        3.1357949515127532,
+        3.1357949515127532,
+        3.1357949515127532
+      ],
+      "bitwise_trajectory_identical": true,
+      "bitwise_diagnostics_identical": true
+    },
+    "G1": {
+      "runs": [
+        "p2t_g1_first",
+        "p2t_g1_repeat2",
+        "p2t_g1_repeat3"
+      ],
+      "trajectory_sha256": [
+        "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63",
+        "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63",
+        "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63"
+      ],
+      "diagnostics_sha256": [
+        "97b79f00c9e17d7e251d829f171d28ee81555763541f6f38babc83fe897863a0",
+        "97b79f00c9e17d7e251d829f171d28ee81555763541f6f38babc83fe897863a0",
+        "97b79f00c9e17d7e251d829f171d28ee81555763541f6f38babc83fe897863a0"
+      ],
+      "timestamp_vector_equal": true,
+      "frames_equal": true,
+      "ate_rmse_m": [
+        3.5462094452214945,
+        3.5462094452214945,
+        3.5462094452214945
+      ],
+      "bitwise_trajectory_identical": true,
+      "bitwise_diagnostics_identical": true
+    },
+    "G2": {
+      "runs": [
+        "p2t_g2_first",
+        "p2t_g2_repeat2",
+        "p2t_g2_repeat3"
+      ],
+      "trajectory_sha256": [
+        "3b7b7876179f0688cf407c4eb4752c65b6ce9ebb580b0923bbe945b8272e8a3c",
+        "3b7b7876179f0688cf407c4eb4752c65b6ce9ebb580b0923bbe945b8272e8a3c",
+        "3b7b7876179f0688cf407c4eb4752c65b6ce9ebb580b0923bbe945b8272e8a3c"
+      ],
+      "diagnostics_sha256": [
+        "230979c73f3c8e33a797c86ba70364c0ae450fc678e93c68a6e4c484f58ca9a0",
+        "230979c73f3c8e33a797c86ba70364c0ae450fc678e93c68a6e4c484f58ca9a0",
+        "230979c73f3c8e33a797c86ba70364c0ae450fc678e93c68a6e4c484f58ca9a0"
+      ],
+      "timestamp_vector_equal": true,
+      "frames_equal": true,
+      "ate_rmse_m": [
+        214.1835213321593,
+        214.1835213321593,
+        214.1835213321593
+      ],
+      "bitwise_trajectory_identical": true,
+      "bitwise_diagnostics_identical": true
+    }
+  },
+  "NTU_photo_off_G1_configured": {
+    "runs": [
+      "p2t_ntu_validation",
+      "p2t_ntu_validation_repeat2",
+      "p2t_ntu_validation_repeat3"
+    ],
+    "trajectory_sha256": [
+      "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+      "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+      "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e"
+    ],
+    "timestamp_vector_equal": true,
+    "frame_count_equal": true,
+    "ate_rmse_m": [
+      0.11743820510167272,
+      0.11743820510167272,
+      0.11743820510167272
+    ],
+    "bitwise_trajectory_identical": true
+  },
+  "NTU_same_build_original_control_trajectory_sha256": "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+  "Shield1_same_build_G1_configured_trajectory_sha256": "75d075506b8b5316c5b73972c432fcd8171c5257418008f03bb21c0273236adc"
+}

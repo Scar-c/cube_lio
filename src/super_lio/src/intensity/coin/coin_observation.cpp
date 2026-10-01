@@ -1,5 +1,6 @@
 #include "intensity/coin/coin_observation.hpp"
 #include "intensity/coin/coin_acquisition.hpp"
+#include "intensity/coin/super_degeneracy_gate.hpp"
 
 #include "lio/params.h"
 #include <ros/ros.h>
@@ -30,8 +31,14 @@ CoinObservation::CoinObservation(ros::NodeHandle& nh,const Eigen::Matrix4d& T_IL
   nh.param("/coin/shadow",shadow_,false);
   nh.param<std::string>("/coin/selector_mode",selector_mode_,"original");
   if(selector_mode_!="original"&&selector_mode_!="gradient"&&
-     selector_mode_!="weakest"&&selector_mode_!="normalized")
+     selector_mode_!="weakest"&&selector_mode_!="normalized"&&
+     selector_mode_!="s2"&&selector_mode_!="g1"&&selector_mode_!="g2")
     throw std::invalid_argument("unknown COIN selector mode: "+selector_mode_);
+  nh.param("/coin/gate_g1_confidence_threshold",gate_g1_confidence_threshold_,-1.);
+  nh.param("/coin/gate_g2_confidence_threshold",gate_g2_confidence_threshold_,-1.);
+  if((selector_mode_=="g1"||selector_mode_=="g2")&&
+     (!(gate_g1_confidence_threshold_>=0.)||!(gate_g2_confidence_threshold_>=0.)))
+    throw std::invalid_argument("gated COIN selector requires geometry-derived G1 and G2 confidence thresholds");
   if(LI2Sup::g_lidar_type!=LI2Sup::LID_TYPE::OUSTER)
     throw std::runtime_error("faithful COIN observation currently requires Ouster");
   bool photo_enabled=false;nh.param("/photo/enable",photo_enabled,false);
@@ -61,7 +68,10 @@ CoinObservation::CoinObservation(ros::NodeHandle& nh,const Eigen::Matrix4d& T_IL
   if(!output_dir.empty()){
     diagnostics_.open(output_dir+"/coin_observation.csv");
     if(!diagnostics_)throw std::runtime_error("cannot write COIN observation diagnostics");
-    diagnostics_<<"frame,timestamp,raw_points,motion_fallback_points,coin_minus_super_scan_end_s,active_before,valid_patches,photo_rows,residual_rms,photo_A_norm,photo_b_norm,weak_dirs,active_after,added,removed,status,skip_reason,ncc_count,ncc_median,rejected_ncc,selector_mode,selected_centers_xy,selected_gradient_mean,selected_score_e1,selected_score_e2,selected_score_e3\n";
+    diagnostics_<<"frame,timestamp,raw_points,motion_fallback_points,coin_minus_super_scan_end_s,active_before,valid_patches,photo_rows,residual_rms,photo_A_norm,photo_b_norm,weak_dirs,active_after,added,removed,status,skip_reason,ncc_count,ncc_median,rejected_ncc,selector_mode,selected_centers_xy,selected_gradient_mean,selected_score_e1,selected_score_e2,selected_score_e3"
+      <<",N_geo_rows,lambda1,lambda2,lambda3,lambda1_over_lambda2,lambda1_over_lambda3,"
+      "weakest_axis_stability,anisotropy_confidence,eigengap_confidence,degeneracy_confidence,"
+      "gate_threshold,gate_active\n"<<std::setprecision(17);
   }
   std::string fusion_audit_path;
   nh.getParam("/p2r/fusion_audit_path",fusion_audit_path);
@@ -94,7 +104,9 @@ void CoinObservation::prepare(const LI2Sup::LidarData& lidar,
       diagnostics_<<scan_index_<<','<<lidar.end_time<<','<<lidar.coin_raw_points.size()<<','
         <<unsupported_points<<','<<coin_scan_end_delta_s_<<','<<active
         <<",0,0,0,0,0,0,"<<active<<",0,0,SKIPPED,"<<reason<<",0,0,0,"
-        <<selector_mode_<<",,,,,\n";
+        <<selector_mode_;
+      for(int column=0;column<17;++column)diagnostics_<<',';
+      diagnostics_<<'\n';
     }
     ROS_WARN_THROTTLE(5.0,"COIN observation skipped at scan %zu: %s; geometric update continues",
                       scan_index_,reason.c_str());
@@ -254,11 +266,17 @@ void CoinObservation::finish(const BASIC::SE3& pose,double timestamp,
   const Eigen::Matrix4d T_GL=transform(R_GL,t_GL);
   const auto weak=CoinFeatureManager::weakDirectionsFromGeometry(
       geometry_translation_rows,R_GL,feature_settings_.n_uninformative);
+  const bool previous_axis_is_temporally_supported=has_previous_weak_axis_&&
+      timestamp>previous_weak_axis_timestamp_&&timestamp-previous_weak_axis_timestamp_<=.25;
+  const auto signal=SuperDegeneracyGate::measure(weak,previous_weak_axis_global_,
+                                                  previous_axis_is_temporally_supported);
   std::vector<Vec3> selector_directions=weak.lidar;
   bool pure_gradient=false;
+  bool gate_active=false;
+  double gate_threshold=-1.;
   if(selector_mode_=="gradient"){
     selector_directions.clear();pure_gradient=true;
-  }else if(selector_mode_=="weakest"){
+  }else if(selector_mode_=="weakest"||selector_mode_=="s2"){
     selector_directions.clear();
     if(geometry_translation_rows.rows()>3)
       selector_directions.push_back(R_GL.transpose()*weak.eigenvectors.col(0));
@@ -268,6 +286,19 @@ void CoinObservation::finish(const BASIC::SE3& pose,double timestamp,
         static_cast<double>(geometry_translation_rows.rows());
     selector_directions=CoinFeatureManager::weakDirectionsFromGeometry(
         geometry_translation_rows,R_GL,threshold).lidar;
+  }else if(selector_mode_=="g1"||selector_mode_=="g2"){
+    gate_threshold=selector_mode_=="g1"?gate_g1_confidence_threshold_:
+                                           gate_g2_confidence_threshold_;
+    gate_active=SuperDegeneracyGate::activate(signal,gate_threshold);
+    if(gate_active){
+      selector_directions.clear();
+      selector_directions.push_back(R_GL.transpose()*weak.eigenvectors.col(0));
+    }
+  }
+  if(weak.geometry_rows>3&&weak.eigenvectors.col(0).allFinite()){
+    previous_weak_axis_global_=weak.eigenvectors.col(0).normalized();
+    previous_weak_axis_timestamp_=timestamp;
+    has_previous_weak_axis_=true;
   }
   std::vector<Vec3> audit_eigenvectors_lidar;
   for(int d=0;d<3;++d)audit_eigenvectors_lidar.push_back(R_GL.transpose()*weak.eigenvectors.col(d));
@@ -294,6 +325,11 @@ void CoinObservation::finish(const BASIC::SE3& pose,double timestamp,
     diagnostics_<<','<<average(stats.selected_gradient_sum,stats.selected_metric_count);
     for(const double score:stats.selected_directional_score_sum)
       diagnostics_<<','<<average(score,stats.selected_metric_count);
+    diagnostics_<<','<<weak.geometry_rows<<','<<weak.eigenvalues[0]<<','<<weak.eigenvalues[1]<<','
+      <<weak.eigenvalues[2]<<','<<signal.lambda1_over_lambda2<<','<<signal.lambda1_over_lambda3<<','
+      <<signal.weakest_axis_stability<<','<<signal.anisotropy_confidence<<','
+      <<signal.eigengap_confidence<<','<<signal.confidence<<','<<gate_threshold<<','
+      <<(gate_active?1:0);
     diagnostics_<<'\n';
   }
   ++scan_index_;prepared_=false;

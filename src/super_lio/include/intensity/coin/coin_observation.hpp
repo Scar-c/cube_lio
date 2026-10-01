@@ -29,6 +29,10 @@ class CoinObservation {
   bool enabled_=false,prepared_=false,shadow_=false;
   std::string selector_mode_="original";
   double photo_scale_=0.00095,measurement_variance_=0.001;
+  double gate_g1_confidence_threshold_=-1.,gate_g2_confidence_threshold_=-1.;
+  bool has_previous_weak_axis_=false;
+  Eigen::Vector3d previous_weak_axis_global_=Eigen::Vector3d::UnitX();
+  double previous_weak_axis_timestamp_=0.;
   Eigen::Matrix4d T_IL_=Eigen::Matrix4d::Identity();
   CoinImageSettings image_settings_;
   CoinFeatureSettings feature_settings_;

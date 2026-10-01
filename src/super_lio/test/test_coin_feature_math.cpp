@@ -1,4 +1,7 @@
 #include "intensity/coin/coin_feature_manager.hpp"
+#include "intensity/coin/coin_intensity_representation.hpp"
+#include "intensity/coin/super_degeneracy_gate.hpp"
+#include "intensity/intensity_representation.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -40,6 +43,24 @@ int main(){
             "only the weak z translation direction should be retained");
     require(weak.lidar.size()==1&&std::abs(weak.lidar[0].dot(R.transpose()*Eigen::Vector3d::UnitZ()))>1.-1e-12,
             "weak global direction must be rotated into LiDAR coordinates");
+    require((weak.eigenvalues-Eigen::Vector3d(4.,5.,6.)).norm()<1e-12&&weak.geometry_rows==15,
+            "geometry audit must retain ascending Super translation eigenvalues and row count");
+    const auto gate=SuperDegeneracyGate::measure(weak,Eigen::Vector3d::UnitZ(),true);
+    const auto gate_sign_flipped=SuperDegeneracyGate::measure(weak,-Eigen::Vector3d::UnitZ(),true);
+    require(gate.valid&&gate.weakest_axis_stability==1.&&gate.confidence>0.,
+            "a distinct, anisotropic and temporally aligned weakest axis must have confidence");
+    require(std::abs(gate.confidence-gate_sign_flipped.confidence)<1e-15,
+            "weakest-axis temporal confidence must be invariant to eigenvector sign");
+    require(SuperDegeneracyGate::activate(gate,gate.confidence)&&
+            !SuperDegeneracyGate::activate(gate,gate.confidence+1e-9),
+            "geometry-only gate activation must be deterministic at its frozen threshold");
+    const auto first_gate=SuperDegeneracyGate::measure(weak,Eigen::Vector3d::UnitX(),false);
+    require(first_gate.weakest_axis_stability==0.&&first_gate.confidence==0.,
+            "the first frame without temporal support must not claim confident stability");
+    static_assert(std::is_abstract<cube::IntensityRepresentation>::value,
+                  "future intensity projection contract must remain an interface");
+    static_assert(std::is_base_of<cube::IntensityRepresentation,CoinIntensityRepresentation>::value,
+                  "COIN must have a documented opt-in representation adapter");
 
     Eigen::MatrixXd duplicated(2*H.rows(),3);
     duplicated.topRows(H.rows())=H;duplicated.bottomRows(H.rows())=H;
@@ -82,7 +103,7 @@ int main(){
     const auto fallback=CoinFeatureManager::weakDirectionsFromGeometry(short_H,R,25.);
     require(fallback.global.empty()&&fallback.lidar.size()==3,
             "COIN must use LiDAR XYZ when geometry has no weak direction set");
-    std::cout<<"{\"ncc_affine\":\"PASS\",\"ncc_contrast\":\"PASS\",\"weak_direction_contribution\":\"PASS\",\"row_count_scaling\":\"PASS\",\"weakest_eigenvector_sign\":\"PASS\",\"pure_gradient_order_and_60_cap\":\"PASS\",\"no_gt_selector_input\":\"PASS\",\"frame_rotation\":\"PASS\",\"fallback_axes\":\"PASS\"}\n";
+    std::cout<<"{\"ncc_affine\":\"PASS\",\"ncc_contrast\":\"PASS\",\"weak_direction_contribution\":\"PASS\",\"row_count_scaling\":\"PASS\",\"weakest_eigenvector_sign\":\"PASS\",\"super_degeneracy_gate\":\"PASS\",\"intensity_representation_interface\":\"PASS\",\"pure_gradient_order_and_60_cap\":\"PASS\",\"no_gt_selector_input\":\"PASS\",\"frame_rotation\":\"PASS\",\"fallback_axes\":\"PASS\"}\n";
     return 0;
   }catch(const std::exception& e){std::cerr<<"COIN feature math test: "<<e.what()<<'\n';return 1;}
 }

@@ -549,6 +549,7 @@ struct ThreadACC{
 void SuperLIO::Observe(){
   if(photo_->enabled()) photo_->prepare(measures_, propagate_states_, kf_->GetSE3());
   if(coin_->enabled()) coin_->prepare(measures_.lidar,propagate_states_,kf_->GetSE3());
+  const bool capture_geometry_rows=coin_->enabled()||geometry_rows_audit_.is_open();
   size_t ptsize = ds_undistort_->size();
   
   static std::vector<float> _lengths;
@@ -578,7 +579,7 @@ void SuperLIO::Observe(){
     std::vector<Eigen::Vector3d> geometry_translation_rows;
     std::vector<std::uint8_t> geometry_translation_valid;
     std::vector<double> geometry_translation_residuals;
-    if(coin_->enabled()){
+    if(capture_geometry_rows){
       geometry_translation_rows.assign(points_body_v3_.size(),Eigen::Vector3d::Zero());
       geometry_translation_valid.assign(points_body_v3_.size(),0);
       geometry_translation_residuals.assign(points_body_v3_.size(),0.);
@@ -620,7 +621,7 @@ void SuperLIO::Observe(){
             V6d J;
             J.head<3>() = point_body_d.cross(nb);
             J.tail<3>() = normvec;
-            if(coin_->enabled()){
+            if(capture_geometry_rows){
               geometry_translation_rows[idx]=normvec.cast<double>();
               geometry_translation_valid[idx]=1;
               geometry_translation_residuals[idx]=static_cast<double>(error);
@@ -641,7 +642,7 @@ void SuperLIO::Observe(){
     HTVH = sum_HTVH.cast<scalar>();
     HTVr = sum_HTVr.cast<scalar>();
     if(photo_->enabled()) photo_->add(pose, HTVH, HTVr, kf_->GetCov().topLeftCorner<6,6>());
-    if(coin_->enabled()){
+    if(capture_geometry_rows){
       std::size_t row_count=0;
       for(std::size_t r_s=0;r_s<effect_knn_num_;++r_s){
         const int idx=effect_knn_idxs_[r_s];row_count+=geometry_translation_valid[idx]!=0;

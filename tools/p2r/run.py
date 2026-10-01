@@ -30,13 +30,18 @@ def main():
     mode=parser.add_mutually_exclusive_group()
     mode.add_argument('--coin',action='store_true',help='inject faithful COIN measurements')
     mode.add_argument('--shadow',action='store_true',help='run COIN features on geometry-only states without injecting measurements')
-    parser.add_argument('--selector',choices=('original','gradient','weakest','normalized'),default='original')
+    parser.add_argument('--selector',choices=('original','gradient','weakest','normalized','s2','g1','g2'),default='original')
+    parser.add_argument('--gate-g1-threshold',type=float)
+    parser.add_argument('--gate-g2-threshold',type=float)
     parser.add_argument('--audit-csv',type=Path)
     parser.add_argument('--fusion-audit-json',type=Path)
     parser.add_argument('--geometry-rows',type=Path,help='diagnostic-only final geometry rows binary trace')
     args=parser.parse_args()
     if (args.coin or args.shadow) and args.dataset!='tunnel_d':
         parser.error('COIN selection is scoped to TunnelD')
+    if args.coin and args.selector in ('g1','g2') and (
+            args.gate_g1_threshold is None or args.gate_g2_threshold is None):
+        parser.error('gated COIN selectors require geometry-derived G1 and G2 thresholds')
     out=ROOT/'runtime'/args.name
     out.mkdir(parents=True,exist_ok=False)
     env=dict(os.environ,ROS_MASTER_URI=f'http://127.0.0.1:{args.port}',
@@ -49,6 +54,8 @@ def main():
     paths=[config,photo_config]+(coin_configs if args.dataset=='tunnel_d' else [])
     identity={'dataset':args.dataset,'bag':str(BAGS[args.dataset]),
               'coin':args.coin,'shadow':args.shadow,'selector':args.selector,
+              'gate_g1_threshold':args.gate_g1_threshold,
+              'gate_g2_threshold':args.gate_g2_threshold,
               'audit_csv':str(args.audit_csv) if args.audit_csv else None,
               'fusion_audit_json':str(args.fusion_audit_json) if args.fusion_audit_json else None,
               'geometry_rows':str(args.geometry_rows) if args.geometry_rows else None,
@@ -81,6 +88,10 @@ def main():
             '/p2r/fusion_audit_path':str(args.fusion_audit_json.resolve()) if args.fusion_audit_json else '',
             '/p2s/geometry_rows_path':str(args.geometry_rows.resolve()) if args.geometry_rows else '',
         }
+        if args.gate_g1_threshold is not None:
+            params['/coin/gate_g1_confidence_threshold']=str(args.gate_g1_threshold)
+        if args.gate_g2_threshold is not None:
+            params['/coin/gate_g2_confidence_threshold']=str(args.gate_g2_threshold)
         for key,value in params.items():
             subprocess.run(['rosparam','set',key,value],env=env,check=True)
         with (out/'node.log').open('w') as log:

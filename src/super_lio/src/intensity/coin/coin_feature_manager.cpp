@@ -67,11 +67,13 @@ CoinWeakDirections CoinFeatureManager::weakDirectionsFromGeometry(const Eigen::M
                                                                    const Eigen::Matrix3d& R_GL,
                                                                    double n_uninformative){
   CoinWeakDirections result;
+  result.geometry_rows=H_translation.rows();
   if(H_translation.cols()!=3)throw std::invalid_argument("COIN weak-direction Jacobian must have 3 translation columns");
   if(H_translation.rows()>3){
     const Eigen::Matrix3d hth=H_translation.transpose()*H_translation;
     Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solver(hth);
     if(solver.info()!=Eigen::Success)throw std::runtime_error("COIN geometry eigenvector calculation failed");
+    result.eigenvalues=solver.eigenvalues().cwiseMax(0.);
     result.eigenvectors=solver.eigenvectors();
     for(Eigen::Index i=0;i<H_translation.rows();++i){
       Vec3 normalized_row=H_translation.row(i).transpose();normalized_row.normalize();

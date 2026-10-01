@@ -1,0 +1,68 @@
+{
+  "branch": "p2t-super-native-degeneracy-gate",
+  "start_sha": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+  "run_source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+  "note": "The validated P2-T source tree was dirty during runs; exact tracked-source hashes and production binary hash are recorded below.",
+  "source_sha256": {
+    "src/super_lio/include/intensity/coin/coin_feature_manager.hpp": "5e65e35fd9f9cb0b386a135fe6713f4920f4a67b9d309f780ecd6897999fc331",
+    "src/super_lio/include/intensity/coin/coin_observation.hpp": "8c3cf27f8d6ccd3e1895d5e709c92e1f3f7a1a585924779006d02cb998e41225",
+    "src/super_lio/include/intensity/coin/super_degeneracy_gate.hpp": "fbf4e67c85da002cb6a5ecfca6c05a14bf0e973572d8129de9c568e317446584",
+    "src/super_lio/include/intensity/intensity_representation.hpp": "c91817d7ff902525014a991e91090b3866f79293aab1f709c2c68f887cd0684d",
+    "src/super_lio/include/intensity/coin/coin_intensity_representation.hpp": "f01d8a6f3ac6aa09cb3f6f37982d6be16daba7b17e2fe884d6d8934bef88ccce",
+    "src/super_lio/src/intensity/coin/coin_feature_manager.cpp": "3c8a5995b56dcca7c221d2ab71c87607ac9d7331d67227765130075d6b19d6c1",
+    "src/super_lio/src/intensity/coin/coin_observation.cpp": "e778ce3bda00e209f7494647749834738afc8d52e5052dd042fb396ee1d6ff32",
+    "src/super_lio/src/lio/super_lio.cpp": "b02940c12b7e9482cd51e68eb9b64adef80e2fe3fb843045f39287741eebeb8f",
+    "tools/p2r/run.py": "f5ed6b7825c660f7abac81e02191bed74de5fef4f6b0b079deb2781eee696020",
+    "tools/p2t/analyze_degeneracy.py": "ea35bb60af89ccab4ccd1d8009eb02c0f479096bfeaae70e91e3a928193b8f93",
+    "tools/p2t/archive_results.py": "dfff3ec350a5cdd12774de89ce778c5221882d8458551123c89aba9db887f5e3",
+    "src/super_lio/test/test_coin_feature_math.cpp": "b57f1c4c0d48cc7e05fd5672e29207ab01e4ff2a7204e9e741ed1f16b70c362b"
+  },
+  "binary_path": "devel/lib/super_lio/cube_offline_node",
+  "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+  "production_run_binary_sha256": {
+    "S2": [
+      "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e"
+    ],
+    "G1": [
+      "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e"
+    ],
+    "G2": [
+      "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e"
+    ]
+  },
+  "confidence_thresholds": {
+    "calibration_dataset": "NTU eee_01 photo-off Super geometry rows",
+    "selection_inputs": "geometry rows, timestamps and eigensignals only; no GT or ATE",
+    "G1_rule": "95th percentile of valid per-frame degeneracy_confidence",
+    "G2_rule": "99th percentile of valid per-frame degeneracy_confidence",
+    "G1_confidence_threshold": 0.31913064578672057,
+    "G2_confidence_threshold": 0.359189249724233,
+    "G2_is_at_least_as_conservative_as_G1": true
+  },
+  "datasets": {
+    "tunnel_d": {
+      "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+      "config_sha256": {
+        "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+        "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+        "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+        "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+      }
+    },
+    "eee_01": {
+      "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+      "config_sha256": {
+        "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+      }
+    },
+    "shield1": {
+      "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1_gamma.bag",
+      "config_sha256": {
+        "tools/cube_lio/config/shield1.yaml": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+      }
+    }
+  }
+}

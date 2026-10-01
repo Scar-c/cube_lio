@@ -1,0 +1,253 @@
+{
+  "reproduction": {
+    "name": "p2t_s2_reference",
+    "result": {
+      "status": "SUCCESS",
+      "node_exit_code": 0,
+      "evaluator_exit_code": 0
+    },
+    "evaluation": {
+      "dataset": "tunnel_d",
+      "alignment": "SE3 no scale",
+      "association": "evo nearest timestamps max_diff=0.1s offset=0",
+      "ate_rmse_m": 3.1357949515127532,
+      "ate_mean_m": 2.801352849788967,
+      "ate_median_m": 2.3445247187970706,
+      "ate_max_m": 6.935568162411104,
+      "matched": 1180,
+      "duplicate_estimate_timestamps": 1,
+      "frames": 1180,
+      "processed_duration_s": 118.01416993141174,
+      "first_timestamp": 1691509832.9570942,
+      "last_timestamp": 1691509950.9712641,
+      "gt_path": "/home/lc/algorithm_versa/bag/ENWIDE/gt-tunnel_d.tum",
+      "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+      "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+      "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+    },
+    "run": {
+      "lidar_read": 1189,
+      "imu_read": 11861,
+      "frames": 1180,
+      "wall_processing_s": 41.7793,
+      "bag_duration_s": 119.013,
+      "peak_rss_kb": 325352,
+      "tbb_threads": 4
+    },
+    "identity": {
+      "dataset": "tunnel_d",
+      "bag": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+      "coin": true,
+      "shadow": false,
+      "selector": "s2",
+      "gate_g1_threshold": null,
+      "gate_g2_threshold": null,
+      "audit_csv": "runtime/p2t_s2_reference/time_audit.csv",
+      "fusion_audit_json": null,
+      "geometry_rows": "runtime/p2t_s2_reference/geometry_rows.bin",
+      "source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+      "config_sha256": {
+        "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+        "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+        "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+        "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+      },
+      "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+      "threads": 4
+    },
+    "trajectory_sha256": "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+    "diagnostics_sha256": "f937f819fb02554feaad0f97c387c7519c3c461f3c65a2cc9b352d580bd04146",
+    "frames": 1180,
+    "accepted_photo_frames": 1176,
+    "skipped_photo_frames": 4,
+    "skip_reasons": {
+      "imu_bracket_gap_or_order_invalid": 4
+    },
+    "accepted_motion_fallback_points": 0,
+    "weakest_selector_frames": 1176,
+    "xyz_fallback_frames": 0,
+    "gate_active_frames": 0,
+    "gate_active_fraction": 0.0,
+    "max_active_features": 60,
+    "active_features": {
+      "count": 1176,
+      "min": 60.0,
+      "p05": 60.0,
+      "p50": 60.0,
+      "p95": 60.0,
+      "max": 60.0,
+      "mean": 60.0
+    },
+    "selected_center_count": {
+      "count": 1176,
+      "min": 6.0,
+      "p05": 13.0,
+      "p50": 25.0,
+      "p95": 37.0,
+      "max": 60.0,
+      "mean": 25.385204081632654
+    },
+    "selected_gradient_mean": {
+      "count": 1176,
+      "min": 28.97771110534668,
+      "p05": 32.7719080953887,
+      "p50": 40.40779634622427,
+      "p95": 52.653557199371285,
+      "max": 63.957069079081215,
+      "mean": 41.256726529249626
+    },
+    "ncc_median_by_frame": {
+      "count": 1176,
+      "min": 0.0,
+      "p05": 0.7026582567364781,
+      "p50": 0.835420417973141,
+      "p95": 0.9003834483245952,
+      "max": 0.9321396975622729,
+      "mean": 0.82010031127461
+    },
+    "photo_rows_by_frame": {
+      "count": 1176,
+      "min": 0.0,
+      "p05": 1000.0,
+      "p50": 1225.0,
+      "p95": 1400.0,
+      "max": 1500.0,
+      "mean": 1211.1607142857142
+    },
+    "scan_end_delta_s": {
+      "count": 1176,
+      "min": -1.1903686522596324e-07,
+      "p05": -1.0735015868595932e-07,
+      "p50": -1.0852050716381179e-09,
+      "p95": 1.0905197144611689e-07,
+      "max": 1.1898071289317969e-07,
+      "mean": -6.814031210970805e-10
+    },
+    "geometry_signal": {
+      "N_geo_rows": {
+        "count": 1176,
+        "min": 299.0,
+        "p05": 879.0,
+        "p50": 1042.0,
+        "p95": 1351.0,
+        "max": 1477.0,
+        "mean": 1071.7244897959183
+      },
+      "lambda1": {
+        "count": 1176,
+        "min": 27.430760030210347,
+        "p05": 43.00572545403728,
+        "p50": 69.63709230101733,
+        "p95": 131.18813845919072,
+        "max": 149.06394532364348,
+        "mean": 74.04549679272783
+      },
+      "lambda2": {
+        "count": 1176,
+        "min": 117.97990163525293,
+        "p05": 367.6770249508541,
+        "p50": 444.99259670836375,
+        "p95": 556.2375215871982,
+        "max": 617.0024377355902,
+        "mean": 453.0414397030175
+      },
+      "lambda3": {
+        "count": 1176,
+        "min": 140.75732858794242,
+        "p05": 437.61722006628486,
+        "p50": 532.5033115367274,
+        "p95": 695.0096843536982,
+        "max": 765.7599138887808,
+        "mean": 544.6375533001732
+      },
+      "lambda1_over_lambda2": {
+        "count": 1176,
+        "min": 0.0632470093696664,
+        "p05": 0.09659993185806579,
+        "p50": 0.15960161630127517,
+        "p95": 0.25019739771257454,
+        "max": 0.44227675718399456,
+        "mean": 0.16332542481230175
+      },
+      "lambda1_over_lambda3": {
+        "count": 1176,
+        "min": 0.054333310367229215,
+        "p05": 0.08051507062424546,
+        "p50": 0.1350455621911953,
+        "p95": 0.20137796025513133,
+        "max": 0.28604386130878556,
+        "mean": 0.135336405507262
+      },
+      "weakest_axis_stability": {
+        "count": 1176,
+        "min": 0.0,
+        "p05": 0.9994704915526456,
+        "p50": 0.9999011022236972,
+        "p95": 0.9999930583201322,
+        "max": 0.9999997160903874,
+        "mean": 0.9972817087576238
+      },
+      "anisotropy_confidence": {
+        "count": 1176,
+        "min": 0.7139561386912144,
+        "p05": 0.7986220397448687,
+        "p50": 0.8649544378088048,
+        "p95": 0.9194849293757545,
+        "max": 0.9456666896327708,
+        "mean": 0.864663594492738
+      },
+      "eigengap_confidence": {
+        "count": 1176,
+        "min": 0.33619087965780087,
+        "p05": 0.5733066159727881,
+        "p50": 0.7016818853738538,
+        "p95": 0.8251141342189746,
+        "max": 0.9030805274499522,
+        "mean": 0.7004639131865056
+      },
+      "degeneracy_confidence": {
+        "count": 1176,
+        "min": 0.0,
+        "p05": 0.4662220404185703,
+        "p50": 0.6127835847702622,
+        "p95": 0.7327909605100328,
+        "max": 0.822826491723873,
+        "mean": 0.6057270839419907
+      }
+    },
+    "fusion_audit": null
+  },
+  "three_run_determinism": {
+    "runs": [
+      "p2t_s2_reference",
+      "p2t_s2_repeat2",
+      "p2t_s2_repeat3"
+    ],
+    "trajectory_sha256": [
+      "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+      "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311",
+      "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311"
+    ],
+    "diagnostics_sha256": [
+      "f937f819fb02554feaad0f97c387c7519c3c461f3c65a2cc9b352d580bd04146",
+      "f937f819fb02554feaad0f97c387c7519c3c461f3c65a2cc9b352d580bd04146",
+      "f937f819fb02554feaad0f97c387c7519c3c461f3c65a2cc9b352d580bd04146"
+    ],
+    "timestamp_vector_equal": true,
+    "frames_equal": true,
+    "ate_rmse_m": [
+      3.1357949515127532,
+      3.1357949515127532,
+      3.1357949515127532
+    ],
+    "bitwise_trajectory_identical": true,
+    "bitwise_diagnostics_identical": true
+  },
+  "P2S_reference": {
+    "ATE_rmse_m": 3.1357949515127532,
+    "trajectory_sha256": "1f72919449989a7b14918fa456015fc21ae470af239915a89096b369b669b311"
+  },
+  "S2_reproduction_matches_P2S": true,
+  "source_note": "Eigenvalues and temporal weakest-axis stability are captured from the exact final geometry rows used at each S2 frame; feature statistics are from the corresponding COIN diagnostics."
+}

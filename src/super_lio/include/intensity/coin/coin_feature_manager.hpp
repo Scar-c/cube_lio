@@ -49,7 +49,9 @@ struct CoinFeatureFrameStats {
 
 struct CoinWeakDirections {
   Eigen::Vector3d contribution=Eigen::Vector3d::Zero();
+  Eigen::Vector3d eigenvalues=Eigen::Vector3d::Zero();
   Eigen::Matrix3d eigenvectors=Eigen::Matrix3d::Identity();
+  Eigen::Index geometry_rows=0;
   std::vector<Vec3> global;
   std::vector<Vec3> lidar;
 };

@@ -1,0 +1,303 @@
+{
+  "validation_scope": "photo-off normal-scene regression; COIN is disabled for eee_01 and the selector mode cannot enter its estimator path",
+  "P2T_G1_configured_but_COIN_disabled": {
+    "runs": [
+      "p2t_ntu_validation",
+      "p2t_ntu_validation_repeat2",
+      "p2t_ntu_validation_repeat3"
+    ],
+    "trajectory_sha256": [
+      "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+      "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+      "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e"
+    ],
+    "timestamp_vector_equal": true,
+    "frame_count_equal": true,
+    "ate_rmse_m": [
+      0.11743820510167272,
+      0.11743820510167272,
+      0.11743820510167272
+    ],
+    "bitwise_trajectory_identical": true,
+    "run_records": [
+      {
+        "name": "p2t_ntu_validation",
+        "evaluation": {
+          "dataset": "eee_01",
+          "alignment": "SE3 no scale",
+          "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+          "ate_rmse_m": 0.11743820510167272,
+          "ate_mean_m": 0.07867778573843187,
+          "ate_median_m": 0.06395352312774304,
+          "ate_max_m": 0.6685983423800048,
+          "matched": 3327,
+          "duplicate_estimate_timestamps": 0,
+          "frames": 3981,
+          "processed_duration_s": 398.00173139572144,
+          "first_timestamp": 1609059013.7792258,
+          "last_timestamp": 1609059411.7809572,
+          "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+          "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+          "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+          "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+        },
+        "run": {
+          "lidar_read": 3987,
+          "imu_read": 153347,
+          "frames": 3981,
+          "wall_processing_s": 14.9106,
+          "bag_duration_s": 398.683,
+          "peak_rss_kb": 164648,
+          "tbb_threads": 4
+        },
+        "identity": {
+          "dataset": "eee_01",
+          "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+          "coin": false,
+          "shadow": false,
+          "selector": "g1",
+          "gate_g1_threshold": 0.31913064578672057,
+          "gate_g2_threshold": 0.359189249724233,
+          "audit_csv": null,
+          "fusion_audit_json": null,
+          "geometry_rows": null,
+          "source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+          "config_sha256": {
+            "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+            "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+          },
+          "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+          "threads": 4
+        },
+        "trajectory_sha256": "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+        "result": {
+          "status": "SUCCESS",
+          "node_exit_code": 0,
+          "evaluator_exit_code": 0
+        }
+      },
+      {
+        "name": "p2t_ntu_validation_repeat2",
+        "evaluation": {
+          "dataset": "eee_01",
+          "alignment": "SE3 no scale",
+          "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+          "ate_rmse_m": 0.11743820510167272,
+          "ate_mean_m": 0.07867778573843187,
+          "ate_median_m": 0.06395352312774304,
+          "ate_max_m": 0.6685983423800048,
+          "matched": 3327,
+          "duplicate_estimate_timestamps": 0,
+          "frames": 3981,
+          "processed_duration_s": 398.00173139572144,
+          "first_timestamp": 1609059013.7792258,
+          "last_timestamp": 1609059411.7809572,
+          "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+          "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+          "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+          "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+        },
+        "run": {
+          "lidar_read": 3987,
+          "imu_read": 153347,
+          "frames": 3981,
+          "wall_processing_s": 13.7658,
+          "bag_duration_s": 398.683,
+          "peak_rss_kb": 164880,
+          "tbb_threads": 4
+        },
+        "identity": {
+          "dataset": "eee_01",
+          "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+          "coin": false,
+          "shadow": false,
+          "selector": "g1",
+          "gate_g1_threshold": 0.31913064578672057,
+          "gate_g2_threshold": 0.359189249724233,
+          "audit_csv": null,
+          "fusion_audit_json": null,
+          "geometry_rows": null,
+          "source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+          "config_sha256": {
+            "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+            "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+          },
+          "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+          "threads": 4
+        },
+        "trajectory_sha256": "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+        "result": {
+          "status": "SUCCESS",
+          "node_exit_code": 0,
+          "evaluator_exit_code": 0
+        }
+      },
+      {
+        "name": "p2t_ntu_validation_repeat3",
+        "evaluation": {
+          "dataset": "eee_01",
+          "alignment": "SE3 no scale",
+          "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+          "ate_rmse_m": 0.11743820510167272,
+          "ate_mean_m": 0.07867778573843187,
+          "ate_median_m": 0.06395352312774304,
+          "ate_max_m": 0.6685983423800048,
+          "matched": 3327,
+          "duplicate_estimate_timestamps": 0,
+          "frames": 3981,
+          "processed_duration_s": 398.00173139572144,
+          "first_timestamp": 1609059013.7792258,
+          "last_timestamp": 1609059411.7809572,
+          "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+          "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+          "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+          "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+        },
+        "run": {
+          "lidar_read": 3987,
+          "imu_read": 153347,
+          "frames": 3981,
+          "wall_processing_s": 15.7887,
+          "bag_duration_s": 398.683,
+          "peak_rss_kb": 164696,
+          "tbb_threads": 4
+        },
+        "identity": {
+          "dataset": "eee_01",
+          "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+          "coin": false,
+          "shadow": false,
+          "selector": "g1",
+          "gate_g1_threshold": 0.31913064578672057,
+          "gate_g2_threshold": 0.359189249724233,
+          "audit_csv": null,
+          "fusion_audit_json": null,
+          "geometry_rows": null,
+          "source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+          "config_sha256": {
+            "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+            "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+          },
+          "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+          "threads": 4
+        },
+        "trajectory_sha256": "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+        "result": {
+          "status": "SUCCESS",
+          "node_exit_code": 0,
+          "evaluator_exit_code": 0
+        }
+      }
+    ]
+  },
+  "same_build_original_selector_control": {
+    "name": "p2t_ntu_original_control",
+    "evaluation": {
+      "dataset": "eee_01",
+      "alignment": "SE3 no scale",
+      "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+      "ate_rmse_m": 0.11743820510167272,
+      "ate_mean_m": 0.07867778573843187,
+      "ate_median_m": 0.06395352312774304,
+      "ate_max_m": 0.6685983423800048,
+      "matched": 3327,
+      "duplicate_estimate_timestamps": 0,
+      "frames": 3981,
+      "processed_duration_s": 398.00173139572144,
+      "first_timestamp": 1609059013.7792258,
+      "last_timestamp": 1609059411.7809572,
+      "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+      "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+      "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+      "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+    },
+    "run": {
+      "lidar_read": 3987,
+      "imu_read": 153347,
+      "frames": 3981,
+      "wall_processing_s": 13.9473,
+      "bag_duration_s": 398.683,
+      "peak_rss_kb": 164920,
+      "tbb_threads": 4
+    },
+    "identity": {
+      "dataset": "eee_01",
+      "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+      "coin": false,
+      "shadow": false,
+      "selector": "original",
+      "gate_g1_threshold": null,
+      "gate_g2_threshold": null,
+      "audit_csv": null,
+      "fusion_audit_json": null,
+      "geometry_rows": null,
+      "source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+      "config_sha256": {
+        "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+      },
+      "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+      "threads": 4
+    },
+    "trajectory_sha256": "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+    "result": {
+      "status": "SUCCESS",
+      "node_exit_code": 0,
+      "evaluator_exit_code": 0
+    }
+  },
+  "same_build_selector_configuration_has_no_effect": true,
+  "P2R_photo_off_reference": {
+    "name": "p2r_eee01_photo_off",
+    "evaluation": {
+      "dataset": "eee_01",
+      "alignment": "SE3 no scale",
+      "association": "NTU author linear interpolation strict bracket <0.1s, duplicate removal",
+      "ate_rmse_m": 0.1157557732219305,
+      "ate_mean_m": 0.07954619609528507,
+      "ate_median_m": 0.06520553912094212,
+      "ate_max_m": 0.6394851763029008,
+      "matched": 3327,
+      "duplicate_estimate_timestamps": 0,
+      "frames": 3981,
+      "processed_duration_s": 398.00173139572144,
+      "first_timestamp": 1609059013.7792258,
+      "last_timestamp": 1609059411.7809572,
+      "gt_path": "/home/lc/cube_lio/runtime/eee_01_gt.tum",
+      "gt_sha256": "b28cb4ea22b17578cf419974ea0198e010cde0320b7cd3ce7503751f6af0e8f5",
+      "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+      "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+    },
+    "run": {
+      "lidar_read": 3987,
+      "imu_read": 153347,
+      "frames": 3981,
+      "wall_processing_s": 14.7857,
+      "bag_duration_s": 398.683,
+      "peak_rss_kb": 166844,
+      "tbb_threads": 4
+    },
+    "identity": {
+      "dataset": "eee_01",
+      "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+      "coin": false,
+      "audit_csv": null,
+      "source_head": "41d2a0902203287ad38609bd72ad0850d1bce2b5",
+      "config_sha256": {
+        "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+      },
+      "binary_sha256": "0caf2bc5599f3ab0f7d89d86139ad69123916ae4c14c129e6b09052c5303bced",
+      "threads": 4
+    },
+    "trajectory_sha256": "c54e4d2fc9d05ad34436e6a172db078cf107bbca96ddb04c85c73a538549139a",
+    "result": {
+      "status": "SUCCESS",
+      "node_exit_code": 0,
+      "evaluator_exit_code": 0
+    }
+  },
+  "P2T_vs_P2R_reference_ATE_delta_m": 0.0016824318797422216,
+  "P2T_vs_P2R_reference_ATE_delta_fraction": 0.014534323713743413,
+  "limitation": "The small ATE difference from the older P2R run is a build/reference comparison; the same-build selector-on/off trajectories are bitwise identical. COIN photometric selection is not supported on this sequence by the existing runner/frontend scope."
+}

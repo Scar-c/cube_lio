@@ -1,0 +1,168 @@
+{
+  "validation_scope": "photo-off additional Livox geometry regression; COIN is disabled and no COIN selector is evaluated on Shield1",
+  "P2T_photo_off_geometry_capture_run": {
+    "name": "p2t_geometry_shield1",
+    "evaluation": {
+      "dataset": "shield1",
+      "alignment": "SE3 no scale",
+      "association": "evo nearest timestamps max_diff=0.1s offset=0",
+      "ate_rmse_m": 168.1915416661398,
+      "ate_mean_m": 150.54192969614533,
+      "ate_median_m": 151.5312123175337,
+      "ate_max_m": 304.36347667011256,
+      "matched": 1388,
+      "duplicate_estimate_timestamps": 0,
+      "frames": 5418,
+      "processed_duration_s": 541.7029485702515,
+      "first_timestamp": 1706671290.3902378,
+      "last_timestamp": 1706671832.0931864,
+      "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1.txt",
+      "gt_sha256": "525462e9ce03829cebce2e5106b9fe39737b6c9e12800bc4d5d14d9b593f4f5e",
+      "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+      "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+    },
+    "run": {
+      "lidar_read": 5427,
+      "imu_read": 54276,
+      "frames": 5418,
+      "wall_processing_s": 13.3544,
+      "bag_duration_s": 542.741,
+      "peak_rss_kb": 110288,
+      "tbb_threads": 4
+    },
+    "identity": {
+      "dataset": "shield1",
+      "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1_gamma.bag",
+      "coin": false,
+      "shadow": false,
+      "selector": "original",
+      "gate_g1_threshold": null,
+      "gate_g2_threshold": null,
+      "audit_csv": null,
+      "fusion_audit_json": null,
+      "geometry_rows": "runtime/p2t_geometry_shield1/geometry_rows.bin",
+      "source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+      "config_sha256": {
+        "tools/cube_lio/config/shield1.yaml": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+      },
+      "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+      "threads": 4
+    },
+    "trajectory_sha256": "75d075506b8b5316c5b73972c432fcd8171c5257418008f03bb21c0273236adc",
+    "result": {
+      "status": "SUCCESS",
+      "node_exit_code": 0,
+      "evaluator_exit_code": 0
+    }
+  },
+  "P2T_G1_configured_but_COIN_disabled": {
+    "name": "p2t_shield_validation",
+    "evaluation": {
+      "dataset": "shield1",
+      "alignment": "SE3 no scale",
+      "association": "evo nearest timestamps max_diff=0.1s offset=0",
+      "ate_rmse_m": 168.1915416661398,
+      "ate_mean_m": 150.54192969614533,
+      "ate_median_m": 151.5312123175337,
+      "ate_max_m": 304.36347667011256,
+      "matched": 1388,
+      "duplicate_estimate_timestamps": 0,
+      "frames": 5418,
+      "processed_duration_s": 541.7029485702515,
+      "first_timestamp": 1706671290.3902378,
+      "last_timestamp": 1706671832.0931864,
+      "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1.txt",
+      "gt_sha256": "525462e9ce03829cebce2e5106b9fe39737b6c9e12800bc4d5d14d9b593f4f5e",
+      "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+      "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+    },
+    "run": {
+      "lidar_read": 5427,
+      "imu_read": 54276,
+      "frames": 5418,
+      "wall_processing_s": 11.9651,
+      "bag_duration_s": 542.741,
+      "peak_rss_kb": 109600,
+      "tbb_threads": 4
+    },
+    "identity": {
+      "dataset": "shield1",
+      "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1_gamma.bag",
+      "coin": false,
+      "shadow": false,
+      "selector": "g1",
+      "gate_g1_threshold": 0.31913064578672057,
+      "gate_g2_threshold": 0.359189249724233,
+      "audit_csv": null,
+      "fusion_audit_json": null,
+      "geometry_rows": null,
+      "source_head": "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+      "config_sha256": {
+        "tools/cube_lio/config/shield1.yaml": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+      },
+      "binary_sha256": "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+      "threads": 4
+    },
+    "trajectory_sha256": "75d075506b8b5316c5b73972c432fcd8171c5257418008f03bb21c0273236adc",
+    "result": {
+      "status": "SUCCESS",
+      "node_exit_code": 0,
+      "evaluator_exit_code": 0
+    }
+  },
+  "P2R_photo_off_reference": {
+    "name": "p2r_shield1_photo_off_scoped",
+    "evaluation": {
+      "dataset": "shield1",
+      "alignment": "SE3 no scale",
+      "association": "evo nearest timestamps max_diff=0.1s offset=0",
+      "ate_rmse_m": 168.1915416661398,
+      "ate_mean_m": 150.54192969614533,
+      "ate_median_m": 151.5312123175337,
+      "ate_max_m": 304.36347667011256,
+      "matched": 1388,
+      "duplicate_estimate_timestamps": 0,
+      "frames": 5418,
+      "processed_duration_s": 541.7029485702515,
+      "first_timestamp": 1706671290.3902378,
+      "last_timestamp": 1706671832.0931864,
+      "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1.txt",
+      "gt_sha256": "525462e9ce03829cebce2e5106b9fe39737b6c9e12800bc4d5d14d9b593f4f5e",
+      "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+      "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+    },
+    "run": {
+      "lidar_read": 5427,
+      "imu_read": 54276,
+      "frames": 5418,
+      "wall_processing_s": 12.0529,
+      "bag_duration_s": 542.741,
+      "peak_rss_kb": 109956,
+      "tbb_threads": 4
+    },
+    "identity": {
+      "dataset": "shield1",
+      "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel1_gamma.bag",
+      "coin": false,
+      "audit_csv": null,
+      "source_head": "41d2a0902203287ad38609bd72ad0850d1bce2b5",
+      "config_sha256": {
+        "tools/cube_lio/config/shield1.yaml": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+        "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+      },
+      "binary_sha256": "0caf2bc5599f3ab0f7d89d86139ad69123916ae4c14c129e6b09052c5303bced",
+      "threads": 4
+    },
+    "trajectory_sha256": "75d075506b8b5316c5b73972c432fcd8171c5257418008f03bb21c0273236adc",
+    "result": {
+      "status": "SUCCESS",
+      "node_exit_code": 0,
+      "evaluator_exit_code": 0
+    }
+  },
+  "P2T_trajectory_matches_P2R_reference": true,
+  "P2T_ATE_delta_m": 0.0,
+  "limitation": "This validates that the selector code does not perturb the shared photo-off Livox path; it does not test an active COIN image selector on Shield1."
+}
