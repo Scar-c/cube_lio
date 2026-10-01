@@ -115,3 +115,19 @@ add_test(NAME cube_photo_jacobians COMMAND test_cube_photo)
 add_executable(test_information_budget test/test_information_budget.cpp src/intensity/information_budget.cpp)
 target_link_libraries(test_information_budget tbb)
 add_test(NAME photo_information_budget COMMAND test_information_budget)
+
+# The comparison executable is deliberately optional and links the exact,
+# unmodified COIN-LIO oracle only for the P2 parity audit. Production lio never
+# links against the external checkout.
+set(COIN_LIO_REF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../refs/COIN-LIO" CACHE PATH "Pinned COIN-LIO source checkout")
+set(COIN_LIO_ORACLE_DEVEL "/tmp/cube_p2a_coin_oracle/devel" CACHE PATH "Isolated upstream COIN-LIO catkin devel space")
+if(EXISTS "${COIN_LIO_REF_ROOT}/include/projector.h" AND EXISTS "${COIN_LIO_ORACLE_DEVEL}/lib/libcoin_lio.so")
+  find_library(COIN_LIO_CV_BRIDGE_LIBRARY NAMES cv_bridge PATHS ${catkin_LIBRARY_DIRS})
+  if(NOT COIN_LIO_CV_BRIDGE_LIBRARY)
+    message(FATAL_ERROR "Pinned COIN oracle needs cv_bridge for parity executable")
+  endif()
+  add_executable(test_coin_frontend_parity test/test_coin_frontend_parity.cpp
+    src/intensity/coin/coin_ouster_projector.cpp src/intensity/coin/coin_image_processor.cpp)
+  target_include_directories(test_coin_frontend_parity PRIVATE "${COIN_LIO_REF_ROOT}/include" "${COIN_LIO_ORACLE_DEVEL}/include")
+  target_link_libraries(test_coin_frontend_parity lio "${COIN_LIO_ORACLE_DEVEL}/lib/libcoin_lio.so" ${COIN_LIO_CV_BRIDGE_LIBRARY} ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+endif()
