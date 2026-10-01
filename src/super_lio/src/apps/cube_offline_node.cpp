@@ -35,8 +35,9 @@ int main(int argc, char** argv) {
   std::string bag_path, dir;
   nh.getParam("/lio/offline/bag", bag_path);
   nh.getParam("/lio/offline/out_dir", dir);
-  int threads = 4;
-  nh.param("/lio/offline/threads", threads, 4);
+  int threads = 32;
+  nh.param("/lio/offline/threads", threads, 32);
+  if (threads < 1) throw std::invalid_argument("offline TBB thread count must be positive");
   tbb::task_scheduler_init scheduler(threads);
   auto wrapper = std::make_shared<LI2Sup::ROSWrapper>();
   RecordedLIO lio(dir);
@@ -45,6 +46,8 @@ int main(int argc, char** argv) {
   rosbag::Bag bag(bag_path, rosbag::bagmode::Read);
   rosbag::View view(bag, rosbag::TopicQuery({LI2Sup::g_lidar_topic, LI2Sup::g_imu_topic}));
   if (!view.size()) throw std::runtime_error("no selected bag messages");
+  struct rusage usage_before;
+  getrusage(RUSAGE_SELF, &usage_before);
   const auto start = std::chrono::steady_clock::now();
   size_t lidar_count = 0, imu_count = 0;
   for (const auto& entry : view) {
@@ -70,10 +73,17 @@ int main(int argc, char** argv) {
   const double wall = std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
   struct rusage usage;
   getrusage(RUSAGE_SELF, &usage);
+  const auto cpu_seconds = [](const timeval& value) {
+    return static_cast<double>(value.tv_sec) + static_cast<double>(value.tv_usec) / 1e6;
+  };
+  const double cpu_user = cpu_seconds(usage.ru_utime) - cpu_seconds(usage_before.ru_utime);
+  const double cpu_system = cpu_seconds(usage.ru_stime) - cpu_seconds(usage_before.ru_stime);
   std::ofstream metrics(dir + "/run.json");
+  metrics << std::setprecision(17);
   metrics << "{\"lidar_read\":" << lidar_count << ",\"imu_read\":" << imu_count
           << ",\"frames\":" << lio.frames << ",\"wall_processing_s\":" << wall
           << ",\"bag_duration_s\":" << (view.getEndTime() - view.getBeginTime()).toSec()
+          << ",\"cpu_user_s\":" << cpu_user << ",\"cpu_system_s\":" << cpu_system
           << ",\"peak_rss_kb\":" << usage.ru_maxrss << ",\"tbb_threads\":" << threads << "}\n";
   lio.printTimeRecord();
   ros::shutdown();

@@ -1,0 +1,92 @@
+{
+  "reference_run": "p2t_g1_repeat3",
+  "candidate_run": "offline_infra_tunneld_g1_threads32",
+  "thread_counts": [
+    4,
+    32
+  ],
+  "source_heads": [
+    "5b28b14fab1785c990bf8793eaa4eef635dc72cd",
+    "4c940821235da858c788b6b42861e525b765bf0b"
+  ],
+  "binary_sha256": [
+    "03bcddfb3ef260371044bc32cf025a6734941660fb2b107dfc5ec60d15121c3e",
+    "0b7f358fc26aece385d876209fef8bee8246a5d4e9428b147a53bd896f21e41d"
+  ],
+  "shared_inputs_identical": true,
+  "shared_input_fields": [
+    "dataset",
+    "bag",
+    "config_sha256",
+    "coin",
+    "shadow",
+    "selector",
+    "gate_g1_threshold",
+    "gate_g2_threshold"
+  ],
+  "p2t_estimator_source_hashes_match": true,
+  "p2t_estimator_source_hash_checks": {
+    "src/super_lio/include/intensity/coin/coin_feature_manager.hpp": true,
+    "src/super_lio/include/intensity/coin/coin_observation.hpp": true,
+    "src/super_lio/include/intensity/coin/super_degeneracy_gate.hpp": true,
+    "src/super_lio/include/intensity/intensity_representation.hpp": true,
+    "src/super_lio/include/intensity/coin/coin_intensity_representation.hpp": true,
+    "src/super_lio/src/intensity/coin/coin_feature_manager.cpp": true,
+    "src/super_lio/src/intensity/coin/coin_observation.cpp": true,
+    "src/super_lio/src/lio/super_lio.cpp": true,
+    "src/super_lio/test/test_coin_feature_math.cpp": true
+  },
+  "reference_binary_matches_archived_p2t_binary": true,
+  "candidate_binary_sha256": "0b7f358fc26aece385d876209fef8bee8246a5d4e9428b147a53bd896f21e41d",
+  "checks": {
+    "trajectory.tum": {
+      "reference_sha256": "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63",
+      "candidate_sha256": "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63",
+      "reference_bytes": 195660,
+      "candidate_bytes": 195660,
+      "byte_identical": true
+    },
+    "coin_observation.csv": {
+      "reference_sha256": "97b79f00c9e17d7e251d829f171d28ee81555763541f6f38babc83fe897863a0",
+      "candidate_sha256": "97b79f00c9e17d7e251d829f171d28ee81555763541f6f38babc83fe897863a0",
+      "reference_bytes": 741070,
+      "candidate_bytes": 741070,
+      "byte_identical": true
+    },
+    "time_audit.csv": {
+      "reference_sha256": "dd6e1e2a2e5d169acfda01602121dd1126826b5f296025f3b007b4f757896edc",
+      "candidate_sha256": "dd6e1e2a2e5d169acfda01602121dd1126826b5f296025f3b007b4f757896edc",
+      "reference_bytes": 286830,
+      "candidate_bytes": 286830,
+      "byte_identical": true
+    },
+    "evaluation.json": {
+      "reference_sha256": "29c9922bb09891e4330c864948bead8780c4c6a52cc58a672c84bca8d9892a5f",
+      "candidate_sha256": "29c9922bb09891e4330c864948bead8780c4c6a52cc58a672c84bca8d9892a5f",
+      "reference_bytes": 802,
+      "candidate_bytes": 802,
+      "byte_identical": true
+    },
+    "deterministic_run_metrics": {
+      "fields": [
+        "lidar_read",
+        "imu_read",
+        "frames"
+      ],
+      "reference": {
+        "lidar_read": 1189,
+        "imu_read": 11861,
+        "frames": 1180,
+        "bag_duration_s_6sig": "119.013"
+      },
+      "candidate": {
+        "lidar_read": 1189,
+        "imu_read": 11861,
+        "frames": 1180,
+        "bag_duration_s_6sig": "119.013"
+      },
+      "identical": true
+    }
+  },
+  "status": "PASS"
+}

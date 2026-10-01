@@ -1,0 +1,111 @@
+{
+  "dataset": "eee_01",
+  "threads": [
+    1,
+    32
+  ],
+  "runs": [
+    "offline_infra_eee01_threads1",
+    "offline_infra_eee01_threads32"
+  ],
+  "checks": {
+    "shared_input_identity": {
+      "fields": [
+        "dataset",
+        "bag",
+        "bag_sha256",
+        "config_sha256",
+        "binary_sha256",
+        "source_head",
+        "photo",
+        "photo_policy",
+        "photo_audit",
+        "coin",
+        "shadow",
+        "selector"
+      ],
+      "byte_identical": true,
+      "threads_1": {
+        "dataset": "eee_01",
+        "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+        "bag_sha256": "7ea43946cffdd49c88d993ad3f192a4e90a8f6826eddc2ef1a9d4f5343ca6c17",
+        "config_sha256": {
+          "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+          "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+        },
+        "binary_sha256": "0b7f358fc26aece385d876209fef8bee8246a5d4e9428b147a53bd896f21e41d",
+        "source_head": "4c940821235da858c788b6b42861e525b765bf0b",
+        "photo": false,
+        "photo_policy": "C0",
+        "photo_audit": false,
+        "coin": false,
+        "shadow": false,
+        "selector": "original"
+      },
+      "threads_32": {
+        "dataset": "eee_01",
+        "bag": "/home/lc/super_livo/bag/NTU/eee_01/eee_01.bag",
+        "bag_sha256": "7ea43946cffdd49c88d993ad3f192a4e90a8f6826eddc2ef1a9d4f5343ca6c17",
+        "config_sha256": {
+          "tools/cube_lio/config/eee_01.yaml": "04b976b74b853ef9284a69725cceaa51ee5a171da5e5f4600e223c1ae94796fd",
+          "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459"
+        },
+        "binary_sha256": "0b7f358fc26aece385d876209fef8bee8246a5d4e9428b147a53bd896f21e41d",
+        "source_head": "4c940821235da858c788b6b42861e525b765bf0b",
+        "photo": false,
+        "photo_policy": "C0",
+        "photo_audit": false,
+        "coin": false,
+        "shadow": false,
+        "selector": "original"
+      }
+    },
+    "trajectory": {
+      "sha256_threads_1": "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+      "sha256_threads_32": "50c981fef0e3e635786fbb86049acccdc01cdda0a0e5d9caecb076fa3fbb5f7e",
+      "bytes_threads_1": 678188,
+      "bytes_threads_32": 678188,
+      "byte_identical": true
+    },
+    "diagnostics_time_audit": {
+      "sha256_threads_1": "a03a6db791bcb79434d482b51c9e773a45dd4083fc55fe7aab6223f96f73cd4c",
+      "sha256_threads_32": "a03a6db791bcb79434d482b51c9e773a45dd4083fc55fe7aab6223f96f73cd4c",
+      "bytes_threads_1": 972042,
+      "bytes_threads_32": 972042,
+      "byte_identical": true
+    },
+    "metrics_evaluation": {
+      "sha256_threads_1": "ebc112affee12a78069a70fc9e790bebe688228bc17367648f8612de92505a6b",
+      "sha256_threads_32": "ebc112affee12a78069a70fc9e790bebe688228bc17367648f8612de92505a6b",
+      "bytes_threads_1": 819,
+      "bytes_threads_32": 819,
+      "byte_identical": true
+    },
+    "timestamps": {
+      "rows_threads_1": 3981,
+      "rows_threads_32": 3981,
+      "sha256_threads_1": "052dd1ebbac971973dd4088316104e0c35732a187ab56027c630e2c5cca6f8d2",
+      "sha256_threads_32": "052dd1ebbac971973dd4088316104e0c35732a187ab56027c630e2c5cca6f8d2",
+      "byte_identical": true
+    },
+    "deterministic_run_metrics": {
+      "fields": [
+        "lidar_read",
+        "imu_read",
+        "frames",
+        "bag_duration_s"
+      ],
+      "sha256_threads_1": "d68ec1a46a6fb173f27fedee524dc8fc47236bdef1e32cd726875b0403f8b428",
+      "sha256_threads_32": "d68ec1a46a6fb173f27fedee524dc8fc47236bdef1e32cd726875b0403f8b428",
+      "byte_identical": true
+    }
+  },
+  "status": "PASS",
+  "infra_source_sha256": {
+    "src/super_lio/src/apps/cube_offline_node.cpp": "f3810e5a72701133a1a92b28de56d605a33b8db78a0c560853264095a03d4382",
+    "tools/offline/run.py": "7627baf08c1a6e0640968a0e951a4008aded837404cef605a6a808331eb62b86",
+    "tools/offline/validate.py": "2643b72c0b4b0075bbb9c3beb6987d022a01a8e81096e2598cccac8c8c0996e2",
+    "tools/offline/run_experiment.sh": "36967d27596c7f8f0b4235db92cfcb10b8edf6295befe3bf564640c9f680edff",
+    "tools/offline/compare_reference.py": "4827aa35a292e3c53f22f26ce05a2aa1a173d67511c949426d9e318806bce5f7"
+  }
+}
