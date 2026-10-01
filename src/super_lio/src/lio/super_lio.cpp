@@ -6,11 +6,29 @@
 #include <tbb/blocked_range.h>
 #include <tbb/concurrent_vector.h>
 #include <tbb/enumerable_thread_specific.h>
+#include <algorithm>
+#include <iomanip>
+#include <limits>
 
 
 using namespace BASIC;
 
 namespace LI2Sup{
+
+namespace {
+bool auditHasAcquisitionBracket(const std::vector<DynamicState>& history,double time){
+  if(history.size()<2||time>history.back().time)return false;
+  auto tail=std::upper_bound(history.begin(),history.end(),time,
+      [](double t,const DynamicState& s){return t<s.time;});
+  if(tail==history.end())return history.back().R.allFinite()&&history.back().p.allFinite();
+  auto head=tail==history.begin()?tail:std::prev(tail);
+  if(head==tail){
+    auto next=std::next(tail);if(next==history.end())return false;tail=next;
+  }
+  return tail->time>head->time&&head->R.allFinite()&&tail->R.allFinite()&&
+    head->p.allFinite()&&head->v.allFinite()&&tail->a.allFinite();
+}
+}
 
 inline bool calc_plane_coeff(const int N, const std::array<V3, 5>& points, std::array<double, 4>& abcd)
 {
@@ -64,6 +82,18 @@ inline bool compute_error(
 
 void SuperLIO::init(){
   ros::NodeHandle photo_nh;
+  std::string time_audit_path;
+  photo_nh.getParam("/p2r/time_audit_path",time_audit_path);
+  if(!time_audit_path.empty()&&g_lidar_type==LID_TYPE::OUSTER){
+    time_audit_.open(time_audit_path);
+    if(!time_audit_)throw std::runtime_error("cannot write P2R time audit");
+    time_audit_<<std::setprecision(17)
+      <<"frame,phase,ros_message_stamp,max_t_all_raw_offset_s,max_t_valid_raw_offset_s,"
+        "max_t_geometry_after_filter_rate_offset_s,current_lidar_end_time,proposed_full_scan_end_time,"
+        "imu_last_available_to_sync,imu_last_consumed,propagated_history_first,propagated_history_last,"
+        "raw_coin_points,raw_coin_points_after_current_end,raw_coin_points_after_history_back,"
+        "current_motion_fallback_points,geometry_points\n";
+  }
   photo_ = std::make_unique<cube::PhotoObservation>(photo_nh);
   Eigen::Matrix4d T_IL=Eigen::Matrix4d::Identity();
   T_IL.topLeftCorner<3,3>()=g_lidar_imu.R_.cast<double>();
@@ -114,7 +144,35 @@ void SuperLIO::process(){
   if(!data_wrapper_->sync_measure(measures_)){
     return;
   }
+  const bool normal_frame=state_fn_==&SuperLIO::stateProcess;
   (this->*state_fn_)();
+  if(time_audit_&&measures_.lidar.time_audit.enabled){
+    const auto& audit=measures_.lidar.time_audit;
+    const double start=measures_.lidar.start_time;
+    const double end=measures_.lidar.end_time;
+    const bool has_history=normal_frame&&!propagate_states_.empty();
+    const double first=has_history?propagate_states_.front().time:
+      std::numeric_limits<double>::quiet_NaN();
+    const double back=has_history?propagate_states_.back().time:
+      std::numeric_limits<double>::quiet_NaN();
+    std::size_t after_end=0,after_back=0,fallback=0;
+    for(double offset:audit.valid_raw_offsets){
+      const double acquisition=start+offset;
+      after_end+=acquisition>end;
+      if(has_history){
+        after_back+=acquisition>back;
+        fallback+=!auditHasAcquisitionBracket(propagate_states_,acquisition);
+      }
+    }
+    time_audit_<<time_audit_frame_++<<','<<(normal_frame?"normal":"initialization")<<','
+      <<start<<','<<audit.max_offset_all_raw<<','<<audit.max_offset_valid_raw<<','
+      <<audit.max_offset_geometry<<','<<end<<','<<start+audit.max_offset_valid_raw<<','
+      <<audit.imu_last_available<<','<<audit.imu_last_consumed<<','<<first<<','<<back<<','
+      <<audit.valid_raw_points<<','<<after_end<<',';
+    if(has_history)time_audit_<<after_back<<','<<fallback;
+    else time_audit_<<',';
+    time_audit_<<','<<audit.geometry_points<<std::endl;
+  }
 }
 
 

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cassert>
 #include <filesystem>
+#include <fstream>
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/common/transforms.h>
@@ -85,9 +86,10 @@ protected:
   int pcd_index_ = -1;
 
   Timer time_record_;
+  std::ofstream time_audit_;
+  std::size_t time_audit_frame_=0;
 };
 
 } // namespace END.
 
 #endif
-

@@ -189,6 +189,9 @@ ROSWrapper::ROSWrapper(){
   nh_.param("/photo/enable", photo_enabled_, false);
   nh_.param("/coin/enable", coin_enabled_, false);
   nh_.param("/preprocess/blind", coin_preprocess_blind_, 0.65);
+  std::string time_audit_path;
+  nh_.getParam("/p2r/time_audit_path",time_audit_path);
+  time_audit_enabled_=!time_audit_path.empty();
   std::vector<double> lidar_to_sensor;
   if ((nh_.getParam("/lidar_to_sensor_transform", lidar_to_sensor) ||
        nh_.getParam("/lidar_intrinsics/lidar_to_sensor_transform", lidar_to_sensor)) &&
@@ -338,6 +341,22 @@ void ROSWrapper::stdMsgHandler(const sensor_msgs::PointCloud2::ConstPtr& msg){
   {
     pcl::PointCloud<ouster_ros::Point> pl_orig;
     pcl::fromROSMsg(*msg, pl_orig);
+    if(time_audit_enabled_){
+      auto& audit=lidar_data.time_audit;
+      audit.enabled=true;
+      audit.raw_points=pl_orig.size();
+      audit.valid_raw_offsets.reserve(pl_orig.size());
+      for(const auto& pt:pl_orig.points){
+        const double offset=pt.t*1e-9;
+        audit.max_offset_all_raw=std::max(audit.max_offset_all_raw,offset);
+        if(std::isnan(pt.x)||std::isnan(pt.y)||std::isnan(pt.z))continue;
+        const double range=std::sqrt(double(pt.x)*pt.x+double(pt.y)*pt.y+double(pt.z)*pt.z);
+        if(range<coin_preprocess_blind_)continue;
+        ++audit.valid_raw_points;
+        audit.max_offset_valid_raw=std::max(audit.max_offset_valid_raw,offset);
+        audit.valid_raw_offsets.push_back(offset);
+      }
+    }
     if(coin_enabled_){
       lidar_data.coin_raw_points.reserve(pl_orig.size());
       for(std::size_t raw_index=0;raw_index<pl_orig.size();++raw_index){
@@ -366,6 +385,12 @@ void ROSWrapper::stdMsgHandler(const sensor_msgs::PointCloud2::ConstPtr& msg){
       auto& pt = pl_orig.points[i];
       if (!validPoint(pt.x, pt.y, pt.z)) continue;
       offset_time = pt.t * 1e-9;
+      if(time_audit_enabled_){
+        ++lidar_data.time_audit.geometry_points;
+        lidar_data.time_audit.max_offset_geometry=std::max(
+            lidar_data.time_audit.max_offset_geometry,offset_time);
+        lidar_data.time_audit.last_offset_geometry=offset_time;
+      }
       lidar_data.pc->emplace_back(
           pt.x, pt.y, pt.z, pt.intensity, offset_time);
     }
@@ -489,6 +514,10 @@ bool ROSWrapper::sync_measure(MeasureGroup& meas){
   }
 
   last_timestamp_lidar_ = meas.lidar.end_time;
+  if(meas.lidar.time_audit.enabled){
+    meas.lidar.time_audit.imu_last_available=last_timestamp_imu_;
+    if(!meas.imu.empty())meas.lidar.time_audit.imu_last_consumed=meas.imu.back().secs;
+  }
   lidar_buffer_.pop_front();
   lidar_pushed_ = false;
   return true;

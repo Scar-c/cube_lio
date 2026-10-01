@@ -1,0 +1,28 @@
+{
+  "phase": "P2R reference lock",
+  "required_start_branch": "p2-faithful-coin-on-super",
+  "required_start_sha": "b493d593cb56bd07adb255779aaaf20f551b3621",
+  "p2_reference_artifact": "artifacts/p2/reference_identity.json",
+  "tunneld_bag": {
+    "path": "/home/lc/algorithm_versa/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+    "size_bytes": 7485669675,
+    "sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e"
+  },
+  "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+  "evaluator_sha256": "6fb3c28d376dd073b517204c249e092b63b305700e8a005b210087250c9b76bf",
+  "pinned_coin_source_sha": "76729cc4feb3649cbd79d28f82d9f62a2c82889b",
+  "official_coin_oracle_ate_rmse_m": 0.5001613629532796,
+  "g0_historical_geometry_ate_rmse_m": 113.91929554770142,
+  "g0_historical_geometry_trajectory_sha256": "a07250898a5bd75fe247554edaaad786f5e6aa8ccf77d24767ae5068bc6d5b24",
+  "g0_historical_geometry_frames": 1179,
+  "g0_historical_geometry_r0_reproduced": true,
+  "g0_r0_audit_binary_sha256": "31734b74a2e89b2bbd9aad863917fb5dd4bdb9a45dca1e5725563d7279054ef4",
+  "g0_r0_audit_csv_sha256": "d79f7d47b6cf06f31b21d53bc94cc6f173a160524d1336e676887ced0ff21f75",
+  "configs_sha256": {
+    "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+    "tools/cube_lio/config/photo.yaml": "df4e4443b18dd387a9d731c7d42960a3e6556067fac1d4f58b02b7aec0201459",
+    "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+    "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+    "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+  }
+}
