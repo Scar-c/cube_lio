@@ -1,0 +1,75 @@
+{
+  "alignment": "one best-fit proper SE3 on all associated prism-position pairs; no scale",
+  "archived_literal_gt_length_m": 501.43951893190064,
+  "association": "nearest timestamps: iterate shorter array, max_diff=0.1s inclusive, offset=0; no interpolation for Shield4",
+  "audited_commit": "f3060768abee4d2ee2343b07edf62346c7cd0f87",
+  "cross_dataset_comparability": "Not a common benchmark in this repository: NTU uses author interpolation/duplicate removal; stress datasets use nearest matches; GT coverage and sampling differ; 20% is the Shield4 prompt acceptance rule.",
+  "evaluate_py_calculates_path_length": false,
+  "length_definition": "sum of consecutive 3D GT position distances over all 911 GT rows",
+  "length_source": "full unaligned GT, not estimate; SE3 alignment preserves a fixed path length",
+  "manual_shield4": {
+    "alignment_rotation": [
+      [
+        0.03693033035394998,
+        -0.5177436697278793,
+        -0.8547383477747185
+      ],
+      [
+        -0.9990918449200972,
+        -0.037318647763554695,
+        -0.0205621969462447
+      ],
+      [
+        -0.0212517320259913,
+        0.8547214815282276,
+        -0.518651668174399
+      ]
+    ],
+    "alignment_scale": 1.0,
+    "alignment_translation_m": [
+      994.3601350899737,
+      2132.0461224675714,
+      7.7018799377092595
+    ],
+    "archived_ate_rmse_m": 90.39422459718111,
+    "ate_percent_gt_full": 18.026944663182267,
+    "estimate_aligned_matched_path_length_m": 639.2124818507805,
+    "estimate_frames": 3394,
+    "estimate_prism_full_path_length_m": 684.7582655747364,
+    "estimate_prism_matched_path_length_m": 639.2124818507793,
+    "estimate_raw_full_path_length_m": 677.8270331732094,
+    "estimate_tail_after_gt_s": 13.447298288345337,
+    "gt_duration_s": 328.42000007629395,
+    "gt_path_length_m": 501.43951893190064,
+    "gt_rows": 911,
+    "gt_sha256": "89185a4472c3d9407e6619ab5f5f2f9099fb3e3dff83265c1d8e29e4166dbd47",
+    "lever_arm_m": [
+      -0.006490064725986725,
+      0.3047706245823693,
+      0.3686618618310623
+    ],
+    "limit_20pct_gt_full_m_exclusive": 100.28790378638013,
+    "limit_20pct_matched_gt_m_exclusive": 100.28760378638013,
+    "manual_ate_rmse_m": 90.3942245971811,
+    "matched": 898,
+    "matched_first_timestamp": 1706673229.28,
+    "matched_gt_path_length_m": 501.4380189319006,
+    "matched_last_timestamp": 1706673555.1700003,
+    "max_association_time_difference_s": 0.050580501556396484,
+    "pass_20pct_gt_full": true,
+    "pass_20pct_matched_gt_sensitivity": true,
+    "rmse_difference_m": -1.4210854715202004e-14,
+    "rotation_determinant": 0.9999999999999991,
+    "run": "p3_shield4_cube_raw_c1_all32",
+    "trajectory_sha256": "aa42f52e6fce824ed65e0380da9aa2f06fdf647ee07b1b8b00eb0bd7a1f43f32",
+    "unique_matched_estimates": 897,
+    "unique_matched_gt": 898
+  },
+  "shared_20pct_rule_in_evaluate_py": false,
+  "source_sha256": {
+    "eval/evaluate.py": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+    "eval/ntu_author.py": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+    "tools/offline/archive_p3_results.py": "9709cf33abf08ab8a59780753b6be7ca1f9c4bab64585ac01463e692495d0a1a"
+  },
+  "threshold_location": "tools/offline/archive_p3_results.py:139; literal GT path length"
+}

@@ -52,6 +52,10 @@ def main():
     parser.add_argument('--threads', type=positive_int, default=32,
                         help='TBB worker limit (default: 32; use 1 for serial parity checks)')
     parser.add_argument('--photo', action='store_true', help='enable CUBE-LIO photometric updates')
+    parser.add_argument('--photo-time-audit', action='store_true',
+                        help='P3-R Shield4 per-scan photo/IMU support diagnostics')
+    parser.add_argument('--photo-history-supported-only', action='store_true',
+                        help='P3-R C arm: retain only photo points within propagated IMU history')
     parser.add_argument('--policy', choices=PHOTO_POLICIES, default='C0')
     parser.add_argument('--audit', action='store_true', help='write photometric information diagnostics')
     parser.add_argument('--idw-off', action='store_true')
@@ -73,6 +77,10 @@ def main():
     parser.add_argument('--fusion-audit-json', type=Path)
     parser.add_argument('--geometry-rows', type=Path, help='diagnostic-only final geometry rows binary trace')
     args = parser.parse_args()
+
+    if args.photo_time_audit or args.photo_history_supported_only:
+        if args.dataset != 'shield4' or not args.photo:
+            parser.error('P3-R timing controls require Shield4 and --photo')
 
     if Path(args.name).name != args.name or args.name in ('', '.', '..'):
         parser.error('--name must be a single folder name under runtime/')
@@ -105,6 +113,8 @@ def main():
     identity = {
         'dataset': args.dataset, 'bag': str(bag), 'bag_sha256': sha(bag),
         'threads': args.threads, 'photo': args.photo, 'photo_policy': args.policy,
+        'photo_time_audit': args.photo_time_audit,
+        'photo_history_supported_only': args.photo_history_supported_only,
         'photo_audit': args.audit, 'idw_enable': not args.idw_off,
         'projection': args.projection, 'measurement': args.measurement,
         'photo_selector': args.photo_selector,
@@ -116,6 +126,7 @@ def main():
         'fusion_audit_json': str(fusion_audit_json) if fusion_audit_json else None,
         'geometry_rows': str(geometry_rows) if geometry_rows else None,
         'source_head': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+        'source_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip()),
         'config_sha256': {str(p.relative_to(ROOT)): sha(p) for p in paths},
         'p3_source_sha256': {relative: sha(ROOT / relative) for relative in (
             'src/super_lio/include/intensity/intensity_representation.hpp',
@@ -130,6 +141,7 @@ def main():
         )},
         'evaluator_sha256': sha(ROOT / 'eval/evaluate.py'),
         'binary_sha256': sha(ROOT / 'devel/lib/super_lio/cube_offline_node'),
+        'lio_library_sha256': sha(ROOT / 'devel/lib/liblio.so'),
     }
     (out / 'identity.json').write_text(json.dumps(identity, indent=2) + '\n')
     master_log = (out / 'master.log').open('w')
@@ -154,6 +166,8 @@ def main():
             '/lio/offline/bag': str(bag), '/lio/offline/out_dir': str(out),
             '/lio/offline/threads': str(args.threads),
             '/photo/enable': str(args.photo).lower(),
+            '/p3r/photo_time_audit': str(args.photo_time_audit).lower(),
+            '/p3r/photo_history_supported_only': str(args.photo_history_supported_only).lower(),
             '/photo/projection': args.projection,
             '/photo/measurement': args.measurement,
             '/photo/selector': args.photo_selector,

@@ -1,0 +1,245 @@
+{
+  "A_C_time_support_metadata_identical_per_scan": true,
+  "A_trajectory_sha_identical_to_p3": true,
+  "B_trajectory_sha_identical_to_p3": true,
+  "C_actual_fallback_points": 0,
+  "C_filter_valid_on_every_scan": true,
+  "audit_source_sha256": {
+    "src/super_lio/include/intensity/photo_observation.hpp": "7208176982a2f2461b48d0cd1972958b19d778216a6abe4c076f7a91460e94a2",
+    "src/super_lio/src/intensity/photo_observation.cpp": "38c21be7c43d19b1af312c20c87c89652edba459f4c5f66aa38ed95b4f25104d",
+    "tools/offline/audit_p3r_attribution.py": "ef52b5c82b1fbc41bbfbd31406a10321553ea5bc64c15e8298d22720774f3caf",
+    "tools/offline/run.py": "71c67778f03f9ce1fd8c7d3782f6f5bc9b0630ca6051f7ef60d5f5a546cb4b91"
+  },
+  "historical_source_verification": {
+    "A": {
+      "recorded_head": "12d5cdfa25945c4c3d0633d4a49b5a40e2dc3d78",
+      "recorded_source_hashes_match_f306": {
+        "eval/evaluate.py": true,
+        "src/super_lio/include/intensity/cube_image.hpp": true,
+        "src/super_lio/include/intensity/intensity_representation.hpp": true,
+        "src/super_lio/include/intensity/photo_observation.hpp": true,
+        "src/super_lio/include/intensity/spherical_image.hpp": true,
+        "src/super_lio/src/intensity/cube_image.cpp": true,
+        "src/super_lio/src/intensity/photo_observation.cpp": true,
+        "src/super_lio/src/intensity/spherical_image.cpp": true,
+        "src/super_lio/src/lio/super_lio.cpp": true,
+        "tools/offline/run.py": true
+      }
+    },
+    "B": {
+      "recorded_head": "12d5cdfa25945c4c3d0633d4a49b5a40e2dc3d78",
+      "recorded_source_hashes_match_f306": {
+        "eval/evaluate.py": true,
+        "src/super_lio/include/intensity/cube_image.hpp": true,
+        "src/super_lio/include/intensity/intensity_representation.hpp": true,
+        "src/super_lio/include/intensity/photo_observation.hpp": true,
+        "src/super_lio/include/intensity/spherical_image.hpp": true,
+        "src/super_lio/src/intensity/cube_image.cpp": true,
+        "src/super_lio/src/intensity/photo_observation.cpp": true,
+        "src/super_lio/src/intensity/spherical_image.cpp": true,
+        "src/super_lio/src/lio/super_lio.cpp": true,
+        "tools/offline/run.py": true
+      }
+    }
+  },
+  "locked_sources": {
+    "eval/evaluate.py": {
+      "base_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+      "current_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+      "unchanged": true
+    },
+    "eval/ntu_author.py": {
+      "base_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+      "current_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/coin_acquisition.hpp": {
+      "base_sha256": "af53c385f08b55d1920445628ff14f713c72b0b3d438e38710205d3a9a8d7d51",
+      "current_sha256": "af53c385f08b55d1920445628ff14f713c72b0b3d438e38710205d3a9a8d7d51",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/coin_feature_manager.hpp": {
+      "base_sha256": "5e65e35fd9f9cb0b386a135fe6713f4920f4a67b9d309f780ecd6897999fc331",
+      "current_sha256": "5e65e35fd9f9cb0b386a135fe6713f4920f4a67b9d309f780ecd6897999fc331",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/coin_image_processor.hpp": {
+      "base_sha256": "8c4dee6513e876ada3fd8f6a40c9de2c2647672cb6135b96c37b7ed59354743d",
+      "current_sha256": "8c4dee6513e876ada3fd8f6a40c9de2c2647672cb6135b96c37b7ed59354743d",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/coin_intensity_representation.hpp": {
+      "base_sha256": "5121eb75602e56ae6910b6df74d540f5e595d1e4b143bc6b9527cc6b34b852c4",
+      "current_sha256": "5121eb75602e56ae6910b6df74d540f5e595d1e4b143bc6b9527cc6b34b852c4",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/coin_observation.hpp": {
+      "base_sha256": "8c3cf27f8d6ccd3e1895d5e709c92e1f3f7a1a585924779006d02cb998e41225",
+      "current_sha256": "8c3cf27f8d6ccd3e1895d5e709c92e1f3f7a1a585924779006d02cb998e41225",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/coin_ouster_projector.hpp": {
+      "base_sha256": "9f015c05afa4351f5bc079bc11eb5228225afc3c7ef5393a232fb43e88ab8c47",
+      "current_sha256": "9f015c05afa4351f5bc079bc11eb5228225afc3c7ef5393a232fb43e88ab8c47",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/coin_photometric_model.hpp": {
+      "base_sha256": "3b6db9dd38329f8ac99b324094629585f7447f17096774fb7e394b5cbcfba67a",
+      "current_sha256": "3b6db9dd38329f8ac99b324094629585f7447f17096774fb7e394b5cbcfba67a",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/coin/super_degeneracy_gate.hpp": {
+      "base_sha256": "fbf4e67c85da002cb6a5ecfca6c05a14bf0e973572d8129de9c568e317446584",
+      "current_sha256": "fbf4e67c85da002cb6a5ecfca6c05a14bf0e973572d8129de9c568e317446584",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/cube_image.hpp": {
+      "base_sha256": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+      "current_sha256": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/cube_projector.hpp": {
+      "base_sha256": "6f1ee9db424e7a561d95d680e59b8d3d2539f61fcf3b69f2090a535a4aae49e2",
+      "current_sha256": "6f1ee9db424e7a561d95d680e59b8d3d2539f61fcf3b69f2090a535a4aae49e2",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/information_budget.hpp": {
+      "base_sha256": "5742ecf0464385ebb094795ceb938be8eeba6caf5cdb1f36c58a41b55f59e9aa",
+      "current_sha256": "5742ecf0464385ebb094795ceb938be8eeba6caf5cdb1f36c58a41b55f59e9aa",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/intensity_representation.hpp": {
+      "base_sha256": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+      "current_sha256": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+      "unchanged": true
+    },
+    "src/super_lio/include/intensity/spherical_image.hpp": {
+      "base_sha256": "5bc0115b87290b934d96d40a8389b01e227c20e6601ebd01ff652e8275841ec9",
+      "current_sha256": "5bc0115b87290b934d96d40a8389b01e227c20e6601ebd01ff652e8275841ec9",
+      "unchanged": true
+    },
+    "src/super_lio/include/lio/ESKF.h": {
+      "base_sha256": "a6dd015dd219bd179bd87a81cbde45e277bf90a3baa1f06f10cce32528c2ca66",
+      "current_sha256": "a6dd015dd219bd179bd87a81cbde45e277bf90a3baa1f06f10cce32528c2ca66",
+      "unchanged": true
+    },
+    "src/super_lio/include/lio/ouster_scan_history.hpp": {
+      "base_sha256": "947372fe79822814ee240a2b33c6dc1a45f6ca6a838aaa1edd3ac5e684118466",
+      "current_sha256": "947372fe79822814ee240a2b33c6dc1a45f6ca6a838aaa1edd3ac5e684118466",
+      "unchanged": true
+    },
+    "src/super_lio/include/lio/params.h": {
+      "base_sha256": "1ba09590f5d277b12843ef139cbe216565fc0e9771b319e8f24c7d2bfedac082",
+      "current_sha256": "1ba09590f5d277b12843ef139cbe216565fc0e9771b319e8f24c7d2bfedac082",
+      "unchanged": true
+    },
+    "src/super_lio/include/lio/super_lio.h": {
+      "base_sha256": "5fe4f3ea52bed36e36485d06759022b196eba60ceec5e6584df0f73a66fab368",
+      "current_sha256": "5fe4f3ea52bed36e36485d06759022b196eba60ceec5e6584df0f73a66fab368",
+      "unchanged": true
+    },
+    "src/super_lio/include/lio/super_lio_reloc.h": {
+      "base_sha256": "4af49111ee77ca3c7c110e85c070fcac4a2c8c541a9b1de3b47b1c71ad0b3999",
+      "current_sha256": "4af49111ee77ca3c7c110e85c070fcac4a2c8c541a9b1de3b47b1c71ad0b3999",
+      "unchanged": true
+    },
+    "src/super_lio/include/ros/ROSWrapper.h": {
+      "base_sha256": "637a63b0fae2346e57d6736d17ff57e26f165d75f59ae9c693d698eccd63fc6e",
+      "current_sha256": "637a63b0fae2346e57d6736d17ff57e26f165d75f59ae9c693d698eccd63fc6e",
+      "unchanged": true
+    },
+    "src/super_lio/include/ros/ouster_time_support.hpp": {
+      "base_sha256": "fa8bdf31920484496ce5f0fbf32739f367ad04ea9186b0107f291c8d6efb72d2",
+      "current_sha256": "fa8bdf31920484496ce5f0fbf32739f367ad04ea9186b0107f291c8d6efb72d2",
+      "unchanged": true
+    },
+    "src/super_lio/src/intensity/coin/coin_feature_manager.cpp": {
+      "base_sha256": "3c8a5995b56dcca7c221d2ab71c87607ac9d7331d67227765130075d6b19d6c1",
+      "current_sha256": "3c8a5995b56dcca7c221d2ab71c87607ac9d7331d67227765130075d6b19d6c1",
+      "unchanged": true
+    },
+    "src/super_lio/src/intensity/coin/coin_image_processor.cpp": {
+      "base_sha256": "ee9ed63d9964a0e2156f226fc26593e5840616d5e2fec271f85164d824150607",
+      "current_sha256": "ee9ed63d9964a0e2156f226fc26593e5840616d5e2fec271f85164d824150607",
+      "unchanged": true
+    },
+    "src/super_lio/src/intensity/coin/coin_observation.cpp": {
+      "base_sha256": "e778ce3bda00e209f7494647749834738afc8d52e5052dd042fb396ee1d6ff32",
+      "current_sha256": "e778ce3bda00e209f7494647749834738afc8d52e5052dd042fb396ee1d6ff32",
+      "unchanged": true
+    },
+    "src/super_lio/src/intensity/coin/coin_ouster_projector.cpp": {
+      "base_sha256": "fbf9b6cffe853158bb0e913c2a3b570d519983e983e9c40e16ace25f1122d385",
+      "current_sha256": "fbf9b6cffe853158bb0e913c2a3b570d519983e983e9c40e16ace25f1122d385",
+      "unchanged": true
+    },
+    "src/super_lio/src/intensity/coin/coin_photometric_model.cpp": {
+      "base_sha256": "f18fb5aef69ae97d8f3dc6223ca27984456dc5d1e863e815b3166270dad00642",
+      "current_sha256": "f18fb5aef69ae97d8f3dc6223ca27984456dc5d1e863e815b3166270dad00642",
+      "unchanged": true
+    },
+    "src/super_lio/src/intensity/cube_image.cpp": {
+      "base_sha256": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+      "current_sha256": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+      "unchanged": true
+    },
+    "src/super_lio/src/intensity/spherical_image.cpp": {
+      "base_sha256": "38e93366dabf3d24af20b8906a99066837b00cf5ca47e94b462d9f7ed372cd30",
+      "current_sha256": "38e93366dabf3d24af20b8906a99066837b00cf5ca47e94b462d9f7ed372cd30",
+      "unchanged": true
+    },
+    "src/super_lio/src/lio/ESKF.cpp": {
+      "base_sha256": "0687eeb508d1ecb791f16a9efce80338311ec70507bbb67d38982d8764bd1438",
+      "current_sha256": "0687eeb508d1ecb791f16a9efce80338311ec70507bbb67d38982d8764bd1438",
+      "unchanged": true
+    },
+    "src/super_lio/src/lio/params.cpp": {
+      "base_sha256": "afad0bb2126e7cc081cafec645d7f475281cef7ec9e2d97c5c420b248117b56f",
+      "current_sha256": "afad0bb2126e7cc081cafec645d7f475281cef7ec9e2d97c5c420b248117b56f",
+      "unchanged": true
+    },
+    "src/super_lio/src/lio/super_lio.cpp": {
+      "base_sha256": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+      "current_sha256": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+      "unchanged": true
+    },
+    "src/super_lio/src/lio/super_lio_reloc.cpp": {
+      "base_sha256": "ef1cea375df3749011717820af2164101c8f2bef1e0272f6262f8ba05f69c5ed",
+      "current_sha256": "ef1cea375df3749011717820af2164101c8f2bef1e0272f6262f8ba05f69c5ed",
+      "unchanged": true
+    },
+    "src/super_lio/src/ros/ROSWrapper.cpp": {
+      "base_sha256": "8a45ab77ca977c8d871110bbd34b7c4a7f4fe31fb2b3dcab1c5da9589b83670d",
+      "current_sha256": "8a45ab77ca977c8d871110bbd34b7c4a7f4fe31fb2b3dcab1c5da9589b83670d",
+      "unchanged": true
+    },
+    "tools/cube_lio/config/photo.yaml": {
+      "base_sha256": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+      "current_sha256": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+      "unchanged": true
+    },
+    "tools/cube_lio/config/shield4.yaml": {
+      "base_sha256": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+      "current_sha256": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d",
+      "unchanged": true
+    }
+  },
+  "original_binary_sha256": "73092ddf3fb4e95ecf24570926c9cb09ee7d9c6d0c654e68abc35be159013fdf",
+  "original_lio_library_sha256": "0580d47c993e75e79698e94cb5ae1ac8d2f4ba8ba2e56c26887338e9d7d3c56e",
+  "time_support_fields_compared": [
+    "frame",
+    "scan_start",
+    "scan_end_geometry",
+    "history_first",
+    "history_last",
+    "history_states",
+    "frame_supported",
+    "geometry_points",
+    "photo_points_total",
+    "photo_points_inside_history",
+    "photo_points_outside_history",
+    "min_photo_offset_s",
+    "max_photo_offset_s",
+    "max_photo_timestamp"
+  ]
+}

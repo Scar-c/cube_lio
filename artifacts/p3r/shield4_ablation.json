@@ -1,0 +1,456 @@
+{
+  "a_to_c_ate_change_m": 6947.143193326793,
+  "a_to_c_ate_relative_change": 76.85383910625896,
+  "a_to_c_pass_changed": true,
+  "arms": {
+    "A": {
+      "evaluation": {
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_max_m": 144.29861273449475,
+        "ate_mean_m": 81.43403418058378,
+        "ate_median_m": 92.18319043337635,
+        "ate_rmse_m": 90.39422459718111,
+        "dataset": "shield4",
+        "duplicate_estimate_timestamps": 0,
+        "evaluator_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+        "first_timestamp": 1706673229.3124506,
+        "frames": 3394,
+        "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel4.txt",
+        "gt_sha256": "89185a4472c3d9407e6619ab5f5f2f9099fb3e3dff83265c1d8e29e4166dbd47",
+        "last_timestamp": 1706673568.6172986,
+        "matched": 898,
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "processed_duration_s": 339.30484795570374
+      },
+      "exact_original_trajectory_match": true,
+      "identity": {
+        "audit_csv": null,
+        "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel4_gamma.bag",
+        "bag_sha256": "d628847b5db9f304d24415b48edafaa16bc31c52aa8b8d56e0815afdc50d7377",
+        "binary_sha256": "ee41c7cf07267c96ee30e8bc569c1649580ea5c61f96fc465cbd8181c17a4dac",
+        "coin": false,
+        "config_sha256": {
+          "tools/cube_lio/config/photo.yaml": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+          "tools/cube_lio/config/shield4.yaml": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d"
+        },
+        "dataset": "shield4",
+        "evaluator_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+        "fusion_audit_json": null,
+        "gate_g1_threshold": null,
+        "gate_g2_threshold": null,
+        "geometry_rows": null,
+        "idw_enable": true,
+        "lio_library_sha256": "cc24ad432014bdb73e20cfe9a33b2bb47f89064786ada4c20d925fe92f586061",
+        "measurement": "raw",
+        "p3_source_sha256": {
+          "eval/evaluate.py": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+          "src/super_lio/include/intensity/cube_image.hpp": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+          "src/super_lio/include/intensity/intensity_representation.hpp": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+          "src/super_lio/include/intensity/photo_observation.hpp": "7208176982a2f2461b48d0cd1972958b19d778216a6abe4c076f7a91460e94a2",
+          "src/super_lio/include/intensity/spherical_image.hpp": "5bc0115b87290b934d96d40a8389b01e227c20e6601ebd01ff652e8275841ec9",
+          "src/super_lio/src/intensity/cube_image.cpp": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+          "src/super_lio/src/intensity/photo_observation.cpp": "38c21be7c43d19b1af312c20c87c89652edba459f4c5f66aa38ed95b4f25104d",
+          "src/super_lio/src/intensity/spherical_image.cpp": "38e93366dabf3d24af20b8906a99066837b00cf5ca47e94b462d9f7ed372cd30",
+          "src/super_lio/src/lio/super_lio.cpp": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+          "tools/offline/run.py": "71c67778f03f9ce1fd8c7d3782f6f5bc9b0630ca6051f7ef60d5f5a546cb4b91"
+        },
+        "photo": true,
+        "photo_audit": false,
+        "photo_gate_threshold": 0.31913064578672057,
+        "photo_history_supported_only": false,
+        "photo_policy": "C0",
+        "photo_selector": "all",
+        "photo_time_audit": true,
+        "projection": "cubemap",
+        "selector": "original",
+        "shadow": false,
+        "source_dirty": true,
+        "source_head": "71822c76fb3b2a4d4ddad69c536862ede24388a3",
+        "threads": 32
+      },
+      "manual_evaluation": {
+        "alignment_rotation": [
+          [
+            0.03693033035394998,
+            -0.5177436697278793,
+            -0.8547383477747185
+          ],
+          [
+            -0.9990918449200972,
+            -0.037318647763554695,
+            -0.0205621969462447
+          ],
+          [
+            -0.0212517320259913,
+            0.8547214815282276,
+            -0.518651668174399
+          ]
+        ],
+        "alignment_scale": 1.0,
+        "alignment_translation_m": [
+          994.3601350899737,
+          2132.0461224675714,
+          7.7018799377092595
+        ],
+        "archived_ate_rmse_m": 90.39422459718111,
+        "ate_percent_gt_full": 18.026944663182267,
+        "estimate_aligned_matched_path_length_m": 639.2124818507805,
+        "estimate_frames": 3394,
+        "estimate_prism_full_path_length_m": 684.7582655747364,
+        "estimate_prism_matched_path_length_m": 639.2124818507793,
+        "estimate_raw_full_path_length_m": 677.8270331732094,
+        "estimate_tail_after_gt_s": 13.447298288345337,
+        "gt_duration_s": 328.42000007629395,
+        "gt_path_length_m": 501.43951893190064,
+        "gt_rows": 911,
+        "gt_sha256": "89185a4472c3d9407e6619ab5f5f2f9099fb3e3dff83265c1d8e29e4166dbd47",
+        "lever_arm_m": [
+          -0.006490064725986725,
+          0.3047706245823693,
+          0.3686618618310623
+        ],
+        "limit_20pct_gt_full_m_exclusive": 100.28790378638013,
+        "limit_20pct_matched_gt_m_exclusive": 100.28760378638013,
+        "manual_ate_rmse_m": 90.3942245971811,
+        "matched": 898,
+        "matched_first_timestamp": 1706673229.28,
+        "matched_gt_path_length_m": 501.4380189319006,
+        "matched_last_timestamp": 1706673555.1700003,
+        "max_association_time_difference_s": 0.050580501556396484,
+        "pass_20pct_gt_full": true,
+        "pass_20pct_matched_gt_sensitivity": true,
+        "rmse_difference_m": -1.4210854715202004e-14,
+        "rotation_determinant": 0.9999999999999991,
+        "run": "p3r_shield4_a_current32",
+        "trajectory_sha256": "aa42f52e6fce824ed65e0380da9aa2f06fdf647ee07b1b8b00eb0bd7a1f43f32",
+        "unique_matched_estimates": 897,
+        "unique_matched_gt": 898
+      },
+      "original_p3_trajectory_sha256": "aa42f52e6fce824ed65e0380da9aa2f06fdf647ee07b1b8b00eb0bd7a1f43f32",
+      "passed": true,
+      "photo_summary": {
+        "mean_valid_rows": 170.64348850913376,
+        "sigma_final": 4.378560054336117,
+        "sigma_frozen_frames": 3375
+      },
+      "resources": {
+        "bag_duration_s": 340.446334123,
+        "cpu_system_s": 12.51209,
+        "cpu_user_s": 116.06627499999999,
+        "frames": 3394,
+        "imu_read": 34041,
+        "lidar_read": 3404,
+        "peak_rss_kb": 118052,
+        "tbb_threads": 32,
+        "wall_processing_s": 11.276836956
+      },
+      "run": "p3r_shield4_a_current32",
+      "status": {
+        "evaluator_exit_code": 0,
+        "node_exit_code": 0,
+        "status": "SUCCESS"
+      },
+      "trajectory_sha256": "aa42f52e6fce824ed65e0380da9aa2f06fdf647ee07b1b8b00eb0bd7a1f43f32"
+    },
+    "B": {
+      "evaluation": {
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_max_m": 37628.48962728856,
+        "ate_mean_m": 6836.381376023498,
+        "ate_median_m": 4472.659414068217,
+        "ate_rmse_m": 9739.859138551865,
+        "dataset": "shield4",
+        "duplicate_estimate_timestamps": 0,
+        "evaluator_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+        "first_timestamp": 1706673229.3124506,
+        "frames": 3394,
+        "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel4.txt",
+        "gt_sha256": "89185a4472c3d9407e6619ab5f5f2f9099fb3e3dff83265c1d8e29e4166dbd47",
+        "last_timestamp": 1706673568.6172986,
+        "matched": 898,
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "processed_duration_s": 339.30484795570374
+      },
+      "exact_original_trajectory_match": true,
+      "identity": {
+        "audit_csv": null,
+        "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel4_gamma.bag",
+        "bag_sha256": "d628847b5db9f304d24415b48edafaa16bc31c52aa8b8d56e0815afdc50d7377",
+        "binary_sha256": "ee41c7cf07267c96ee30e8bc569c1649580ea5c61f96fc465cbd8181c17a4dac",
+        "coin": false,
+        "config_sha256": {
+          "tools/cube_lio/config/photo.yaml": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+          "tools/cube_lio/config/shield4.yaml": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d"
+        },
+        "dataset": "shield4",
+        "evaluator_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+        "fusion_audit_json": null,
+        "gate_g1_threshold": null,
+        "gate_g2_threshold": null,
+        "geometry_rows": null,
+        "idw_enable": true,
+        "lio_library_sha256": "cc24ad432014bdb73e20cfe9a33b2bb47f89064786ada4c20d925fe92f586061",
+        "measurement": "igm",
+        "p3_source_sha256": {
+          "eval/evaluate.py": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+          "src/super_lio/include/intensity/cube_image.hpp": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+          "src/super_lio/include/intensity/intensity_representation.hpp": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+          "src/super_lio/include/intensity/photo_observation.hpp": "7208176982a2f2461b48d0cd1972958b19d778216a6abe4c076f7a91460e94a2",
+          "src/super_lio/include/intensity/spherical_image.hpp": "5bc0115b87290b934d96d40a8389b01e227c20e6601ebd01ff652e8275841ec9",
+          "src/super_lio/src/intensity/cube_image.cpp": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+          "src/super_lio/src/intensity/photo_observation.cpp": "38c21be7c43d19b1af312c20c87c89652edba459f4c5f66aa38ed95b4f25104d",
+          "src/super_lio/src/intensity/spherical_image.cpp": "38e93366dabf3d24af20b8906a99066837b00cf5ca47e94b462d9f7ed372cd30",
+          "src/super_lio/src/lio/super_lio.cpp": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+          "tools/offline/run.py": "71c67778f03f9ce1fd8c7d3782f6f5bc9b0630ca6051f7ef60d5f5a546cb4b91"
+        },
+        "photo": false,
+        "photo_audit": false,
+        "photo_gate_threshold": 0.31913064578672057,
+        "photo_history_supported_only": false,
+        "photo_policy": "C0",
+        "photo_selector": "all",
+        "photo_time_audit": false,
+        "projection": "cubemap",
+        "selector": "original",
+        "shadow": false,
+        "source_dirty": true,
+        "source_head": "71822c76fb3b2a4d4ddad69c536862ede24388a3",
+        "threads": 32
+      },
+      "manual_evaluation": {
+        "alignment_rotation": [
+          [
+            -0.5585181206098099,
+            -0.7926391578053613,
+            0.24450086802319132
+          ],
+          [
+            0.2826532974224495,
+            0.09525690050008438,
+            0.9544806107843854
+          ],
+          [
+            -0.7798491023311512,
+            0.6022036934632046,
+            0.17083936657741575
+          ]
+        ],
+        "alignment_scale": 1.0,
+        "alignment_translation_m": [
+          833.0485042223664,
+          6593.144643327816,
+          -343.747590009951
+        ],
+        "archived_ate_rmse_m": 9739.859138551865,
+        "ate_percent_gt_full": 1942.3796431718042,
+        "estimate_aligned_matched_path_length_m": 44154.98645320092,
+        "estimate_frames": 3394,
+        "estimate_prism_full_path_length_m": 55971.87608382063,
+        "estimate_prism_matched_path_length_m": 44154.98645320093,
+        "estimate_raw_full_path_length_m": 55968.27345848983,
+        "estimate_tail_after_gt_s": 13.447298288345337,
+        "gt_duration_s": 328.42000007629395,
+        "gt_path_length_m": 501.43951893190064,
+        "gt_rows": 911,
+        "gt_sha256": "89185a4472c3d9407e6619ab5f5f2f9099fb3e3dff83265c1d8e29e4166dbd47",
+        "lever_arm_m": [
+          -0.006490064725986725,
+          0.3047706245823693,
+          0.3686618618310623
+        ],
+        "limit_20pct_gt_full_m_exclusive": 100.28790378638013,
+        "limit_20pct_matched_gt_m_exclusive": 100.28760378638013,
+        "manual_ate_rmse_m": 9739.859138551863,
+        "matched": 898,
+        "matched_first_timestamp": 1706673229.28,
+        "matched_gt_path_length_m": 501.4380189319006,
+        "matched_last_timestamp": 1706673555.1700003,
+        "max_association_time_difference_s": 0.050580501556396484,
+        "pass_20pct_gt_full": false,
+        "pass_20pct_matched_gt_sensitivity": false,
+        "rmse_difference_m": -1.8189894035458565e-12,
+        "rotation_determinant": 1.0000000000000004,
+        "run": "p3r_shield4_b_geometry32",
+        "trajectory_sha256": "ad6ee5037d42bc6490f90e1552e9d90e6c790ddba28fd337cbb55ccbb46e6fb8",
+        "unique_matched_estimates": 897,
+        "unique_matched_gt": 898
+      },
+      "original_p3_trajectory_sha256": "ad6ee5037d42bc6490f90e1552e9d90e6c790ddba28fd337cbb55ccbb46e6fb8",
+      "passed": false,
+      "resources": {
+        "bag_duration_s": 340.446334123,
+        "cpu_system_s": 6.9285380000000005,
+        "cpu_user_s": 56.403039,
+        "frames": 3394,
+        "imu_read": 34041,
+        "lidar_read": 3404,
+        "peak_rss_kb": 441932,
+        "tbb_threads": 32,
+        "wall_processing_s": 3.486235223
+      },
+      "run": "p3r_shield4_b_geometry32",
+      "status": {
+        "evaluator_exit_code": 0,
+        "node_exit_code": 0,
+        "status": "SUCCESS"
+      },
+      "trajectory_sha256": "ad6ee5037d42bc6490f90e1552e9d90e6c790ddba28fd337cbb55ccbb46e6fb8"
+    },
+    "C": {
+      "evaluation": {
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_max_m": 29902.81448786468,
+        "ate_mean_m": 4730.826246735324,
+        "ate_median_m": 2925.5704342215013,
+        "ate_rmse_m": 7037.537417923974,
+        "dataset": "shield4",
+        "duplicate_estimate_timestamps": 0,
+        "evaluator_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+        "first_timestamp": 1706673229.3124506,
+        "frames": 3394,
+        "gt_path": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel4.txt",
+        "gt_sha256": "89185a4472c3d9407e6619ab5f5f2f9099fb3e3dff83265c1d8e29e4166dbd47",
+        "last_timestamp": 1706673568.6172986,
+        "matched": 898,
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+        "processed_duration_s": 339.30484795570374
+      },
+      "identity": {
+        "audit_csv": null,
+        "bag": "/home/lc/algorithm_versa/bag/GEODE/Shield_tunnel4_gamma.bag",
+        "bag_sha256": "d628847b5db9f304d24415b48edafaa16bc31c52aa8b8d56e0815afdc50d7377",
+        "binary_sha256": "ee41c7cf07267c96ee30e8bc569c1649580ea5c61f96fc465cbd8181c17a4dac",
+        "coin": false,
+        "config_sha256": {
+          "tools/cube_lio/config/photo.yaml": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+          "tools/cube_lio/config/shield4.yaml": "4615aa35c5f9c87e5d1eba23471187cb44f6eb949111dee4a04e7170f898175d"
+        },
+        "dataset": "shield4",
+        "evaluator_sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+        "fusion_audit_json": null,
+        "gate_g1_threshold": null,
+        "gate_g2_threshold": null,
+        "geometry_rows": null,
+        "idw_enable": true,
+        "lio_library_sha256": "cc24ad432014bdb73e20cfe9a33b2bb47f89064786ada4c20d925fe92f586061",
+        "measurement": "raw",
+        "p3_source_sha256": {
+          "eval/evaluate.py": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+          "src/super_lio/include/intensity/cube_image.hpp": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+          "src/super_lio/include/intensity/intensity_representation.hpp": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+          "src/super_lio/include/intensity/photo_observation.hpp": "7208176982a2f2461b48d0cd1972958b19d778216a6abe4c076f7a91460e94a2",
+          "src/super_lio/include/intensity/spherical_image.hpp": "5bc0115b87290b934d96d40a8389b01e227c20e6601ebd01ff652e8275841ec9",
+          "src/super_lio/src/intensity/cube_image.cpp": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+          "src/super_lio/src/intensity/photo_observation.cpp": "38c21be7c43d19b1af312c20c87c89652edba459f4c5f66aa38ed95b4f25104d",
+          "src/super_lio/src/intensity/spherical_image.cpp": "38e93366dabf3d24af20b8906a99066837b00cf5ca47e94b462d9f7ed372cd30",
+          "src/super_lio/src/lio/super_lio.cpp": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+          "tools/offline/run.py": "71c67778f03f9ce1fd8c7d3782f6f5bc9b0630ca6051f7ef60d5f5a546cb4b91"
+        },
+        "photo": true,
+        "photo_audit": false,
+        "photo_gate_threshold": 0.31913064578672057,
+        "photo_history_supported_only": true,
+        "photo_policy": "C0",
+        "photo_selector": "all",
+        "photo_time_audit": true,
+        "projection": "cubemap",
+        "selector": "original",
+        "shadow": false,
+        "source_dirty": true,
+        "source_head": "71822c76fb3b2a4d4ddad69c536862ede24388a3",
+        "threads": 32
+      },
+      "manual_evaluation": {
+        "alignment_rotation": [
+          [
+            0.6480831698179979,
+            -0.7583954990937327,
+            -0.06945841887794414
+          ],
+          [
+            0.16824294810834065,
+            0.05362436969017948,
+            0.9842859022596766
+          ],
+          [
+            -0.7427533341631462,
+            -0.6495850167065883,
+            0.16234774608792943
+          ]
+        ],
+        "alignment_scale": 1.0,
+        "alignment_translation_m": [
+          1090.9613995235877,
+          5039.996951849816,
+          -331.8892810324012
+        ],
+        "archived_ate_rmse_m": 7037.537417923974,
+        "ate_percent_gt_full": 1403.466849384827,
+        "estimate_aligned_matched_path_length_m": 36115.83799654571,
+        "estimate_frames": 3394,
+        "estimate_prism_full_path_length_m": 47239.20057348872,
+        "estimate_prism_matched_path_length_m": 36115.837996545706,
+        "estimate_raw_full_path_length_m": 47235.945395828065,
+        "estimate_tail_after_gt_s": 13.447298288345337,
+        "gt_duration_s": 328.42000007629395,
+        "gt_path_length_m": 501.43951893190064,
+        "gt_rows": 911,
+        "gt_sha256": "89185a4472c3d9407e6619ab5f5f2f9099fb3e3dff83265c1d8e29e4166dbd47",
+        "lever_arm_m": [
+          -0.006490064725986725,
+          0.3047706245823693,
+          0.3686618618310623
+        ],
+        "limit_20pct_gt_full_m_exclusive": 100.28790378638013,
+        "limit_20pct_matched_gt_m_exclusive": 100.28760378638013,
+        "manual_ate_rmse_m": 7037.537417923978,
+        "matched": 898,
+        "matched_first_timestamp": 1706673229.28,
+        "matched_gt_path_length_m": 501.4380189319006,
+        "matched_last_timestamp": 1706673555.1700003,
+        "max_association_time_difference_s": 0.050580501556396484,
+        "pass_20pct_gt_full": false,
+        "pass_20pct_matched_gt_sensitivity": false,
+        "rmse_difference_m": 3.637978807091713e-12,
+        "rotation_determinant": 1.0,
+        "run": "p3r_shield4_c_supported32",
+        "trajectory_sha256": "977d01fce7b4370f5e685fdc563ef0f6f3394a42a1fdfdf6d247b45d48c20318",
+        "unique_matched_estimates": 897,
+        "unique_matched_gt": 898
+      },
+      "passed": false,
+      "photo_summary": {
+        "mean_valid_rows": 91.64378314672952,
+        "sigma_final": 4.563723646608381,
+        "sigma_frozen_frames": 3375
+      },
+      "resources": {
+        "bag_duration_s": 340.446334123,
+        "cpu_system_s": 12.634973,
+        "cpu_user_s": 114.848292,
+        "frames": 3394,
+        "imu_read": 34041,
+        "lidar_read": 3404,
+        "peak_rss_kb": 450268,
+        "tbb_threads": 32,
+        "wall_processing_s": 11.146646142
+      },
+      "run": "p3r_shield4_c_supported32",
+      "status": {
+        "evaluator_exit_code": 0,
+        "node_exit_code": 0,
+        "status": "SUCCESS"
+      },
+      "trajectory_sha256": "977d01fce7b4370f5e685fdc563ef0f6f3394a42a1fdfdf6d247b45d48c20318"
+    }
+  },
+  "audit_package_commit": "71822c76fb3b2a4d4ddad69c536862ede24388a3",
+  "base_commit": "f3060768abee4d2ee2343b07edf62346c7cd0f87",
+  "interpretation_limit": "C changes which photo inputs enter raster/IDW/features; it isolates sensitivity to unsupported timestamps, not the causal contribution of cubemap vs IDW vs intensity individually.",
+  "protocol": "Shield4 complete bag, offline 32T, sequential A/B/C, no tuning",
+  "threshold_m_exclusive": 100.28790378638013,
+  "threshold_source": "20% of full GT sampled path length"
+}

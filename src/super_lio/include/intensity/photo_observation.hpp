@@ -43,6 +43,9 @@ class PhotoObservation {
   InformationPolicy policy_=InformationPolicy::C0;
   bool audit_enabled_=false;
   std::ofstream audit_;
+  // P3-R attribution controls. Both are off in the production/default path.
+  bool time_audit_enabled_=false,history_supported_only_=false;
+  std::ofstream time_audit_;
   int audit_iteration_=0;
   BASIC::SE3 predicted_pose_;
   std::vector<ResidualContribution> auditRows(const BASIC::SE3& pose)const;

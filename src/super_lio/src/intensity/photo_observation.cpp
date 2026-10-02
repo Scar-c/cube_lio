@@ -50,6 +50,8 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
   std::string policy;nh.param<std::string>("/photo/information_policy",policy,"C0");
   policy_=parsePolicy(policy);
   nh.param("/photo/information_audit",audit_enabled_,false);
+  nh.param("/p3r/photo_time_audit",time_audit_enabled_,false);
+  nh.param("/p3r/photo_history_supported_only",history_supported_only_,false);
   if(!cfg_.enable)return;
   cv::setNumThreads(1); // TBB owns frontend parallelism; avoid nested OpenCV pools.
   R_BL_=LI2Sup::g_lidar_imu.R_.cast<double>();t_BL_=LI2Sup::g_lidar_imu.t_.cast<double>();
@@ -58,7 +60,15 @@ PhotoObservation::PhotoObservation(ros::NodeHandle& nh){
   if(projection_name_=="cubemap")image_=std::make_unique<CubeImage>(cfg_,channel);
   else image_=std::make_unique<SphericalImage>(cfg_,channel);
   std::string dir;nh.getParam("/lio/offline/out_dir",dir);
+  if(time_audit_enabled_&&dir.empty())
+    throw std::invalid_argument("P3-R time audit requires an offline output directory");
   if(!dir.empty()){
+    if(time_audit_enabled_){
+      time_audit_.open(dir+"/photo_time_audit.csv");
+      if(!time_audit_)throw std::runtime_error("cannot write P3-R photo time audit");
+      time_audit_<<std::setprecision(17);
+      time_audit_<<"frame,scan_start,scan_end_geometry,history_first,history_last,history_states,frame_supported,geometry_points,photo_points_total,photo_points_inside_history,photo_points_outside_history,photo_points_before_history,photo_points_after_history,photo_points_invalid_time,photo_points_without_history,photo_points_retained,photo_points_dropped,deskew_success_points,fallback_deskew_points,fallback_percentage,min_photo_offset_s,max_photo_offset_s,max_photo_timestamp,history_supported_only\n";
+    }
     if(audit_enabled_){
       audit_.open(dir+"/information.csv");
       if(!audit_)throw std::runtime_error("cannot write information audit");
@@ -77,16 +87,52 @@ void PhotoObservation::prepare(const LI2Sup::MeasureGroup& measures,
   const auto& raw=measures.lidar.pc_intensity;
   if(!raw)throw std::runtime_error("missing dense intensity scan");
   frame_supported_=history.size()>=2 && history.back().time>history.front().time;
+  std::vector<size_t> supported_indices;
+  size_t inside=0,before=0,after=0,invalid_time=0;
+  double minimum_offset=raw->empty()?0.:raw->points.front().offset_time;
+  double maximum_offset=minimum_offset;
+  if(time_audit_enabled_||history_supported_only_){
+    if(history_supported_only_)supported_indices.reserve(raw->size());
+    for(size_t i=0;i<raw->size();++i){
+      const double offset=raw->points[i].offset_time;
+      const double time=measures.lidar.start_time+offset;
+      minimum_offset=std::min(minimum_offset,offset);
+      maximum_offset=std::max(maximum_offset,offset);
+      if(!std::isfinite(time)){++invalid_time;continue;}
+      if(!frame_supported_)continue;
+      if(time<history.front().time)++before;
+      else if(time>history.back().time)++after;
+      else{
+        ++inside;
+        if(history_supported_only_)supported_indices.push_back(i);
+      }
+    }
+  }
+  const auto write_time_audit=[&](size_t retained,size_t deskew_success){
+    if(!time_audit_enabled_)return;
+    const size_t fallback=frame_supported_?retained-deskew_success:0;
+    time_audit_<<frame_<<','<<measures.lidar.start_time<<','<<measures.lidar.end_time<<','
+      <<(history.empty()?0.:history.front().time)<<','<<(history.empty()?0.:history.back().time)<<','
+      <<history.size()<<','<<frame_supported_<<','<<(measures.lidar.pc?measures.lidar.pc->size():0)<<','
+      <<raw->size()<<','<<inside<<','<<raw->size()-inside<<','<<before<<','<<after<<','<<invalid_time<<','
+      <<(frame_supported_?0:raw->size())<<','<<retained<<','<<raw->size()-retained<<','<<deskew_success<<','
+      <<fallback<<','<<(retained?100.*fallback/retained:0.)<<','<<minimum_offset<<','<<maximum_offset<<','
+      <<measures.lidar.start_time+maximum_offset<<','<<history_supported_only_<<'\n';
+  };
   if(!frame_supported_){
     // An inherited synchronization outcome, e.g. a bag IMU gap. Keep the
     // geometry update and output frame; never constrain it with a stale image.
+    write_time_audit(0,0);
     points_.clear();deskew_ms_=0;update_start_=Clock::now();return;
   }
-  points_.resize(raw->size());
+  // C arm changes only the photo input set; raw order and deskew equations stay fixed.
+  points_.resize(history_supported_only_?supported_indices.size():raw->size());
+  std::vector<uint8_t> deskew_success;
+  if(time_audit_enabled_)deskew_success.assign(points_.size(),0);
   const Mat3 R_end=predicted.R_.cast<double>();const Vec3 t_end=predicted.t_.cast<double>();
-  tbb::parallel_for(tbb::blocked_range<size_t>(0,raw->size()),[&](const tbb::blocked_range<size_t>& rows){
+  tbb::parallel_for(tbb::blocked_range<size_t>(0,points_.size()),[&](const tbb::blocked_range<size_t>& rows){
     for(size_t i=rows.begin();i<rows.end();++i){
-      const auto& p=raw->points[i];Vec3 p_L(p.x,p.y,p.z);const Vec3 p_B=R_BL_*p_L+t_BL_;
+      const auto& p=raw->points[history_supported_only_?supported_indices[i]:i];Vec3 p_L(p.x,p.y,p.z);const Vec3 p_B=R_BL_*p_L+t_BL_;
       const double time=measures.lidar.start_time+p.offset_time;
       Vec3 corrected=p_B;
       if(time>=history.front().time&&time<=history.back().time){
@@ -99,12 +145,15 @@ void PhotoObservation::prepare(const LI2Sup::MeasureGroup& measures,
           const Mat3 R_i=r0.slerp(tau/dt,r1).toRotationMatrix();
           Vec3 t_i=head.p.cast<double>()+head.v.cast<double>()*tau+.5*tail.a.cast<double>()*tau*tau;
           corrected=R_end.transpose()*(R_i*p_B+t_i-t_end);
+          if(time_audit_enabled_)deskew_success[i]=1;
         }
       }
       // Return from upstream deskew's IMU-end frame to sensor-centric LiDAR-end.
       points_[i]={R_BL_.transpose()*(corrected-t_BL_),p.intensity};
     }
   });
+  if(time_audit_enabled_)
+    write_time_audit(points_.size(),std::accumulate(deskew_success.begin(),deskew_success.end(),size_t{0}));
   deskew_ms_=elapsed(start);image_->build(points_);
   if(!frozen_){
     std::vector<double> samples;observe(predicted,false,&samples);
