@@ -58,14 +58,28 @@ CoinObservation::CoinObservation(ros::NodeHandle& nh,const Eigen::Matrix4d& T_IL
   if(!(photo_scale_>0.)||!(measurement_variance_>0.))
     throw std::invalid_argument("invalid COIN scale or measurement variance");
   const OusterMetadata metadata=OusterMetadata::fromRosParams();
-  projector_=std::make_unique<CoinOusterProjector>(metadata);
+  representation_mode_=p3aRepresentation();
+  const auto cube_settings=p3aCubeSettings(representation_mode_);
+  const bool use_cube=representation_mode_!="coin";
+  if(use_cube){
+    cube_representation_=std::make_unique<CubeImage>(cube_settings,
+        cube_settings.build_igm?MeasurementChannel::IntensityGradientMagnitude:MeasurementChannel::RawIntensity);
+  }
+  projector_=std::make_unique<CoinOusterProjector>(metadata,use_cube?cube_settings.resolution:0);
   image_settings_=CoinImageSettings::fromRosParams();
   feature_settings_=CoinFeatureSettings::fromRosParams();
-  image_processor_=std::make_unique<CoinImageProcessor>(*projector_,image_settings_);
+  if(use_cube && cube_settings.resolution<=2*feature_settings_.margin)
+    throw std::invalid_argument("cubemap too small for frozen COIN margin");
+  image_processor_=std::make_unique<CoinImageProcessor>(CoinOusterProjector(metadata),image_settings_);
   feature_manager_=std::make_unique<CoinFeatureManager>(*projector_,feature_settings_);
   std::string output_dir;
   nh.getParam("/lio/offline/out_dir",output_dir);
   if(!output_dir.empty()){
+    if(use_cube){
+      representation_diagnostics_.open(output_dir+"/representation.csv");
+      if(!representation_diagnostics_)throw std::runtime_error("cannot write representation diagnostics");
+      representation_diagnostics_<<"frame,representation,input_points,raw_pixels,filled_pixels,igm_pixels,patch_mask_pixels,intensity_points\n";
+    }
     diagnostics_.open(output_dir+"/coin_observation.csv");
     if(!diagnostics_)throw std::runtime_error("cannot write COIN observation diagnostics");
     diagnostics_<<"frame,timestamp,raw_points,motion_fallback_points,coin_minus_super_scan_end_s,active_before,valid_patches,photo_rows,residual_rms,photo_A_norm,photo_b_norm,weak_dirs,active_after,added,removed,status,skip_reason,ncc_count,ncc_median,rejected_ncc,selector_mode,selected_centers_xy,selected_gradient_mean,selected_score_e1,selected_score_e2,selected_score_e3"
@@ -159,8 +173,16 @@ void CoinObservation::prepare(const LI2Sup::LidarData& lidar,
     return;
   }
   frame_=image_processor_->process(points_);
-  frame_.T_Li_Lk_vec=std::move(transforms);
-  frame_.vec_idx=std::move(transform_indices);
+  if(cube_representation_){
+    const auto input_points=points_.size();
+    frame_=buildCoinCubemap(*cube_representation_,frame_,image_processor_->projector(),image_settings_,points_);
+    if(representation_diagnostics_)representation_diagnostics_<<scan_index_<<','<<representation_mode_<<','
+      <<input_points<<','<<cube_representation_->rawPixelCount()<<','<<cube_representation_->filledPixelCount()<<','
+      <<cube_representation_->validFeaturePixelCount()<<','<<cv::countNonZero(frame_.mask)<<','<<points_.size()<<'\n';
+  }else{
+    frame_.T_Li_Lk_vec=std::move(transforms);
+    frame_.vec_idx=std::move(transform_indices);
+  }
   prepared_=true;active_before_=static_cast<int>(feature_manager_->features().size());
   valid_patches_=photo_rows_=0;residual_square_sum_=photo_A_norm_=photo_b_norm_=0.;
 }

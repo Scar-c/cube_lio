@@ -3,6 +3,7 @@
 
 #include "common/ds.h"
 #include "intensity/coin/coin_photometric_model.hpp"
+#include "intensity/coin/coin_cubemap_representation.hpp"
 #include <ros/ros.h>
 
 #include <fstream>
@@ -37,6 +38,9 @@ class CoinObservation {
   CoinImageSettings image_settings_;
   CoinFeatureSettings feature_settings_;
   std::unique_ptr<CoinOusterProjector> projector_;
+  std::unique_ptr<CubeImage> cube_representation_;
+  std::string representation_mode_="coin";
+  std::ofstream representation_diagnostics_;
   std::unique_ptr<CoinImageProcessor> image_processor_;
   std::unique_ptr<CoinFeatureManager> feature_manager_;
   std::vector<CoinScanPoint> points_;

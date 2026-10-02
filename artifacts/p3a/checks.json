@@ -1,0 +1,28 @@
+{
+  "build": "PASS",
+  "targets": [
+    "cube_offline_node",
+    "test_coin_feature_math",
+    "test_cube_photo"
+  ],
+  "coin_feature_math": {
+    "packed_cube_jacobian": "PASS",
+    "idw_landmark_ownership": "PASS",
+    "chart_boundary_mask": "PASS",
+    "no_double_deskew": "PASS",
+    "shared_coin_residual": "PASS",
+    "existing_ncc_gate_selector_checks": "PASS"
+  },
+  "cube_photo": {
+    "projection_points": 6000,
+    "projection_max_abs_error": 8.89473361632e-09,
+    "residual_points": 1120,
+    "residual_max_abs_error": 3.78524589451e-09,
+    "all_six_dof_and_faces": true,
+    "boundary_tests": "PASS",
+    "idw_visibility": "PASS",
+    "information_sign": "PASS"
+  },
+  "python_compile": "PASS",
+  "note": "Actual observed stdout from the targeted checks; no experiments included in this file."
+}

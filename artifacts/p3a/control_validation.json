@@ -1,0 +1,77 @@
+{
+  "controls": {
+    "p3a_r0_coin_g1_run1_coin.csv": {
+      "same_time_support_status": true,
+      "feature_cap_60": true,
+      "rows_cap_1500": true,
+      "photo_A_norm_mean": 7858245.5680922475,
+      "photo_b_norm_mean": 7841.116204740177
+    },
+    "p3a_r0_g1_run2_coin.csv": {
+      "same_time_support_status": true,
+      "feature_cap_60": true,
+      "rows_cap_1500": true,
+      "photo_A_norm_mean": 7858245.5680922475,
+      "photo_b_norm_mean": 7841.116204740177
+    },
+    "p3a_r0_g1_run3_coin.csv": {
+      "same_time_support_status": true,
+      "feature_cap_60": true,
+      "rows_cap_1500": true,
+      "photo_A_norm_mean": 7858245.5680922475,
+      "photo_b_norm_mean": 7841.116204740177
+    },
+    "p3a_r1_g1_run1_coin.csv": {
+      "same_time_support_status": true,
+      "feature_cap_60": true,
+      "rows_cap_1500": true,
+      "photo_A_norm_mean": 1062791.7566532744,
+      "photo_b_norm_mean": 3205.5372272100294
+    },
+    "p3a_r2_g1_run1_coin.csv": {
+      "same_time_support_status": true,
+      "feature_cap_60": true,
+      "rows_cap_1500": true,
+      "photo_A_norm_mean": 1394541.636380144,
+      "photo_b_norm_mean": 3737.0623096274285
+    },
+    "p3a_r3_g1_run1_coin.csv": {
+      "same_time_support_status": true,
+      "feature_cap_60": true,
+      "rows_cap_1500": true,
+      "photo_A_norm_mean": 67665.6390058036,
+      "photo_b_norm_mean": 246.97543563776418
+    },
+    "p3a_r3_gradient_run1_coin.csv": {
+      "same_time_support_status": true,
+      "feature_cap_60": true,
+      "rows_cap_1500": true,
+      "photo_A_norm_mean": 67665.63900580359,
+      "photo_b_norm_mean": 246.97543563776418
+    },
+    "p3a_r1_g1_run1_representation.csv": {
+      "same_supported_input_counts": true
+    },
+    "p3a_r2_g1_run1_representation.csv": {
+      "same_supported_input_counts": true
+    },
+    "p3a_r3_g1_run1_representation.csv": {
+      "same_supported_input_counts": true
+    },
+    "p3a_r3_gradient_run1_representation.csv": {
+      "same_supported_input_counts": true
+    }
+  },
+  "selector_feature_sets": {
+    "selected_center_sets_identical_each_scan": true,
+    "selected_center_order_differs_scans": 1036,
+    "max_active_centers": 22,
+    "cap": 60,
+    "nonbinding_cap": true,
+    "gate_active_g1": 1033,
+    "gate_active_gradient": 0,
+    "interpretation": "Ranking changes order but accepts the same centers; failed trajectories coincide. This is not evidence of successful selector independence."
+  },
+  "post_run_source_hashes_match_build_manifest": true,
+  "all_controls_pass": true
+}

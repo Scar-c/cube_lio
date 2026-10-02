@@ -29,10 +29,11 @@ struct ProjectedPoint {
 
 class CoinOusterProjector {
  public:
-  explicit CoinOusterProjector(OusterMetadata metadata);
+  explicit CoinOusterProjector(OusterMetadata metadata, int cube_resolution=0);
   const OusterMetadata& metadata() const { return metadata_; }
-  int rows() const { return metadata_.rows; }
-  int cols() const { return metadata_.cols; }
+  int rows() const { return cube_resolution_ ? cube_resolution_ : metadata_.rows; }
+  int cols() const { return cube_resolution_ ? 6*cube_resolution_ : metadata_.cols; }
+  int cubeResolution() const { return cube_resolution_; }
   std::size_t indexFromPixel(int row, int col) const;
   ProjectedPoint project(const Vec3& p) const;
   Mat23 projectionJacobian(const Vec3& p) const;
@@ -40,6 +41,7 @@ class CoinOusterProjector {
 
  private:
   OusterMetadata metadata_;
+  int cube_resolution_=0;
   std::vector<double> elevation_radians_;
   std::vector<int> raw_to_row_, raw_to_col_;
   Eigen::Matrix3d K_=Eigen::Matrix3d::Zero();

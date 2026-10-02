@@ -1,5 +1,6 @@
 // COIN-LIO Ouster projector reimplementation (BSD-3-Clause source authority).
 #include "intensity/coin/coin_ouster_projector.hpp"
+#include "intensity/cube_projector.hpp"
 #include <ros/ros.h>
 #include <algorithm>
 #include <cmath>
@@ -29,7 +30,10 @@ void OusterMetadata::validate() const {
   for(double a:beam_altitude_degrees)if(!std::isfinite(a))throw std::invalid_argument("nonfinite Ouster elevation angle");
 }
 
-CoinOusterProjector::CoinOusterProjector(OusterMetadata metadata):metadata_(std::move(metadata)) {
+CoinOusterProjector::CoinOusterProjector(OusterMetadata metadata,int cube_resolution)
+  :metadata_(std::move(metadata)),cube_resolution_(cube_resolution) {
+  if(cube_resolution_ && (cube_resolution_<8 || cube_resolution_>1024))
+    throw std::invalid_argument("invalid COIN cubemap resolution");
   metadata_.validate();
   elevation_radians_.reserve(metadata_.beam_altitude_degrees.size());
   for(double a:metadata_.beam_altitude_degrees)elevation_radians_.push_back(a*M_PI/180.);
@@ -61,6 +65,12 @@ void CoinOusterProjector::pixelFromRawIndex(std::size_t raw,int& row,int& col) c
 
 ProjectedPoint CoinOusterProjector::project(const Vec3& p) const {
   ProjectedPoint out;
+  if(cube_resolution_){
+    const auto q=cube::CubeProjector(cube_resolution_).project(p);
+    if(q.face<0 || q.seam)return out;
+    out.uv=q.uv;out.uv.x()+=q.face*cube_resolution_;
+    out.in_fov=true;return out;
+  }
   if(!p.allFinite())return out;
   const double L=std::sqrt(p.x()*p.x()+p.y()*p.y())-beam_offset_m_;
   const double R=std::sqrt(p.z()*p.z()+L*L);
@@ -82,6 +92,7 @@ ProjectedPoint CoinOusterProjector::project(const Vec3& p) const {
 }
 
 Mat23 CoinOusterProjector::projectionJacobian(const Vec3& p) const {
+  if(cube_resolution_)return cube::CubeProjector(cube_resolution_).project(p).jacobian;
   const double rxy=p.head<2>().norm(),L=rxy-beam_offset_m_,R2=L*L+p.z()*p.z();
   const double irxy=1./rxy,irxy2=irxy*irxy,fx_irxy2=K_(0,0)*irxy2;
   Mat23 J;

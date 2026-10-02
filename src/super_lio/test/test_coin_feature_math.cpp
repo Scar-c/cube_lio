@@ -1,5 +1,6 @@
 #include "intensity/coin/coin_feature_manager.hpp"
 #include "intensity/coin/coin_intensity_representation.hpp"
+#include "intensity/coin/coin_cubemap_representation.hpp"
 #include "intensity/coin/super_degeneracy_gate.hpp"
 #include "intensity/intensity_representation.hpp"
 #include <algorithm>
@@ -63,6 +64,56 @@ int main(){
                   "COIN must have a documented opt-in representation adapter");
     static_assert(!std::is_abstract<CoinIntensityRepresentation>::value,
                   "COIN adapter must implement projection, samples, residual and validity checks");
+
+    // Exercise the production representation seam, including filled-pixel
+    // landmark ownership and the identity transform that prevents double deskew.
+    OusterMetadata metadata;metadata.rows=128;metadata.cols=1024;
+    metadata.pixel_shift_by_row.assign(128,0);
+    for(int i=0;i<128;++i)metadata.beam_altitude_degrees.push_back(22.5-45.*i/127.);
+    CoinOusterProjector native_projector(metadata),packed_projector(metadata,96);
+    const Vec3 test_point(20.,2.,1.);
+    const auto projected=packed_projector.project(test_point);
+    const auto jacobian=packed_projector.projectionJacobian(test_point);
+    for(int k=0;k<3;++k){
+      Vec3 plus=test_point,minus=test_point;plus[k]+=1e-5;minus[k]-=1e-5;
+      const Vec2 numerical=(packed_projector.project(plus).uv-packed_projector.project(minus).uv)/2e-5;
+      require((numerical-jacobian.col(k)).norm()<1e-7,"packed cube Jacobian must differentiate pixel coordinates");
+    }
+    require(projected.in_fov&&!packed_projector.project(Vec3(1.,1.,0.)).in_fov,
+            "cube seam must not be sampled across charts");
+    CoinFrame calibrated;calibrated.intensity=cv::Mat(128,1024,CV_32F,cv::Scalar(100.));
+    std::vector<CoinScanPoint> cube_points;
+    for(int v=30;v<=65;++v)for(int u=30;u<=65;++u){
+      if(u==47&&v==47)continue;
+      CoinScanPoint point;point.point_lidar=Vec3(20.,20.*(2.*u/95.-1.),20.*(2.*v/95.-1.));
+      point.raw_index=cube_points.size();point.range=point.point_lidar.norm();cube_points.push_back(point);
+    }
+    cube::Settings cube_cfg;cube_cfg.build_igm=false;
+    cube::CubeImage cube_image(cube_cfg,cube::MeasurementChannel::RawIntensity);
+    CoinImageSettings image_settings;image_settings.masks.clear();
+    const auto packed=buildCoinCubemap(cube_image,calibrated,native_projector,image_settings,cube_points);
+    const int filled_index=packed.image_index.at<int>(47,47);
+    require(filled_index>=0&&static_cast<std::size_t>(filled_index)<cube_points.size(),
+            "IDW patch pixel must own a private depth-derived intensity landmark");
+    const auto reprojection=packed_projector.project(cube_points[filled_index].point_lidar);
+    require((reprojection.uv-Vec2(47.,47.)).norm()<1e-10,"filled landmark must reproject to its reference pixel");
+    require(packed.mask.at<uchar>(47,47)&&!packed.mask.at<uchar>(47,95),
+            "patch mask must preserve a supported interior and exclude chart boundaries");
+    require(packed.T_Li_Lk_vec.size()==1&&packed.T_Li_Lk_vec[0].isIdentity()&&
+            packed.vec_idx.size()==cube_points.size(),"end-frame representation must use identity acquisition transform");
+    CoinFeatureManager packed_manager(packed_projector);
+    Vec3 acquisition;Vec2 uv;int index=-1;
+    require(packed_manager.projectUndistorted(packed,cube_points,cube_points[filled_index].point_lidar,
+                                             acquisition,uv,index,true)&&
+            (acquisition-cube_points[filled_index].point_lidar).norm()==0.,
+            "cubemap matching must never deskew the end-frame point twice");
+    const Eigen::Matrix4d identity=Eigen::Matrix4d::Identity();
+    const auto photo_row=CoinPhotometricModel::linearize(packed_manager,packed_projector,packed,cube_points,
+        identity,identity,cube_points[filled_index].point_lidar,100.,.7,30.,10);
+    require(photo_row.valid&&photo_row.residual==0.&&photo_row.correction_jacobian_super.allFinite(),
+            "cubemap patch must enter the shared COIN residual and Jacobian path");
+    std::cout<<"{\"packed_cube_jacobian\":\"PASS\",\"idw_landmark_ownership\":\"PASS\","
+               "\"chart_boundary_mask\":\"PASS\",\"no_double_deskew\":\"PASS\",\"shared_coin_residual\":\"PASS\"}\n";
 
     Eigen::MatrixXd duplicated(2*H.rows(),3);
     duplicated.topRows(H.rows())=H;duplicated.bottomRows(H.rows())=H;

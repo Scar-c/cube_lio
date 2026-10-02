@@ -41,6 +41,12 @@ CoinFeatureManager::CoinFeatureManager(CoinOusterProjector projector,CoinFeature
                      projector_.cols()-2*settings_.margin,projector_.rows()-2*settings_.margin);
   if(roi.width<=0||roi.height<=0)throw std::invalid_argument("COIN feature margin removes the full image");
   margin_mask_(roi)=255;
+  if(projector_.cubeResolution()){
+    margin_mask_.setTo(0);
+    const int n=projector_.cubeResolution(),m=settings_.margin;
+    for(int face=0;face<6;++face)
+      margin_mask_(cv::Rect(face*n+m,m,n-2*m,n-2*m))=255;
+  }
   const int half=settings_.patch_size/2;
   patch_offsets_.reserve(settings_.patch_size*settings_.patch_size);
   // The oracle builds offsets as (i,j), then applies i to image x and j to image y.
@@ -125,6 +131,17 @@ bool CoinFeatureManager::projectUndistorted(const CoinFrame& frame,const std::ve
                                              bool round_bucket) const{
   ProjectedPoint projected=projector_.project(p_Lk);
   if(!projected.in_fov)return false;
+  // Cubemap pixels already describe the supported, deskewed end-of-scan cloud.
+  // Applying the Ouster acquisition transform a second time would double deskew.
+  if(projector_.cubeResolution()){
+    const int n=projector_.cubeResolution();
+    const int face=static_cast<int>(projected.uv.x())/n;
+    const int col=std::clamp(static_cast<int>(std::lround(projected.uv.x())),face*n,(face+1)*n-1);
+    const int row=std::clamp(static_cast<int>(std::lround(projected.uv.y())),0,n-1);
+    distortion_index=frame.image_index.ptr<int>(row)[col];
+    if(distortion_index<0 || static_cast<std::size_t>(distortion_index)>=points.size())return false;
+    p_Li=p_Lk;uv=projected.uv;return true;
+  }
   if(round_bucket){projected.uv.x()=std::round(projected.uv.x());projected.uv.y()=std::round(projected.uv.y());}
   int row=static_cast<int>(projected.uv.y()),col=static_cast<int>(projected.uv.x());
   constexpr std::size_t duplicate_points=10;
