@@ -1,0 +1,26 @@
+# One conservative default; no ground-truth tuning. All values are engineering choices.
+photo:
+  enable: false
+  projection: cubemap
+  measurement: igm
+  selector: all
+  weakest_gate_threshold: 0.31913064578672057
+  weight: 1.0
+  max_features: 1200
+  max_lifetime: 10
+  high_response: 5.0
+  suppression_radius: 2
+  normalization_frames: 20
+  sigma_min: 1.0
+  robust_gate: 4.685
+  huber_delta: 1.345
+cubemap:
+  resolution: 96
+  idw_enable: true
+  idw_radius: 3
+  idw_k: 6
+  idw_power: 2.0
+  idw_min_support: 3
+  range_absolute: 0.3
+  range_relative: 0.02
+  gaussian_sigma: 1.0

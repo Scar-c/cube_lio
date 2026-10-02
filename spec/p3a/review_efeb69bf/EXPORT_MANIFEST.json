@@ -1,0 +1,572 @@
+{
+  "target_commit": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+  "parent_commit": "04a48588bcdc4a2210b189aaefe2cf3a29f48302",
+  "changed_commit_files": [
+    "artifacts/p3a/baseline_coin.json",
+    "artifacts/p3a/baseline_parity.json",
+    "artifacts/p3a/checks.json",
+    "artifacts/p3a/commands.md",
+    "artifacts/p3a/control_validation.json",
+    "artifacts/p3a/cubemap_results.json",
+    "artifacts/p3a/determinism.json",
+    "artifacts/p3a/diagnostics/p3a_r0_coin_g1_run1_coin.csv",
+    "artifacts/p3a/diagnostics/p3a_r0_g1_run2_coin.csv",
+    "artifacts/p3a/diagnostics/p3a_r0_g1_run3_coin.csv",
+    "artifacts/p3a/diagnostics/p3a_r1_g1_run1_coin.csv",
+    "artifacts/p3a/diagnostics/p3a_r1_g1_run1_representation.csv",
+    "artifacts/p3a/diagnostics/p3a_r2_g1_run1_coin.csv",
+    "artifacts/p3a/diagnostics/p3a_r2_g1_run1_representation.csv",
+    "artifacts/p3a/diagnostics/p3a_r3_g1_run1_coin.csv",
+    "artifacts/p3a/diagnostics/p3a_r3_g1_run1_representation.csv",
+    "artifacts/p3a/diagnostics/p3a_r3_gradient_run1_coin.csv",
+    "artifacts/p3a/diagnostics/p3a_r3_gradient_run1_representation.csv",
+    "artifacts/p3a/selector_ablation.json",
+    "artifacts/p3a/source_manifest.json",
+    "spec/p3a/P3A_PROMPT.md",
+    "spec/p3a/P3A_TUNNELD_CUBEMAP_VALIDATION_REPORT.md",
+    "src/super_lio/include/intensity/coin/coin_cubemap_representation.hpp",
+    "src/super_lio/include/intensity/coin/coin_observation.hpp",
+    "src/super_lio/include/intensity/coin/coin_ouster_projector.hpp",
+    "src/super_lio/src/intensity/coin/coin_cubemap_representation.cpp",
+    "src/super_lio/src/intensity/coin/coin_feature_manager.cpp",
+    "src/super_lio/src/intensity/coin/coin_observation.cpp",
+    "src/super_lio/src/intensity/coin/coin_ouster_projector.cpp",
+    "src/super_lio/test/test_coin_feature_math.cpp",
+    "tools/p3a/validate.py"
+  ],
+  "core_changed_files": [
+    "src/super_lio/include/intensity/coin/coin_cubemap_representation.hpp",
+    "src/super_lio/include/intensity/coin/coin_observation.hpp",
+    "src/super_lio/include/intensity/coin/coin_ouster_projector.hpp",
+    "src/super_lio/src/intensity/coin/coin_cubemap_representation.cpp",
+    "src/super_lio/src/intensity/coin/coin_feature_manager.cpp",
+    "src/super_lio/src/intensity/coin/coin_observation.cpp",
+    "src/super_lio/src/intensity/coin/coin_ouster_projector.cpp",
+    "src/super_lio/test/test_coin_feature_math.cpp",
+    "tools/p3a/validate.py"
+  ],
+  "target_snapshot_count": 35,
+  "parent_snapshot_count": 6,
+  "files": [
+    {
+      "export_path": "source/eval/evaluate.py",
+      "repository_path": "eval/evaluate.py",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "2d6c8dbc042256a161318d8db0e8356b9e7a1696",
+      "sha256": "07b2a25d83658baeec934dd7b003e69b5bc1a28ba9075310f544da48ec7f9e68",
+      "bytes": 4313,
+      "lines": 79,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/eval/ntu_author.py",
+      "repository_path": "eval/ntu_author.py",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "18df1cd2aa4d4e37a6a5491dab0304e03c247184",
+      "sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd",
+      "bytes": 9589,
+      "lines": 211,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/CMakeLists.txt",
+      "repository_path": "src/super_lio/CMakeLists.txt",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "d7ffe5b633106be5fdcc01307840260db7ce08e3",
+      "sha256": "c2a23da5f6196d0bc8e6f1183b5ff135a8f5ac9a3094e08944a918ef3e2c53c5",
+      "bytes": 5129,
+      "lines": 150,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_acquisition.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_acquisition.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "06e434289017f336818ba1de2799d4e52eb95290",
+      "sha256": "af53c385f08b55d1920445628ff14f713c72b0b3d438e38710205d3a9a8d7d51",
+      "bytes": 1972,
+      "lines": 51,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_cubemap_representation.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_cubemap_representation.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "880e7da30b2ab37e5aac6bbcf1a5f223347bb949",
+      "sha256": "3e49bff3579b61b5e4c6ed5730385c39dba84156f91394860c27601907be509a",
+      "bytes": 992,
+      "lines": 23,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_feature_manager.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_feature_manager.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "6b6cf00d4787915093fa5ef6de67af1665a33235",
+      "sha256": "5e65e35fd9f9cb0b386a135fe6713f4920f4a67b9d309f780ecd6897999fc331",
+      "bytes": 3968,
+      "lines": 98,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_image_processor.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_image_processor.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "ee5c206b9a68d692b8c3043027f08130c6525feb",
+      "sha256": "8c4dee6513e876ada3fd8f6a40c9de2c2647672cb6135b96c37b7ed59354743d",
+      "bytes": 1464,
+      "lines": 49,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_intensity_representation.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_intensity_representation.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "990685778648cba2ad56183fb8f780b3279341d8",
+      "sha256": "5121eb75602e56ae6910b6df74d540f5e595d1e4b143bc6b9527cc6b34b852c4",
+      "bytes": 3659,
+      "lines": 79,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_observation.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_observation.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "e852e6056e7645ff554852a416978555c47603bb",
+      "sha256": "ec44a9e721a1e516c6bdf0258241594d50845a88ad4795fcb118f9b47ccfd8cc",
+      "bytes": 2124,
+      "lines": 57,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_ouster_projector.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_ouster_projector.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "f3be1cfb52f0614e4e09caded0d09c3f0dc4858d",
+      "sha256": "b7d59d39535ac92e93f54393fbe1d7efa1970a1650c81c9b4c957f1017170624",
+      "bytes": 1532,
+      "lines": 51,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/coin_photometric_model.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_photometric_model.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "fba1ce0c0a7359bda4acccdbff80e0eb3ffa0050",
+      "sha256": "3b6db9dd38329f8ac99b324094629585f7447f17096774fb7e394b5cbcfba67a",
+      "bytes": 1722,
+      "lines": 41,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/coin/super_degeneracy_gate.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/super_degeneracy_gate.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "397e734c2df780755127c61de6476389a2f004be",
+      "sha256": "fbf4e67c85da002cb6a5ecfca6c05a14bf0e973572d8129de9c568e317446584",
+      "bytes": 2077,
+      "lines": 54,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/cube_image.hpp",
+      "repository_path": "src/super_lio/include/intensity/cube_image.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "db16f7a72630c0e5c3090dd2c25c6ec94dcc8415",
+      "sha256": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+      "bytes": 3630,
+      "lines": 75,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/cube_projector.hpp",
+      "repository_path": "src/super_lio/include/intensity/cube_projector.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "e93414e3ef86e1da333715f48b1bd07814b247f0",
+      "sha256": "6f1ee9db424e7a561d95d680e59b8d3d2539f61fcf3b69f2090a535a4aae49e2",
+      "bytes": 1755,
+      "lines": 51,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/intensity_representation.hpp",
+      "repository_path": "src/super_lio/include/intensity/intensity_representation.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "458207091ee23ce6d3149530c70cf64a9a3bc841",
+      "sha256": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+      "bytes": 2542,
+      "lines": 64,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/intensity/photo_observation.hpp",
+      "repository_path": "src/super_lio/include/intensity/photo_observation.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "f7bffdba766f0f8ccefb354c93731bc787656382",
+      "sha256": "7208176982a2f2461b48d0cd1972958b19d778216a6abe4c076f7a91460e94a2",
+      "bytes": 2861,
+      "lines": 71,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/include/ros/ouster_time_support.hpp",
+      "repository_path": "src/super_lio/include/ros/ouster_time_support.hpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "422f29fcc4518e3127e98c507def5d5cebc1e2bd",
+      "sha256": "fa8bdf31920484496ce5f0fbf32739f367ad04ea9186b0107f291c8d6efb72d2",
+      "bytes": 2681,
+      "lines": 78,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/src/apps/cube_offline_node.cpp",
+      "repository_path": "src/super_lio/src/apps/cube_offline_node.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "d180b66e023ee69a309e838adc03d8f41f39cf20",
+      "sha256": "f3810e5a72701133a1a92b28de56d605a33b8db78a0c560853264095a03d4382",
+      "bytes": 3642,
+      "lines": 90,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/coin/coin_cubemap_representation.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_cubemap_representation.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "641c53d0ffc7c6eaa0db04bdf92ee49aec20b86c",
+      "sha256": "d591bfb10c8bbfa3fdf6c52a706b896e5623ac27c4f1e8b2425fb6c92674d258",
+      "bytes": 4545,
+      "lines": 100,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/coin/coin_feature_manager.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_feature_manager.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "7adab96f822d04dc7d1e20b049508e78383a15fb",
+      "sha256": "aa4c83f8e51fcc17c571bfd242b23383f10c03520b6352d4ef3b87d9ae2d693f",
+      "bytes": 18899,
+      "lines": 361,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/coin/coin_image_processor.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_image_processor.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "1cc5dd416ee054ec80f238ebeee3e36f23132fb2",
+      "sha256": "ee9ed63d9964a0e2156f226fc26593e5840616d5e2fec271f85164d824150607",
+      "bytes": 5363,
+      "lines": 99,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/coin/coin_observation.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_observation.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "f3d824b71119a2d45e32b5f37d57e61a9361a5de",
+      "sha256": "e4c81bd6644a6450233ba2987bf667159de3f98ab5a8f73c9c9ae000adc3409f",
+      "bytes": 19527,
+      "lines": 360,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/coin/coin_ouster_projector.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_ouster_projector.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "8361b8b0de767af2d345a9e7e395852f4ebbae01",
+      "sha256": "2f24c25a52fa59b9f5b69b98f64f36772dc1d44bd1eabe856f576ec729de3e72",
+      "bytes": 5257,
+      "lines": 103,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/coin/coin_photometric_model.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_photometric_model.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "a6a8c2ec94f04870a339f60a846381687d6330a6",
+      "sha256": "f18fb5aef69ae97d8f3dc6223ca27984456dc5d1e863e815b3166270dad00642",
+      "bytes": 5621,
+      "lines": 101,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/cube_image.cpp",
+      "repository_path": "src/super_lio/src/intensity/cube_image.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "ce4bf20364b07c0d3f918a4dbf6ded7bf2d2d65f",
+      "sha256": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+      "bytes": 8227,
+      "lines": 154,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/src/intensity/photo_observation.cpp",
+      "repository_path": "src/super_lio/src/intensity/photo_observation.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "59f6e7d73d125cb920ea85af0df0e8286de34ab9",
+      "sha256": "38c21be7c43d19b1af312c20c87c89652edba459f4c5f66aa38ed95b4f25104d",
+      "bytes": 24001,
+      "lines": 399,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/src/lio/super_lio.cpp",
+      "repository_path": "src/super_lio/src/lio/super_lio.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "85a9ca5e30a27374d9d8a1cb321b329753c096e6",
+      "sha256": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+      "bytes": 26515,
+      "lines": 759,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/src/ros/ROSWrapper.cpp",
+      "repository_path": "src/super_lio/src/ros/ROSWrapper.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "7d61a176f02b72f574e1d3f43c70b18b6ba73735",
+      "sha256": "8a45ab77ca977c8d871110bbd34b7c4a7f4fe31fb2b3dcab1c5da9589b83670d",
+      "bytes": 28490,
+      "lines": 809,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/src/super_lio/test/test_coin_feature_math.cpp",
+      "repository_path": "src/super_lio/test/test_coin_feature_math.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "2b350e91c25e4a14bf959176b2acddd57087a7d9",
+      "sha256": "d723d5d94d05c8e74f4c2a087e3ec96003c4081d7685da96af9b52455dceeb18",
+      "bytes": 11397,
+      "lines": 162,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "source/src/super_lio/test/test_cube_photo.cpp",
+      "repository_path": "src/super_lio/test/test_cube_photo.cpp",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "f2e2117a94a01e52799dfab49a46fce6eaab8748",
+      "sha256": "2c87f247b90e7b774ced1e529d032f29ab78988c382a4d210bea7eb0498b3213",
+      "bytes": 5720,
+      "lines": 96,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/tools/cube_lio/config/photo.yaml",
+      "repository_path": "tools/cube_lio/config/photo.yaml",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "4fa353896b15208dc502805ab60072d558a6fba1",
+      "sha256": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+      "bytes": 576,
+      "lines": 26,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/tools/cube_lio/config/tunnel_d.yaml",
+      "repository_path": "tools/cube_lio/config/tunnel_d.yaml",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "45af316ab8331e1250edbbab393532ee744b0c7b",
+      "sha256": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+      "bytes": 1010,
+      "lines": 63,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/tools/offline/run.py",
+      "repository_path": "tools/offline/run.py",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "65174bd0db2849e26e89c8182f34f91692c611d0",
+      "sha256": "71c67778f03f9ce1fd8c7d3782f6f5bc9b0630ca6051f7ef60d5f5a546cb4b91",
+      "bytes": 11747,
+      "lines": 222,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/tools/offline/run_experiment.sh",
+      "repository_path": "tools/offline/run_experiment.sh",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "e5b6b0a34690409253cd070ffb2d07d84847eea9",
+      "sha256": "36967d27596c7f8f0b4235db92cfcb10b8edf6295befe3bf564640c9f680edff",
+      "bytes": 311,
+      "lines": 10,
+      "changed_in_target": false
+    },
+    {
+      "export_path": "source/tools/p3a/validate.py",
+      "repository_path": "tools/p3a/validate.py",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "0d13f9393fd4649424a69295b71ffb70d442003f",
+      "sha256": "d39331a5594a458730e784b5b195ccec4e11c1c844b623c7e0fffc4484fdabd4",
+      "bytes": 13648,
+      "lines": 238,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "parent_source/src/super_lio/include/intensity/coin/coin_observation.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_observation.hpp",
+      "revision": "04a48588bcdc4a2210b189aaefe2cf3a29f48302",
+      "git_blob": "656aa3e7663c70ed065a176016d81afc1f7b2005",
+      "sha256": "8c3cf27f8d6ccd3e1895d5e709c92e1f3f7a1a585924779006d02cb998e41225",
+      "bytes": 1927,
+      "lines": 53,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "parent_source/src/super_lio/include/intensity/coin/coin_ouster_projector.hpp",
+      "repository_path": "src/super_lio/include/intensity/coin/coin_ouster_projector.hpp",
+      "revision": "04a48588bcdc4a2210b189aaefe2cf3a29f48302",
+      "git_blob": "0de83ef251e7f3deac57726b1ca14f3186791c6e",
+      "sha256": "9f015c05afa4351f5bc079bc11eb5228225afc3c7ef5393a232fb43e88ab8c47",
+      "bytes": 1347,
+      "lines": 49,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "parent_source/src/super_lio/src/intensity/coin/coin_feature_manager.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_feature_manager.cpp",
+      "revision": "04a48588bcdc4a2210b189aaefe2cf3a29f48302",
+      "git_blob": "595d844608a0700bf3494e0f111b0ef401d62748",
+      "sha256": "3c8a5995b56dcca7c221d2ab71c87607ac9d7331d67227765130075d6b19d6c1",
+      "bytes": 17987,
+      "lines": 344,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "parent_source/src/super_lio/src/intensity/coin/coin_observation.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_observation.cpp",
+      "revision": "04a48588bcdc4a2210b189aaefe2cf3a29f48302",
+      "git_blob": "7ee790fe7cb51a2bc2bb6b910a05cfd6cd2fff21",
+      "sha256": "e778ce3bda00e209f7494647749834738afc8d52e5052dd042fb396ee1d6ff32",
+      "bytes": 18065,
+      "lines": 338,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "parent_source/src/super_lio/src/intensity/coin/coin_ouster_projector.cpp",
+      "repository_path": "src/super_lio/src/intensity/coin/coin_ouster_projector.cpp",
+      "revision": "04a48588bcdc4a2210b189aaefe2cf3a29f48302",
+      "git_blob": "a04fd02c9f066de58587f6c66a05475390c01c07",
+      "sha256": "fbf9b6cffe853158bb0e913c2a3b570d519983e983e9c40e16ace25f1122d385",
+      "bytes": 4714,
+      "lines": 92,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "parent_source/src/super_lio/test/test_coin_feature_math.cpp",
+      "repository_path": "src/super_lio/test/test_coin_feature_math.cpp",
+      "revision": "04a48588bcdc4a2210b189aaefe2cf3a29f48302",
+      "git_blob": "02c4610fe8f5eb5b75bdb5ee709560786ec6dc43",
+      "sha256": "153b6d235be1246774f2159b8a3a08f4ccb2ceb11989276f186971a3141a8fee",
+      "bytes": 7644,
+      "lines": 111,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/baseline_coin.json",
+      "repository_path": "artifacts/p3a/baseline_coin.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "433796215fc57d6cd5320df1558458659a10f1e9",
+      "sha256": "0558639d3d7801e16d62a008d946f9091cb4c06da297edc9d8e327ce4402890a",
+      "bytes": 6692,
+      "lines": 163,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/baseline_parity.json",
+      "repository_path": "artifacts/p3a/baseline_parity.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "3ab9cd9ab2b8bf3ef1f01c5a1eff889d5e54c025",
+      "sha256": "81e39a694ac931b4d68b4df5519a6fd76388584f7075b66eff32a81524810816",
+      "bytes": 284,
+      "lines": 6,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/checks.json",
+      "repository_path": "artifacts/p3a/checks.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "09a035971d4d0112e220e4c70b05c73e73119b8d",
+      "sha256": "b33cb46ab82ce1b752b94c011da73b36af0c00ad80e8b22e16b10c279358e570",
+      "bytes": 811,
+      "lines": 28,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/commands.md",
+      "repository_path": "artifacts/p3a/commands.md",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "96d25d5eb7c6b37e4c9a211b403c4324944be4a6",
+      "sha256": "4a899f01cfa50b30c4956cb2e60cce9c258d76bfe334197c08f470d45e7410de",
+      "bytes": 2950,
+      "lines": 45,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/control_validation.json",
+      "repository_path": "artifacts/p3a/control_validation.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "cb57f2334c0c398ed59c186ee320061c6e445531",
+      "sha256": "10f45631ae8373701a379f140fc40cc1b564bc71adcbc1158512c12cde96f866",
+      "bytes": 2542,
+      "lines": 77,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/cubemap_results.json",
+      "repository_path": "artifacts/p3a/cubemap_results.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "baffb1f2fef107caf5d877fe08326d6d2f283cae",
+      "sha256": "08418397a545289d2956117d52b6835087a9b351485190393e9b778dafda09f1",
+      "bytes": 72490,
+      "lines": 1095,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/determinism.json",
+      "repository_path": "artifacts/p3a/determinism.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "599a62aaabc1746fb796f93aa3f10b72e377c8f2",
+      "sha256": "b59281ee799d481bb358171d87d2f1fac36f8cc93f5f9e337b00dfc1965c6da5",
+      "bytes": 53198,
+      "lines": 774,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/selector_ablation.json",
+      "repository_path": "artifacts/p3a/selector_ablation.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "581438cc34bd2867088f99164c3d149280f7f4f2",
+      "sha256": "a06513952b665264efab5ffddf91ee83b510a5ed6c4c6d62ebfe2b0d55267a8d",
+      "bytes": 42428,
+      "lines": 623,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/artifacts/p3a/source_manifest.json",
+      "repository_path": "artifacts/p3a/source_manifest.json",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "32e743447b0f8d2ffb5374905a54226f0479be02",
+      "sha256": "d9d075867fce780c3364e6003d0cfed6e98cefdf8a470d512d3abd72ac31fec1",
+      "bytes": 16231,
+      "lines": 190,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/spec/p3a/P3A_PROMPT.md",
+      "repository_path": "spec/p3a/P3A_PROMPT.md",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "d8a6cf13bb5d9a30e646261e273b0c67cbe6ae7c",
+      "sha256": "5981edc3efc44fdca6e951b836d6a9408c2b21ebac64f77ac8118da1c6893358",
+      "bytes": 3764,
+      "lines": 316,
+      "changed_in_target": true
+    },
+    {
+      "export_path": "evidence/spec/p3a/P3A_TUNNELD_CUBEMAP_VALIDATION_REPORT.md",
+      "repository_path": "spec/p3a/P3A_TUNNELD_CUBEMAP_VALIDATION_REPORT.md",
+      "revision": "efeb69bf6f4814b83cc8709eb06d792ffb47e41e",
+      "git_blob": "3324f4ed38e67865bd0be77145cbcda022466f51",
+      "sha256": "69a3fdb630ff0551f4dffdd2fad63ebe0a418f4aa402bf5650f360e6fc3dc579",
+      "bytes": 14327,
+      "lines": 118,
+      "changed_in_target": true
+    }
+  ]
+}
