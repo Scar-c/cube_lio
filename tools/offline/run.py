@@ -48,6 +48,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('dataset', choices=BAGS)
     parser.add_argument('--name', required=True, help='unique output folder name under runtime/')
+    parser.add_argument('--bag', type=Path, help='explicit relocated bag path')
+    parser.add_argument('--gt', type=Path, help='explicit relocated GT in TUM format')
     parser.add_argument('--port', type=int, default=11562)
     parser.add_argument('--threads', type=positive_int, default=32,
                         help='TBB worker limit (default: 32; use 1 for serial parity checks)')
@@ -77,7 +79,7 @@ def main():
     if Path(args.name).name != args.name or args.name in ('', '.', '..'):
         parser.error('--name must be a single folder name under runtime/')
 
-    bag = BAGS[args.dataset]
+    bag = args.bag.resolve() if args.bag else BAGS[args.dataset]
     if not bag.is_file():
         parser.error(f'bag does not exist: {bag}')
     if (args.coin or args.shadow) and args.dataset != 'tunnel_d':
@@ -97,6 +99,10 @@ def main():
     env = dict(os.environ, ROS_MASTER_URI=f'http://127.0.0.1:{args.port}',
                ROS_HOSTNAME='127.0.0.1', ROS_HOME=str(out / 'ros_home'),
                ROS_LOG_DIR=str(out / 'ros_log'))
+    if args.gt:
+        if not args.gt.is_file():
+            parser.error(f'GT does not exist: {args.gt}')
+        env['CUBE_GT_PATH'] = str(args.gt.resolve())
     config = CONFIGS[args.dataset]
     photo_config = ROOT / 'tools/cube_lio/config/photo.yaml'
     coin_configs = [ROOT / 'refs/COIN-LIO/config' / name
@@ -104,6 +110,9 @@ def main():
     paths = [config, photo_config] + (coin_configs if args.dataset == 'tunnel_d' else [])
     identity = {
         'dataset': args.dataset, 'bag': str(bag), 'bag_sha256': sha(bag),
+        'gt_override': str(args.gt.resolve()) if args.gt else None,
+        'gt_override_sha256': sha(args.gt) if args.gt else None,
+        'library_sha256': sha(ROOT / 'devel/lib/liblio.so'),
         'threads': args.threads, 'photo': args.photo, 'photo_policy': args.policy,
         'photo_audit': args.audit, 'idw_enable': not args.idw_off,
         'projection': args.projection, 'measurement': args.measurement,

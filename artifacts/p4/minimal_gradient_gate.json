@@ -1,0 +1,35 @@
+{
+  "status": "FAIL",
+  "intensity": "I(j)=(j+16)^3",
+  "igm": "M(j)=3(j+16)^2+C, Gx positive, Gy zero",
+  "coordinate": 20.37,
+  "paper_eq16": 218.2200000000014,
+  "exact_bilinear_derivative": 219.00000000000182,
+  "symbolic_difference": "6*alpha-3 = -0.78 at alpha=0.37",
+  "h_probes": [
+    {
+      "step": 0.0001,
+      "residual_fd": 218.99999999959618,
+      "abs_error": 0.7799999995947928,
+      "accepted": false
+    },
+    {
+      "step": 1e-05,
+      "residual_fd": 218.99999999277495,
+      "abs_error": 0.7799999927735541,
+      "accepted": false
+    },
+    {
+      "step": 1e-06,
+      "residual_fd": 219.0000004702597,
+      "abs_error": 0.780000470258301,
+      "accepted": false
+    },
+    {
+      "step": 1e-07,
+      "residual_fd": 219.00000092500704,
+      "abs_error": 0.7800009250056519,
+      "accepted": false
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "baseline": "f3060768abee4d2ee2343b07edf62346c7cd0f87",
+  "threads": 32,
+  "controls": {
+    "super": {
+      "evaluation": {
+        "dataset": "tunnel_d",
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_rmse_m": 152.83140320030125,
+        "ate_mean_m": 144.01755449722336,
+        "ate_median_m": 155.02340550482876,
+        "ate_max_m": 212.55010377705491,
+        "matched": 1180,
+        "duplicate_estimate_timestamps": 1,
+        "frames": 1180,
+        "processed_duration_s": 118.01416993141174,
+        "first_timestamp": 1691509832.9570942,
+        "last_timestamp": 1691509950.9712641,
+        "gt_path": "/home/lc/bag/ENWIDE/gt-tunnel_d.csv",
+        "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+        "evaluator_sha256": "4d459fafa842526d911c632d211c79bec97e3e61bdb993a53e067f8ba0fb1186",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+      },
+      "run": {
+        "lidar_read": 1189,
+        "imu_read": 11861,
+        "frames": 1180,
+        "wall_processing_s": 11.007357187,
+        "bag_duration_s": 119.013327769,
+        "cpu_user_s": 37.893781,
+        "cpu_system_s": 7.030923,
+        "peak_rss_kb": 117028,
+        "tbb_threads": 32
+      },
+      "identity": {
+        "dataset": "tunnel_d",
+        "bag": "/home/lc/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+        "bag_sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e",
+        "gt_override": "/home/lc/bag/ENWIDE/gt-tunnel_d.csv",
+        "gt_override_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+        "library_sha256": "5588975dcfad3414a09b02358bf3dab55d3a30f3dfddb3cb6904212580200e5c",
+        "threads": 32,
+        "photo": false,
+        "photo_policy": "C0",
+        "photo_audit": false,
+        "idw_enable": true,
+        "projection": "cubemap",
+        "measurement": "igm",
+        "photo_selector": "all",
+        "photo_gate_threshold": 0.31913064578672057,
+        "coin": false,
+        "shadow": false,
+        "selector": "original",
+        "gate_g1_threshold": null,
+        "gate_g2_threshold": null,
+        "audit_csv": "/home/lc/cube_lio/src/cube_lio/runtime/p4_control_super_off/time_audit.csv",
+        "fusion_audit_json": null,
+        "geometry_rows": null,
+        "source_head": "695f1c2492705ed077684db7317a3f3c9b15b3da",
+        "config_sha256": {
+          "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+          "tools/cube_lio/config/photo.yaml": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+          "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+          "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+          "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+        },
+        "p3_source_sha256": {
+          "src/super_lio/include/intensity/intensity_representation.hpp": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+          "src/super_lio/include/intensity/cube_image.hpp": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+          "src/super_lio/include/intensity/spherical_image.hpp": "5bc0115b87290b934d96d40a8389b01e227c20e6601ebd01ff652e8275841ec9",
+          "src/super_lio/include/intensity/photo_observation.hpp": "e780a97ca05cfc36dbbc9681b74258b30e2023ffc476ae648ba2078c6364e3eb",
+          "src/super_lio/src/intensity/cube_image.cpp": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+          "src/super_lio/src/intensity/spherical_image.cpp": "38e93366dabf3d24af20b8906a99066837b00cf5ca47e94b462d9f7ed372cd30",
+          "src/super_lio/src/intensity/photo_observation.cpp": "9f2ab5f643aaae5a8a571dbc0a091eaa0e68f6e55a61e599f92a26ec09a936c9",
+          "src/super_lio/src/lio/super_lio.cpp": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+          "tools/offline/run.py": "718f08d031372d68e9f532b3360763ac560e3bc69a879d11ab418f9432f3f677",
+          "eval/evaluate.py": "4d459fafa842526d911c632d211c79bec97e3e61bdb993a53e067f8ba0fb1186"
+        },
+        "evaluator_sha256": "4d459fafa842526d911c632d211c79bec97e3e61bdb993a53e067f8ba0fb1186",
+        "binary_sha256": "f5d1686ba04b5853e826f5e54100815f588399a5909e338f8c50467ffdfd75e6"
+      },
+      "trajectory_sha256": "9bfbc7d278f1177529b8a43b84f4c655e84a17625af144e68f29c0b1a44fcfff",
+      "historical_trajectory_sha256": "9bfbc7d278f1177529b8a43b84f4c655e84a17625af144e68f29c0b1a44fcfff",
+      "trajectory_matches_history": true,
+      "time_audit_phases": [
+        "initialization",
+        "normal"
+      ],
+      "time_audit_counts": {
+        "raw_coin_points": 148215754,
+        "raw_coin_points_after_current_end": 0,
+        "raw_coin_points_after_history_back": 22380,
+        "current_motion_fallback_points": 22380,
+        "geometry_points": 27383714
+      },
+      "time_audit_normal_rows": 1180,
+      "imu_support_issue_frames": 4
+    },
+    "coin_g1": {
+      "evaluation": {
+        "dataset": "tunnel_d",
+        "alignment": "SE3 no scale",
+        "association": "evo nearest timestamps max_diff=0.1s offset=0",
+        "ate_rmse_m": 3.5462094452214945,
+        "ate_mean_m": 3.241743897334783,
+        "ate_median_m": 2.7391035609317074,
+        "ate_max_m": 7.421973831548927,
+        "matched": 1180,
+        "duplicate_estimate_timestamps": 1,
+        "frames": 1180,
+        "processed_duration_s": 118.01416993141174,
+        "first_timestamp": 1691509832.9570942,
+        "last_timestamp": 1691509950.9712641,
+        "gt_path": "/home/lc/bag/ENWIDE/gt-tunnel_d.csv",
+        "gt_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+        "evaluator_sha256": "4d459fafa842526d911c632d211c79bec97e3e61bdb993a53e067f8ba0fb1186",
+        "ntu_author_sha256": "092beba2b99ac02cfbb1d30b1c0b1ec49cf2b41203090a81c66eb0d0824187dd"
+      },
+      "run": {
+        "lidar_read": 1189,
+        "imu_read": 11861,
+        "frames": 1180,
+        "wall_processing_s": 50.676034805,
+        "bag_duration_s": 119.013327769,
+        "cpu_user_s": 88.565328,
+        "cpu_system_s": 11.496324,
+        "peak_rss_kb": 259108,
+        "tbb_threads": 32
+      },
+      "identity": {
+        "dataset": "tunnel_d",
+        "bag": "/home/lc/bag/ENWIDE/2023-08-08-17-50-31-tunnel_d.bag",
+        "bag_sha256": "afa448cd2ee32921cd514bb7d4c2e139f642bb164f66b1d556cf48c0c798406e",
+        "gt_override": "/home/lc/bag/ENWIDE/gt-tunnel_d.csv",
+        "gt_override_sha256": "25c7a20513b3c41e7a5f517119ff41bcf07329b6d87f3aeb8f5ed7725f5c922e",
+        "library_sha256": "5588975dcfad3414a09b02358bf3dab55d3a30f3dfddb3cb6904212580200e5c",
+        "threads": 32,
+        "photo": false,
+        "photo_policy": "C0",
+        "photo_audit": false,
+        "idw_enable": true,
+        "projection": "cubemap",
+        "measurement": "igm",
+        "photo_selector": "all",
+        "photo_gate_threshold": 0.31913064578672057,
+        "coin": true,
+        "shadow": false,
+        "selector": "g1",
+        "gate_g1_threshold": 0.31913064578672057,
+        "gate_g2_threshold": 0.359189249724233,
+        "audit_csv": "/home/lc/cube_lio/src/cube_lio/runtime/p4_control_coin_g1/time_audit.csv",
+        "fusion_audit_json": null,
+        "geometry_rows": null,
+        "source_head": "695f1c2492705ed077684db7317a3f3c9b15b3da",
+        "config_sha256": {
+          "tools/cube_lio/config/tunnel_d.yaml": "c56df8526b3642208aa02b07141ab069f83abb4ec78e8f6dde4ea349aabeaaad",
+          "tools/cube_lio/config/photo.yaml": "729127604870ec89a77f3aadab08645bef5a5c7b5ac3bfe4d1ae141ca4ccd44c",
+          "refs/COIN-LIO/config/params.yaml": "594fb3d0967e78d076495d2633ec4875002d48deb1edcc64a7e2da4408d2249c",
+          "refs/COIN-LIO/config/line_removal.yaml": "db0be90e9187a48ff4ba227f86f57dbaafe282fddf0740f335ee27ff9a06ca7f",
+          "refs/COIN-LIO/config/os_enwide.json": "618374dbb4c81a212639f39b527e6882427fb79e19d7e3eee05688f02b1b3b3e"
+        },
+        "p3_source_sha256": {
+          "src/super_lio/include/intensity/intensity_representation.hpp": "9a1ac3bedaee50a53ad5f106e955bf84c23ccb082069fb8c03889c776af4367d",
+          "src/super_lio/include/intensity/cube_image.hpp": "114e6cb119b4a75f496ead7ef22d8211ca693bcc9b3c1ab90acca8963d81bf93",
+          "src/super_lio/include/intensity/spherical_image.hpp": "5bc0115b87290b934d96d40a8389b01e227c20e6601ebd01ff652e8275841ec9",
+          "src/super_lio/include/intensity/photo_observation.hpp": "e780a97ca05cfc36dbbc9681b74258b30e2023ffc476ae648ba2078c6364e3eb",
+          "src/super_lio/src/intensity/cube_image.cpp": "1d89dd2440c4b8d953a61750f3522c7f0513d279251a618f3218aea5b77131a1",
+          "src/super_lio/src/intensity/spherical_image.cpp": "38e93366dabf3d24af20b8906a99066837b00cf5ca47e94b462d9f7ed372cd30",
+          "src/super_lio/src/intensity/photo_observation.cpp": "9f2ab5f643aaae5a8a571dbc0a091eaa0e68f6e55a61e599f92a26ec09a936c9",
+          "src/super_lio/src/lio/super_lio.cpp": "e4849b399058f1bbb8c9268a530fad3f42442185671936265d9f77af7d0fd660",
+          "tools/offline/run.py": "718f08d031372d68e9f532b3360763ac560e3bc69a879d11ab418f9432f3f677",
+          "eval/evaluate.py": "4d459fafa842526d911c632d211c79bec97e3e61bdb993a53e067f8ba0fb1186"
+        },
+        "evaluator_sha256": "4d459fafa842526d911c632d211c79bec97e3e61bdb993a53e067f8ba0fb1186",
+        "binary_sha256": "f5d1686ba04b5853e826f5e54100815f588399a5909e338f8c50467ffdfd75e6"
+      },
+      "trajectory_sha256": "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63",
+      "historical_trajectory_sha256": "d71c1ab0b0e3cc542aed184fa9d1e9489b8a7880598a7403a2eb8c3df847bf63",
+      "trajectory_matches_history": true,
+      "time_audit_phases": [
+        "initialization",
+        "normal"
+      ],
+      "time_audit_counts": {
+        "raw_coin_points": 148215754,
+        "raw_coin_points_after_current_end": 0,
+        "raw_coin_points_after_history_back": 22380,
+        "current_motion_fallback_points": 22380,
+        "geometry_points": 27383714
+      },
+      "coin_observation": {
+        "frames": 1180,
+        "used": 1176,
+        "skipped": 4,
+        "accepted_motion_fallbacks": 0,
+        "skip_reasons": [
+          "imu_bracket_gap_or_order_invalid"
+        ]
+      },
+      "time_audit_normal_rows": 1180,
+      "imu_support_issue_frames": 4
+    }
+  }
+}

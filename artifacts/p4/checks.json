@@ -1,0 +1,61 @@
+[
+  {
+    "command": [
+      "devel/lib/super_lio/test_cube_photo"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"projection_points\":6000,\"projection_max_abs_error\":8.89473361632e-09,\"residual_points\":1120,\"residual_max_abs_error\":3.78524589451e-09,\"all_six_dof_and_faces\":true,\"boundary_tests\":\"PASS\",\"idw_visibility\":\"PASS\",\"information_sign\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "devel/lib/super_lio/test_spherical_photo"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"spherical_projection_points\":2000,\"projection_max_abs_error\":2.89034e-08,\"residual_points\":300,\"residual_max_abs_error\":2.11699e-09,\"seam_sampling\":\"PASS\",\"idw_seam\":\"PASS\",\"poles\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "devel/lib/super_lio/test_coin_feature_math"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"ncc_affine\":\"PASS\",\"ncc_contrast\":\"PASS\",\"weak_direction_contribution\":\"PASS\",\"row_count_scaling\":\"PASS\",\"weakest_eigenvector_sign\":\"PASS\",\"super_degeneracy_gate\":\"PASS\",\"intensity_representation_interface\":\"PASS\",\"pure_gradient_order_and_60_cap\":\"PASS\",\"no_gt_selector_input\":\"PASS\",\"frame_rotation\":\"PASS\",\"fallback_axes\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "devel/lib/super_lio/test_ouster_time_support"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"scan_end\":\"PASS\",\"sync_window\":\"PASS\",\"full_frame_skip\":\"PASS\",\"transforms\":\"PASS\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "devel/lib/super_lio/test_paper_cube"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"status\":\"PASS\",\"projection_points\":6000,\"projection_max_abs_error\":6.7242633683406439e-09,\"roundtrip_max_error\":8.1402896778041619e-15,\"transform_max_abs_error\":3.1633684560716802e-10,\"remap_direction_max_error\":1.6653345369377348e-16,\"seam_edge_corner_cases\":144,\"valid_igm_seam_gradients\":24,\"dog_ramp_max_error\":3.9523939676655573e-14,\"idw_cases\":\"PASS\",\"literal_W_exact_boundary_halfopen_failures\":14,\"boundary_sampling_extension\":\"nearest boundary bin\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "devel/lib/super_lio/test_paper_cube",
+      "--jacobian",
+      "runtime/p4_review/residual_jacobian.csv"
+    ],
+    "exit_code": 2,
+    "stdout": "{\"status\":\"FAIL\",\"components_at_h_1e6\":864,\"failed_components\":860,\"interior_points\":120,\"seam_stencil_points\":24,\"max_abs_error\":20.89894401570907,\"relative_error_p50\":0.058352770949041295,\"relative_error_p95\":2.0239767974058931,\"sign_disagreements\":37,\"local_interpolant_chain_max_abs_error\":1.4679798709948955e-08,\"acceptance_abs\":0.0001,\"acceptance_relative\":0.0001,\"h_probes\":[0.0001,0.00001,0.000001,0.0000001]}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "tools/p4/minimal_gradient_gate.py"
+    ],
+    "exit_code": 2,
+    "stdout": "{\n  \"status\": \"FAIL\",\n  \"intensity\": \"I(j)=(j+16)^3\",\n  \"igm\": \"M(j)=3(j+16)^2+C, Gx positive, Gy zero\",\n  \"coordinate\": 20.37,\n  \"paper_eq16\": 218.2200000000014,\n  \"exact_bilinear_derivative\": 219.00000000000182,\n  \"symbolic_difference\": \"6*alpha-3 = -0.78 at alpha=0.37\",\n  \"h_probes\": [\n    {\n      \"step\": 0.0001,\n      \"residual_fd\": 218.99999999959618,\n      \"abs_error\": 0.7799999995947928,\n      \"accepted\": false\n    },\n    {\n      \"step\": 1e-05,\n      \"residual_fd\": 218.99999999277495,\n      \"abs_error\": 0.7799999927735541,\n      \"accepted\": false\n    },\n    {\n      \"step\": 1e-06,\n      \"residual_fd\": 219.0000004702597,\n      \"abs_error\": 0.780000470258301,\n      \"accepted\": false\n    },\n    {\n      \"step\": 1e-07,\n      \"residual_fd\": 219.00000092500704,\n      \"abs_error\": 0.7800009250056519,\n      \"accepted\": false\n    }\n  ]\n}\n",
+    "stderr": ""
+  }
+]

@@ -2,6 +2,7 @@
 """Frozen no-scale SE3 ATE; NTU author association, evo association for stress sets."""
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 import numpy as np
@@ -11,6 +12,8 @@ import ntu_author as ntu
 ROOT = Path(__file__).resolve().parents[1]
 
 def ground_truth(dataset):
+    if os.environ.get('CUBE_GT_PATH'):
+        return Path(os.environ['CUBE_GT_PATH'])
     if dataset == 'eee_01':
         cache = ROOT/'runtime/eee_01_gt.tum'
         if not cache.exists():
