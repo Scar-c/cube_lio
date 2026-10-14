@@ -60,6 +60,8 @@ catkin_package(
 
 # LIO library source files
 file(GLOB_RECURSE LIO_LIB_SRC CONFIGURE_DEPENDS "src/lio/*.cpp" "src/ros/*.cpp" "src/intensity/*.cpp")
+# The P4 Eq. (16) acceptance module is gated; link only its audit executable.
+list(REMOVE_ITEM LIO_LIB_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/intensity/paper_cube.cpp")
 
 file(GLOB_RECURSE LIO_LIB_HEADERS "include/lio/*.hpp" "include/lio/*.h")
 
@@ -148,3 +150,10 @@ target_link_libraries(test_coin_feature_math lio ${catkin_LIBRARIES} ${OpenCV_LI
 add_executable(test_ouster_time_support test/test_ouster_time_support.cpp)
 target_link_libraries(test_ouster_time_support lio ${catkin_LIBRARIES})
 add_test(NAME ouster_time_support COMMAND test_ouster_time_support)
+
+# P4 acceptance is kept distinct from legacy exact-bilinear photo tests.
+add_executable(test_paper_cube test/test_paper_cube.cpp src/intensity/paper_cube.cpp)
+target_include_directories(test_paper_cube PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(test_paper_cube ${OpenCV_LIBS} tbb)
+add_test(NAME p4_paper_cube_components COMMAND test_paper_cube)
+add_test(NAME p4_actual_residual_jacobian COMMAND test_paper_cube --jacobian)
